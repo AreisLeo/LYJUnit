@@ -15,6 +15,9 @@
 		03F75CAB1ED470E900C21160 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F75CA91ED470E900C21160 /* LaunchScreen.storyboard */; };
 		03F75CB61ED470E900C21160 /* LYJUnitPublicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CB51ED470E900C21160 /* LYJUnitPublicTests.m */; };
 		03F75CC11ED470E900C21160 /* LYJUnitPublicUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CC01ED470E900C21160 /* LYJUnitPublicUITests.m */; };
+		03F75CD51ED473AC00C21160 /* LYJUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CD41ED473AC00C21160 /* LYJUnit.m */; };
+		03F75CD81ED475D500C21160 /* LYJActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CD71ED475D500C21160 /* LYJActionSheet.m */; };
+		03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,14 @@
 		03F75CBC1ED470E900C21160 /* LYJUnitPublicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LYJUnitPublicUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F75CC01ED470E900C21160 /* LYJUnitPublicUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYJUnitPublicUITests.m; sourceTree = "<group>"; };
 		03F75CC21ED470E900C21160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03F75CD11ED4738100C21160 /* LYJUnitMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYJUnitMacro.h; sourceTree = "<group>"; };
+		03F75CD21ED4739100C21160 /* LYJUnitHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYJUnitHeader.h; sourceTree = "<group>"; };
+		03F75CD31ED473AC00C21160 /* LYJUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJUnit.h; sourceTree = "<group>"; };
+		03F75CD41ED473AC00C21160 /* LYJUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJUnit.m; sourceTree = "<group>"; };
+		03F75CD61ED475D500C21160 /* LYJActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJActionSheet.h; sourceTree = "<group>"; };
+		03F75CD71ED475D500C21160 /* LYJActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJActionSheet.m; sourceTree = "<group>"; };
+		03F75CD91ED4833300C21160 /* LYJUnitAttributedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJUnitAttributedData.h; sourceTree = "<group>"; };
+		03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJUnitAttributedData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +112,7 @@
 		03F75C9A1ED470E900C21160 /* LYJUnitPublic */ = {
 			isa = PBXGroup;
 			children = (
+				03F75CCE1ED472BD00C21160 /* LYJUnit */,
 				03F75C9E1ED470E900C21160 /* AppDelegate.h */,
 				03F75C9F1ED470E900C21160 /* AppDelegate.m */,
 				03F75CA11ED470E900C21160 /* ViewController.h */,
@@ -138,6 +150,21 @@
 				03F75CC21ED470E900C21160 /* Info.plist */,
 			);
 			path = LYJUnitPublicUITests;
+			sourceTree = "<group>";
+		};
+		03F75CCE1ED472BD00C21160 /* LYJUnit */ = {
+			isa = PBXGroup;
+			children = (
+				03F75CD61ED475D500C21160 /* LYJActionSheet.h */,
+				03F75CD71ED475D500C21160 /* LYJActionSheet.m */,
+				03F75CD11ED4738100C21160 /* LYJUnitMacro.h */,
+				03F75CD21ED4739100C21160 /* LYJUnitHeader.h */,
+				03F75CD31ED473AC00C21160 /* LYJUnit.h */,
+				03F75CD41ED473AC00C21160 /* LYJUnit.m */,
+				03F75CD91ED4833300C21160 /* LYJUnitAttributedData.h */,
+				03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */,
+			);
+			path = LYJUnit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,7 +234,6 @@
 				TargetAttributes = {
 					03F75C971ED470E900C21160 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = WT46QFDQ67;
 						ProvisioningStyle = Automatic;
 					};
 					03F75CB01ED470E900C21160 = {
@@ -277,8 +303,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				03F75CA31ED470E900C21160 /* ViewController.m in Sources */,
+				03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */,
 				03F75CA01ED470E900C21160 /* AppDelegate.m in Sources */,
 				03F75C9D1ED470E900C21160 /* main.m in Sources */,
+				03F75CD81ED475D500C21160 /* LYJActionSheet.m in Sources */,
+				03F75CD51ED473AC00C21160 /* LYJUnit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,8 +456,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WT46QFDQ67;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LYJUnitPublic/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = aries.LYJUnitPublic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -439,8 +469,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WT46QFDQ67;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LYJUnitPublic/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = aries.LYJUnitPublic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -516,6 +547,7 @@
 				03F75CC71ED470E900C21160 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		03F75CC81ED470E900C21160 /* Build configuration list for PBXNativeTarget "LYJUnitPublicTests" */ = {
 			isa = XCConfigurationList;
@@ -524,6 +556,7 @@
 				03F75CCA1ED470E900C21160 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		03F75CCB1ED470E900C21160 /* Build configuration list for PBXNativeTarget "LYJUnitPublicUITests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +565,7 @@
 				03F75CCD1ED470E900C21160 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

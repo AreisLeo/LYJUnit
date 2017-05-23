@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "LYJUnitAttributedData.h"
 @interface ViewController ()
 
 @end
@@ -16,7 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    LYJUnitAttributedData *data = [LYJUnitAttributedData dataWithFullText:@"哈哈我高兴就哈哈要写框架哈哈"];
+    [data setObject:@"123" forKeyIfNotNil:@"哈哈"];
+    [data setObject:@"123" forKeyIfNotNil:@"哈哈"];
 }
 
 
