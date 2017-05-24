@@ -17,5 +17,14 @@
 
 
 
+#pragma mark ------ENUM------
+typedef enum : NSUInteger {
+    LYJAttributedDataTypeColor = 1 << 0,
+    LYJAttributedDataTypeFont = 1 << 1,
+    LYJAttributedDataTypeLineOffset = 1 << 2,
+    LYJAttributedDataTypeKern = 1 << 3,
+} LYJAttributedDataType;
+
+
 
 #endif /* LYJUnitMacro_h */
