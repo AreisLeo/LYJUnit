@@ -25,6 +25,11 @@ typedef enum : NSUInteger {
     LYJAttributedDataTypeKern = 1 << 3,
 } LYJAttributedDataType;
 
+typedef enum : NSUInteger {
+    LYJAttributedDictionaryChangeTypeObject = 1 << 0,
+    LYJAttributedDictionaryChangeTypeKey = 1 << 1,
+    LYJAttributedDictionaryChangeTypeCount = 1 << 2,
+} LYJAttributedDictionaryChangeType;
 
 
 #endif /* LYJUnitMacro_h */
