@@ -34,6 +34,7 @@
  当前是第几个同样字符 当前字符出现相同时才 有使用效果
  */
 @property (assign ,nonatomic,readwrite) NSInteger count;
+
 @end
 
 @implementation LYJUnitAttributedDictionary
@@ -144,7 +145,6 @@
     {
         [self addDictionary:dictionary andDataType:dataType];
     }
-    
 }
 
 #pragma mark -----Remove------
@@ -174,12 +174,14 @@
 #pragma mark -----ChangeValue------
 - (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary count:(NSInteger)count key:(NSString *)key object:(id)object andDataType:(LYJAttributedDataType)dataType
 {
+    
     NSInteger maxCount = [self calculateSubStringCountWithKey:key];
     if (maxCount == 0)
     {
         NSLog(@"当前不包含修改的Key");
         return;
     }
+    
     NSString *completionKey = [NSString stringWithFormat:@"%@%@%ld",key,kAttributedDataNewKey,count];
     
     if (![dictionary.completionKey isEqualToString:completionKey] &&
@@ -192,9 +194,9 @@
     dictionary.count = count > maxCount ? maxCount : count;
     dictionary.key = key;
     dictionary.range = [self rangeWithCount:count andKey:key];
-    
     dictionary.completionKey = completionKey;
     dictionary.object = object;
+    
     if (dictionary.dataType != dataType)
     {
         [self removeObjectForDictionary:dictionary andDataType:dictionary.dataType];
@@ -218,20 +220,15 @@
     [self changeValueWithDictionary:dictionary count:count key:key object:object andDataType:dictionary.dataType];
 }
 
-
-
 #pragma mark -----取消包含key噶dictionarys------
 - (NSArray *)objectOrNilForKey:(NSString *)key andDataType:(LYJAttributedDataType)dataType
 {
-    
     if (key)
     {
         return [self objectForKey:key andDataType:dataType];
     }
     return nil;
-    
 }
-
 
 - (BOOL)hasObjectForCompletionKeyIfNotNil:(NSString *)completionkey andDataType:(LYJAttributedDataType)dataType
 {
@@ -308,7 +305,6 @@
 
 - (BOOL)hasKeyWithItems:(NSArray *)items andCompletionKey:(NSString *)completionKey
 {
-    
     for (LYJUnitAttributedDictionary *dictionary in items)
     {
         if ([dictionary.completionKey isEqualToString:completionKey])
@@ -333,7 +329,6 @@
     [self setAttrStringWithItems:self.lineOffsets attributeName:NSBaselineOffsetAttributeName attrString:attrString];
     //设置间距
     [self setAttrStringWithItems:self.kerns attributeName:NSKernAttributeName  attrString:attrString];
-
     return attrString;
 }
 
@@ -344,7 +339,6 @@
     {
         [attrString addAttribute:attibuteName value:dictionary.object range:dictionary.range];
     }
-    
 }
 
 
@@ -377,7 +371,6 @@
         default:
             break;
     }
-
     return [@[] mutableCopy];
 }
 #pragma clang diagnostic pop
