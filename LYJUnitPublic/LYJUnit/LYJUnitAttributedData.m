@@ -10,6 +10,8 @@
 
 #define kAttributedDataNewKey @"LYJUnitAttributedDataNewKey"
 
+#define kWeakSelf __weak typeof(self) weakSelf = self;
+
 #pragma mark LYJUnitAttributedDictionary
 @interface LYJUnitAttributedDictionary ()
 
@@ -19,6 +21,26 @@
  key
  */
 @property (strong ,nonatomic,readwrite) NSString *key;
+
+/**
+ color
+ */
+@property (strong ,nonatomic,readwrite) UIColor *color;
+
+/**
+ kern
+ */
+@property (assign ,nonatomic,readwrite) CGFloat kern;
+
+/**
+ lineOffset
+ */
+@property (assign ,nonatomic,readwrite) CGFloat lineOffset;
+
+/**
+ font
+ */
+@property (strong ,nonatomic,readwrite) UIFont *font;
 
 /**
  newKey
@@ -35,9 +57,26 @@
  */
 @property (assign ,nonatomic,readwrite) NSInteger count;
 
+
+//@property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKey;
+//@property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKeyAll;
+//@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestCount dictionaryKeyAndCount;
+//@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestAll dictionaryKeyRestAll;
+
+
+//@property (copy ,nonatomic ,readwrite) AttributedDataColor dictionaryColor;
+//@property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKeyAll;
+//@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestCount dictionaryKeyAndCount;
+//@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestAll dictionaryKeyRestAll;
 @end
 
 @implementation LYJUnitAttributedDictionary
+@synthesize dictionaryKey = _dictionaryKey;
+@synthesize dictionaryFont = _dictionaryFont;
+@synthesize dictionaryColor = _dictionaryColor;
+@synthesize dictionaryKern = _dictionaryKern;
+@synthesize dictionaryCount = _dictionaryCount;
+@synthesize dictionaryLineOffset = _dictionaryLineOffset;
 
 - (instancetype)init
 {
@@ -46,10 +85,162 @@
         self.key = @"";
         self.completionKey = @"";
         self.count = 0;
+        self.kern = 0;
+        self.lineOffset = 0;
+        self.color = nil;
+        self.font = nil;
     }
     return self;
 }
 
+- (void)setFullText:(NSString *)fullText
+{
+    _fullText = fullText;
+    self.isValid = [self setKey:self.key count:self.count];
+}
+- (void)setIsValid:(BOOL)isValid
+{
+    _isValid = isValid;
+    !isValid && [self.key length] > 0 ? NSLog(@"当前 AttributedDictionary 无效! key = %@",self.key) :nil;
+}
+
+- (AttributedDataKey)dictionaryKey
+{
+    if (!_dictionaryKey)
+    {
+        kWeakSelf;
+        _dictionaryKey = ^(NSString *key){
+            weakSelf.key = key;
+            weakSelf.isValid = [weakSelf setKey:key count:0];
+            return weakSelf;
+        };
+    }
+    return _dictionaryKey;
+}
+
+- (AttributedDataColor)dictionaryColor
+{
+    if (!_dictionaryColor)
+    {
+        kWeakSelf;
+        _dictionaryColor = ^(UIColor *color){
+            weakSelf.color = color;
+            return weakSelf;
+        };
+    }
+    return _dictionaryColor;
+}
+
+- (AttributedDataKern)dictionaryKern
+{
+    if (!_dictionaryKern)
+    {
+        kWeakSelf;
+        _dictionaryKern = ^(CGFloat value){
+            weakSelf.kern = value;
+            return weakSelf;
+        };
+    }
+    return _dictionaryKern;
+}
+
+- (AttributedDataFont)dictionaryFont
+{
+    if (!_dictionaryFont)
+    {
+        kWeakSelf;
+        _dictionaryFont = ^(UIFont *font){
+            weakSelf.font = font;
+            return weakSelf;
+        };
+    }
+    return _dictionaryFont;
+}
+
+
+- (AttributedDataCount)dictionaryCount
+{
+    if (!_dictionaryCount)
+    {
+        kWeakSelf;
+        _dictionaryCount = ^(NSInteger count){
+            weakSelf.count = count;
+            weakSelf.isValid = [weakSelf setKey:weakSelf.key count:count];
+            return weakSelf;
+        };
+    }
+    return _dictionaryCount;
+}
+
+- (AttributedDataLineOffset)dictionaryLineOffset
+{
+    if (!_dictionaryLineOffset)
+    {
+        kWeakSelf;
+        _dictionaryLineOffset = ^(CGFloat value){
+            weakSelf.lineOffset = value;
+            return weakSelf;
+        };
+    }
+    return _dictionaryLineOffset;
+}
+
+
+- (BOOL)setKey:(NSString *)key count:(NSInteger)count;
+{
+    NSInteger currentCount = [self calculateSubStringCountWithKey:key];
+    if (currentCount == 0)  return NO;
+    count = count >= currentCount ? currentCount - 1 : count;
+    self.completionKey = [NSString stringWithFormat:@"%@%@%ld",key,kAttributedDataNewKey,count];
+    self.count = count;
+    self.range = [self rangeWithCount:count andKey:key];
+    return YES;
+}
+/**
+ *计算出共有多少个重复的key值
+ */
+- (NSInteger)calculateSubStringCountWithKey:(NSString *)key
+{
+    NSInteger count = 0; //有值时最少值为1
+    NSRange range = [self.fullText rangeOfString:key];
+    NSString *subText = self.fullText;
+    while (range.location != NSNotFound)
+    {
+        count++;
+        subText = [subText substringFromIndex:range.location + range.length];
+        range = [subText rangeOfString:key];
+    }
+    return count;
+}
+
+
+- (NSRange)rangeWithCount:(NSInteger)count andKey:(NSString *)key
+{
+    NSRange range = [self.fullText rangeOfString:key];
+    if (count == 0)
+    {
+        return range;
+    }
+    else
+    {
+        //求每个重复或者对应的字符的 range 位置
+        NSInteger currentCount = 0;
+        NSInteger location = 0;
+        NSRange tempRange = range;
+        NSString *subText = self.fullText;
+        while (tempRange.location != NSNotFound && currentCount < count + 1)
+        {
+            currentCount++;
+            NSInteger tempLenth = tempRange.location + tempRange.length;
+            subText = [subText substringFromIndex:tempLenth];
+            range = tempRange;
+            location += tempLenth;
+            tempRange = [subText rangeOfString:key];
+        }
+        range.location = location - range.length;
+        return range;
+    }
+}
 
 @end
 
@@ -57,7 +248,7 @@
 #pragma mark LYJUnitAttributedData
 @interface LYJUnitAttributedData ()
 
-@property (strong ,nonatomic) NSMutableDictionary *mutableDictionary;
+@property (strong ,nonatomic) NSMutableArray *mutableDictionarys;
 
 @property (strong ,nonatomic) NSMutableArray *colors;
 
@@ -67,19 +258,35 @@
 
 @property (strong ,nonatomic) NSMutableArray *kerns;
 
+@property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKey;
+@property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKeyAll;
+@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestCount dictionaryKeyAndCount;
+@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestAll dictionaryKeyRestAll;
+@property (copy ,nonatomic ,readwrite) AttributedDataColor dictionaryColor;
 @property (strong ,nonatomic , readwrite) NSString *fullText;
 
 @end
 
 @implementation LYJUnitAttributedData
 
-- (NSMutableDictionary *)mutableDictionary
+@synthesize dictionaryKey = _dictionaryKey;
+
+- (AttributedDataKey)dictionaryKey
 {
-    if (!_mutableDictionary)
+     LYJUnitAttributedDictionary *dictionary = [self addDictionary];
+    _dictionaryKey = dictionary.dictionaryKey;
+    return _dictionaryKey;
+}
+
+
+
+- (NSMutableArray *)mutableDictionarys
+{
+    if (!_mutableDictionarys)
     {
-        _mutableDictionary = [NSMutableDictionary dictionary];
+        _mutableDictionarys = [NSMutableArray array];
     }
-    return _mutableDictionary;
+    return _mutableDictionarys;
 }
 
 
@@ -109,6 +316,20 @@
 }
 
 #pragma mark -----Set------
+- (LYJUnitAttributedDictionary *)addDictionary
+
+{
+    LYJUnitAttributedDictionary *dictionary = [[LYJUnitAttributedDictionary alloc] init];
+    dictionary.fullText = self.fullText;
+    [self.mutableDictionarys addObject:dictionary];
+    return dictionary;
+//    LYJUnitAttributedDictionary *dictionary = [self attributedDictionaryWithKey:key andDataType:dataType];
+//    dictionary.object = object;
+//    [self addDictionary:dictionary andDataType:dataType];
+}
+
+
+
 - (void)setObject:(id)object forKey:(id)key andDataType:(LYJAttributedDataType)dataType
 {
     LYJUnitAttributedDictionary *dictionary = [self attributedDictionaryWithKey:key andDataType:dataType];

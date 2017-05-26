@@ -12,7 +12,23 @@
 
 @class LYJUnitAttributedDictionary,LYJUnitAttributedData;
 
-typedef LYJUnitAttributedData *(^AttributedData)(id value);
+typedef LYJUnitAttributedDictionary *(^AttributedDataKeyRestAll)(NSString *key);
+
+typedef LYJUnitAttributedDictionary *(^AttributedDataKeyRestCount)(NSString *key,NSInteger count);
+
+typedef LYJUnitAttributedDictionary * (^AttributedDataKey)(NSString *key);
+
+typedef LYJUnitAttributedDictionary *(^AttributedDataColor)(UIColor *color);
+
+typedef LYJUnitAttributedDictionary *(^AttributedDataFont)(UIFont *font);
+
+typedef LYJUnitAttributedDictionary *(^AttributedDataLineOffset)(CGFloat value);
+
+typedef LYJUnitAttributedDictionary *(^AttributedDataKern)(CGFloat value);
+
+typedef LYJUnitAttributedDictionary *(^AttributedDataCount)(NSInteger value);
+
+
 
 @interface LYJUnitAttributedData : NSObject
 
@@ -22,10 +38,34 @@ typedef LYJUnitAttributedData *(^AttributedData)(id value);
 @property (strong ,nonatomic,readonly)  NSString *fullText;
 
 
+/**
+ key 创建 count 全部默认:0
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataKey dictionaryKey;
+
+
+/**
+ key 创建全部与 key 相关的dictionary count 自增长 0 - 无限 
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataKey dictionaryKeyAll;
+
+/**
+ key count 修改 目标字符串
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataKeyRestCount dictionaryKeyAndCount;
+
+/**
+ key 全修改
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataKeyRestAll dictionaryKeyRestAll;
+
+
 + (instancetype)dataWithFullText:(NSString *)fullText;
 
 
 - (instancetype)initWithFullText:(NSString *)fullText;
+
+
 
 
 - (void)setObject:(id)object forKeyIfNotNil:(NSString *)key andDataType:(LYJAttributedDataType)dataType;
@@ -66,6 +106,39 @@ typedef LYJUnitAttributedData *(^AttributedData)(id value);
 @interface LYJUnitAttributedDictionary : NSObject
 
 
+@property (strong ,nonatomic) NSString *fullText;
+
+/**
+ key 创建 count 全部默认:0
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataKey dictionaryKey;
+
+/**
+ color
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataColor dictionaryColor;
+
+/**
+ font
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataFont dictionaryFont;
+
+/**
+ lineOffset
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataLineOffset dictionaryLineOffset;
+
+/**
+ kern
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataKern dictionaryKern;
+
+/**
+ dictionaryCount
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataCount dictionaryCount;
+
+
 /**
  object
  */
@@ -92,4 +165,29 @@ typedef LYJUnitAttributedData *(^AttributedData)(id value);
  */
 @property (assign ,nonatomic,readonly) NSInteger count;
 
+/**
+ color
+ */
+@property (strong ,nonatomic ,readonly) UIColor *color;
+
+/**
+ kern
+ */
+@property (assign ,nonatomic ,readonly) CGFloat kern;
+
+/**
+ lineOffset
+ */
+@property (assign ,nonatomic ,readonly) CGFloat lineOffset;
+
+/**
+ font
+ */
+@property (strong ,nonatomic ,readonly) UIFont *font;
+
+
+/**
+ 当前是否有效
+ */
+@property (assign ,nonatomic)  BOOL isValid;
 @end

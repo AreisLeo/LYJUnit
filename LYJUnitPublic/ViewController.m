@@ -19,7 +19,17 @@
 
 @implementation ViewController
 - (IBAction)tap:(id)sender {
-    LYJUnitAttributedDictionary *dictionary = [[data objectOrNilForKey:@"哈哈" andDataType:LYJAttributedDataTypeKern] firstObject];
+//    LYJUnitAttributedDictionary *dictionary = [[data objectOrNilForKey:@"哈哈" andDataType:LYJAttributedDataTypeKern] firstObject];
+    
+    
+    LYJUnitAttributedDictionary *dictionary = data.dictionaryKey(@"叼")
+    .dictionaryFont([UIFont systemFontOfSize:30])
+    .dictionaryKern(100)
+    .dictionaryLineOffset(20)
+    .dictionaryColor([UIColor greenColor])
+    .dictionaryCount(5);
+    
+    
 //    dictionary.object = @0;
     
 //    [data changeValueWithDictionary:dictionary object:[UIColor redColor] andDataType:LYJAttributedDataTypeColor];
@@ -27,7 +37,6 @@
     
     
 //    self.label.attributedText = [data attributedString];
-    
     
 }
 
