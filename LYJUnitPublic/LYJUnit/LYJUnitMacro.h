@@ -16,13 +16,12 @@
 
 
 
-
 #pragma mark ------ENUM------
 typedef enum : NSUInteger {
-    LYJAttributedDataTypeColor = 1 << 0,
-    LYJAttributedDataTypeFont = 1 << 1,
-    LYJAttributedDataTypeLineOffset = 1 << 2,
-    LYJAttributedDataTypeKern = 1 << 3,
+    LYJAttributedDataTypeColor = 0,
+    LYJAttributedDataTypeFont = 1,
+    LYJAttributedDataTypeLineOffset = 2,
+    LYJAttributedDataTypeKern = 3, 
 } LYJAttributedDataType;
 
 typedef enum : NSUInteger {

@@ -10,7 +10,10 @@
 #import <UIKit/UIKit.h>
 #import "LYJUnitMacro.h"
 
-@class LYJUnitAttributedDictionary;
+@class LYJUnitAttributedDictionary,LYJUnitAttributedData;
+
+typedef LYJUnitAttributedData *(^AttributedData)(id value);
+
 @interface LYJUnitAttributedData : NSObject
 
 /**
@@ -43,11 +46,13 @@
 
 - (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary count:(NSInteger)count key:(NSString *)key object:(id)object andDataType:(LYJAttributedDataType)dataType;
 
+
+
 - (NSArray *)objectOrNilForKey:(NSString *)key andDataType:(LYJAttributedDataType)dataType;
 
 
 
-
+- (NSArray *)allObjectOrNilForKey:(NSString *)key;
 
 - (BOOL)hasObjectForCompletionKeyIfNotNil:(NSString *)completionkey andDataType:(LYJAttributedDataType)dataType;
 

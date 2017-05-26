@@ -169,6 +169,22 @@
     return dictionarys;
 }
 
+- (NSArray *)allObjectOrNilForKey:(NSString *)key
+{
+    NSMutableArray *objects = [NSMutableArray array];
+
+    
+    for (int i = 0; i < 4; i++)
+    {
+        LYJAttributedDataType dataType = i;
+        NSArray *subObjects = [self objectForKey:key andDataType:dataType];
+        [objects addObjectsFromArray:subObjects];
+    }
+
+
+    return objects;
+}
+
 
 
 #pragma mark -----ChangeValue------
@@ -205,9 +221,9 @@
     }
 }
 
-- (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary andCount:(NSInteger)count
+- (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary count:(NSInteger)count key:(NSString *)key andObject:(id)object
 {
-    [self changeValueWithDictionary:dictionary count:count andKey:dictionary.key];
+    [self changeValueWithDictionary:dictionary count:count key:key object:object andDataType:dictionary.dataType];
 }
 
 - (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary count:(NSInteger)count andKey:(NSString *)key
@@ -215,10 +231,13 @@
     [self changeValueWithDictionary:dictionary count:count key:key andObject:dictionary.object];
 }
 
-- (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary count:(NSInteger)count key:(NSString *)key andObject:(id)object
+
+- (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary andCount:(NSInteger)count
 {
-    [self changeValueWithDictionary:dictionary count:count key:key object:object andDataType:dictionary.dataType];
+    [self changeValueWithDictionary:dictionary count:count andKey:dictionary.key];
 }
+
+
 
 #pragma mark -----取消包含key噶dictionarys------
 - (NSArray *)objectOrNilForKey:(NSString *)key andDataType:(LYJAttributedDataType)dataType
