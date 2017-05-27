@@ -19,49 +19,43 @@
 
 @implementation ViewController
 - (IBAction)tap:(id)sender {
-//    LYJUnitAttributedDictionary *dictionary = [[data objectOrNilForKey:@"哈哈" andDataType:LYJAttributedDataTypeKern] firstObject];
+
     
-    
-    LYJUnitAttributedDictionary *dictionary = data.dictionaryKey(@"叼")
+    data.dictionaryKey(@"")
     .dictionaryFont([UIFont systemFontOfSize:30])
-    .dictionaryKern(100)
-    .dictionaryLineOffset(20)
+    //    .dictionaryUnderline(NSUnderlineStyleSingle)
+    //    .dictionaryStrikethrough(NSUnderlineStyleSingle)
     .dictionaryColor([UIColor greenColor])
-    .dictionaryCount(5);
+    .dictionaryShadow(CGSizeMake(2, 3), 5, [UIColor yellowColor])
+    .dictionaryCount(0);
+    
+    data.dictionaryKey(@"哈")
+    .dictionaryFont([UIFont systemFontOfSize:30])
+//    .dictionaryUnderline(NSUnderlineStyleSingle)
+//    .dictionaryStrikethrough(NSUnderlineStyleSingle)
+    .dictionaryColor([UIColor greenColor])
+    .dictionaryShadow(CGSizeMake(2, 3), 5, [UIColor yellowColor]);
+    
+    data.dictionaryKey(fullString)
+    .dictionaryFont([UIFont systemFontOfSize:30])
+//    .dictionaryUnderline(NSUnderlineStyleSingle)
+//    .dictionaryStrikethrough(NSUnderlineStyleSingle)
+    .dictionaryColor([UIColor redColor])
+    .dictionaryShadow(CGSizeMake(2, 3), 5, [UIColor blueColor]);
     
     
-//    dictionary.object = @0;
-    
-//    [data changeValueWithDictionary:dictionary object:[UIColor redColor] andDataType:LYJAttributedDataTypeColor];
-//    [data changeValueWithDictionary:dictionary andCount:6];
     
     
-//    self.label.attributedText = [data attributedString];
+    self.label.attributedText = [data attributedString];
     
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    fullString = @"哈哈我高兴就哈哈要写框架哈哈哈我哈哈哈";
+    fullString = @"哈哈我高兴就哈哈要写框架哈哈哈我哈哈哈flilfifly";
     data = [LYJUnitAttributedData dataWithFullText:fullString];
+    self.label.text = fullString;
     
-//    data
-//    .key(@"")
-//    .object()
-//    .lineOffset()
-//    .kern();
-    [data setObject:[UIColor blueColor] forKeyIfNotNil:fullString andDataType:LYJAttributedDataTypeColor];
-    [data setObject:[UIFont systemFontOfSize:30] forAllKeyIfNotNil:@"我" andDataType:LYJAttributedDataTypeFont];
-    [data setObject:[UIColor brownColor] forAllKeyIfNotNil:@"我" andDataType:LYJAttributedDataTypeColor];
-    [data setObject:@5 forAllKeyIfNotNil:@"哈" andDataType:LYJAttributedDataTypeKern];
-    [data setObject:@5 forAllKeyIfNotNil:@"哈" andDataType:LYJAttributedDataTypeLineOffset];
-    [data setObject:[UIFont systemFontOfSize:10] forAllKeyIfNotNil:@"哈" andDataType:LYJAttributedDataTypeFont];
-    [data setObject:[UIColor redColor] forAllKeyIfNotNil:@"哈" andDataType:LYJAttributedDataTypeColor];
-
-    self.label.attributedText = [data attributedString];
-    
-    NSArray *items = [data allObjectOrNilForKey:@"哈"];
-    NSLog(@"%@",items);
 }
 
 

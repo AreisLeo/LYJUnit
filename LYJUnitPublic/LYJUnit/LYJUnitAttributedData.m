@@ -20,27 +20,36 @@
 /**
  key
  */
-@property (strong ,nonatomic,readwrite) NSString *key;
+@property (strong ,nonatomic ,readwrite) NSString *key;
 
 /**
  color
  */
-@property (strong ,nonatomic,readwrite) UIColor *color;
+@property (strong ,nonatomic ,readwrite) UIColor *color;
+
+/**
+ backgroundColor
+ */
+@property (strong ,nonatomic ,readwrite) UIColor *backgroundColor;
 
 /**
  kern
  */
-@property (assign ,nonatomic,readwrite) CGFloat kern;
+@property (assign ,nonatomic ,readwrite) CGFloat kern;
 
 /**
  lineOffset
  */
-@property (assign ,nonatomic,readwrite) CGFloat lineOffset;
+@property (assign ,nonatomic ,readwrite) CGFloat lineOffset;
 
 /**
  font
  */
-@property (strong ,nonatomic,readwrite) UIFont *font;
+@property (strong ,nonatomic ,readwrite) UIFont *font;
+
+@property (strong ,nonatomic ,readwrite) UIColor *strokeColor;
+
+@property (assign ,nonatomic ,readwrite) CGFloat strokeWidth;
 
 /**
  newKey
@@ -57,17 +66,27 @@
  */
 @property (assign ,nonatomic,readwrite) NSInteger count;
 
+@property (assign ,nonatomic ,readwrite) NSUnderlineStyle underlineStyle;
+@property (strong ,nonatomic,readwrite) UIColor *underlineColor;
 
-//@property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKey;
-//@property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKeyAll;
-//@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestCount dictionaryKeyAndCount;
-//@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestAll dictionaryKeyRestAll;
+@property (assign ,nonatomic ,readwrite) NSUnderlineStyle strikethroughStyle;
 
+@property (strong ,nonatomic,readwrite) UIColor *strikethroughColor;
 
-//@property (copy ,nonatomic ,readwrite) AttributedDataColor dictionaryColor;
-//@property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKeyAll;
-//@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestCount dictionaryKeyAndCount;
-//@property (copy ,nonatomic ,readwrite) AttributedDataKeyRestAll dictionaryKeyRestAll;
+@property (strong ,nonatomic,readwrite) NSShadow *shadow;
+
+@property (assign ,nonatomic, readwrite) NSInteger verticalGlyph;
+
+@property (assign ,nonatomic ,readwrite) CGFloat obliqueness;
+
+@property (assign ,nonatomic ,readwrite) CGFloat expansion;
+
+/**  */
+@property (copy ,nonatomic) BOOL (^hasCompletionKey)(NSString *key);
+
+/**  */
+@property (copy ,nonatomic) void (^changeValid)(LYJUnitAttributedDictionary *dictionary);
+
 @end
 
 @implementation LYJUnitAttributedDictionary
@@ -77,6 +96,17 @@
 @synthesize dictionaryKern = _dictionaryKern;
 @synthesize dictionaryCount = _dictionaryCount;
 @synthesize dictionaryLineOffset = _dictionaryLineOffset;
+@synthesize dictionaryBackgroundColor = _dictionaryBackgroundColor;
+@synthesize dictionaryStrikethrough = _dictionaryStrikethrough;
+@synthesize dictionaryUnderline = _dictionaryUnderline;
+@synthesize dictionaryUnderlineColor = _dictionaryUnderlineColor;
+@synthesize dictionaryStrikethroughColor = _dictionaryStrikethroughColor;
+@synthesize dictionaryStrokeColor = _dictionaryStrokeColor;
+@synthesize dictionaryStrokeWidth = _dictionaryStrokeWidth;
+@synthesize dictionaryShadow = _dictionaryShadow;
+@synthesize dictionaryExpansion = _dictionaryExpansion;
+@synthesize dictionaryObliqueness = _dictionaryObliqueness;
+
 
 - (instancetype)init
 {
@@ -89,6 +119,10 @@
         self.lineOffset = 0;
         self.color = nil;
         self.font = nil;
+        self.strokeWidth = 0;
+        self.obliqueness = 0;
+        self.expansion = 0;
+        self.verticalGlyph = 0;
     }
     return self;
 }
@@ -102,6 +136,10 @@
 {
     _isValid = isValid;
     !isValid && [self.key length] > 0 ? NSLog(@"当前 AttributedDictionary 无效! key = %@",self.key) :nil;
+    if (self.changeValid)
+    {
+        self.changeValid(self);
+    }
 }
 
 - (AttributedDataKey)dictionaryKey
@@ -164,8 +202,11 @@
     {
         kWeakSelf;
         _dictionaryCount = ^(NSInteger count){
-            weakSelf.count = count;
-            weakSelf.isValid = [weakSelf setKey:weakSelf.key count:count];
+            if (weakSelf.count != count)
+            {
+                weakSelf.count = count;
+                weakSelf.isValid = [weakSelf setKey:weakSelf.key count:count];
+            }
             return weakSelf;
         };
     }
@@ -185,16 +226,162 @@
     return _dictionaryLineOffset;
 }
 
+- (AttributedDataColor)dictionaryBackgroundColor
+{
+    if (!_dictionaryBackgroundColor)
+    {
+        kWeakSelf;
+        _dictionaryBackgroundColor = ^(UIColor *color){
+          
+            weakSelf.backgroundColor = color;
+            return weakSelf;
+        };
+    }
+    return _dictionaryBackgroundColor;
+}
+
+
+- (AttributedDataUnderlineStyle)dictionaryStrikethrough
+{
+    if (!_dictionaryStrikethrough)
+    {
+        kWeakSelf;
+        _dictionaryStrikethrough = ^(NSUnderlineStyle style){
+            weakSelf.strikethroughStyle = style;
+            return weakSelf;
+        };
+    }
+    return _dictionaryStrikethrough;
+}
+
+- (AttributedDataColor)dictionaryStrikethroughColor
+{
+    if (!_dictionaryStrikethroughColor)
+    {
+        kWeakSelf;
+        _dictionaryStrikethroughColor = ^(UIColor *color){
+            weakSelf.strikethroughColor = color;
+            return weakSelf;
+        };
+    }
+    return _dictionaryStrikethroughColor;
+}
+
+- (AttributedDataUnderlineStyle)dictionaryUnderline
+{
+    if (!_dictionaryUnderline)
+    {
+        kWeakSelf;
+        _dictionaryUnderline = ^(NSUnderlineStyle style){
+            weakSelf.underlineStyle = style;
+            return weakSelf;
+        };
+    }
+    return _dictionaryUnderline;
+}
+
+- (AttributedDataColor)dictionaryUnderlineColor
+{
+    if (!_dictionaryUnderlineColor)
+    {
+        kWeakSelf;
+        _dictionaryUnderlineColor = ^(UIColor *color){
+            weakSelf.underlineColor = color;
+            return weakSelf;
+        };
+    }
+    return _dictionaryUnderlineColor;
+}
+
+- (AttributedDataColor)dictionaryStrokeColor
+{
+    if (!_dictionaryStrokeColor)
+    {
+        kWeakSelf;
+        _dictionaryStrokeColor = ^(UIColor *color){
+            weakSelf.strokeColor = color;
+            return weakSelf;
+        };
+    }
+    return _dictionaryStrokeColor;
+}
+
+- (AttributedDataStrokeWidth)dictionaryStrokeWidth
+{
+    if (!_dictionaryStrokeWidth)
+    {
+        kWeakSelf;
+        _dictionaryStrokeWidth = ^(CGFloat strokeWidth){
+            weakSelf.strokeWidth = strokeWidth;
+            return weakSelf;
+        };
+    }
+    return _dictionaryStrokeWidth;
+}
+
+- (AttributedDataShadow)dictionaryShadow
+{
+    if (!_dictionaryShadow)
+    {
+        kWeakSelf;
+        _dictionaryShadow = ^(CGSize shadowOffset,CGFloat shadowBlurRadius,UIColor *shadowColor) {
+            NSShadow *shadow = [[NSShadow alloc] init];
+            shadow.shadowOffset = shadowOffset;
+            shadow.shadowBlurRadius = shadowBlurRadius;
+            shadow.shadowColor = shadowColor;
+            weakSelf.shadow = shadow;
+            return weakSelf;
+        };
+    }
+    return _dictionaryShadow;
+}
+
+- (AttributedDataObliqueness)dictionaryObliqueness
+{
+    if (!_dictionaryObliqueness)
+    {
+        kWeakSelf;
+        _dictionaryObliqueness = ^(CGFloat obliqueness) {
+            weakSelf.obliqueness = obliqueness;
+            return weakSelf;
+        };
+    }
+    return _dictionaryObliqueness;
+}
+
+- (AttributedDataExpansion)dictionaryExpansion
+{
+    if (!_dictionaryExpansion)
+    {
+        kWeakSelf;
+        _dictionaryExpansion = ^(CGFloat expansion) {
+            weakSelf.expansion = expansion;
+            return weakSelf;
+        };
+    }
+    return _dictionaryExpansion;
+}
+
 
 - (BOOL)setKey:(NSString *)key count:(NSInteger)count;
 {
     NSInteger currentCount = [self calculateSubStringCountWithKey:key];
     if (currentCount == 0)  return NO;
     count = count >= currentCount ? currentCount - 1 : count;
-    self.completionKey = [NSString stringWithFormat:@"%@%@%ld",key,kAttributedDataNewKey,count];
-    self.count = count;
-    self.range = [self rangeWithCount:count andKey:key];
-    return YES;
+    
+    BOOL hasKey = YES;
+    while (count < currentCount)
+    {
+        NSString *completionKey = [NSString stringWithFormat:@"%@%@%ld",key,kAttributedDataNewKey,count];
+        hasKey = self.hasCompletionKey(completionKey);
+        self.completionKey = completionKey;
+        self.count = count;
+        self.range = [self rangeWithCount:count andKey:key];
+        count++;
+        if (!hasKey) break;
+    }
+
+    return !hasKey;
 }
 /**
  *计算出共有多少个重复的key值
@@ -250,13 +437,7 @@
 
 @property (strong ,nonatomic) NSMutableArray *mutableDictionarys;
 
-@property (strong ,nonatomic) NSMutableArray *colors;
-
-@property (strong ,nonatomic) NSMutableArray *fonts;
-
-@property (strong ,nonatomic) NSMutableArray *lineOffsets;
-
-@property (strong ,nonatomic) NSMutableArray *kerns;
+@property (strong ,nonatomic) NSMutableArray *invalidMutableDictionarys;
 
 @property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKey;
 @property (copy ,nonatomic ,readwrite) AttributedDataKey dictionaryKeyAll;
@@ -273,12 +454,18 @@
 
 - (AttributedDataKey)dictionaryKey
 {
-     LYJUnitAttributedDictionary *dictionary = [self addDictionary];
+    LYJUnitAttributedDictionary *dictionary = [self dictionary];
+    
     _dictionaryKey = dictionary.dictionaryKey;
+
     return _dictionaryKey;
 }
 
-
+- (void)restdictionaryKeyAndCount:(NSString *)key count:(NSInteger)count andDictionaryKeyAndCount:(AttributedDataKeyRestCount)dictionaryKeyAndCount
+{
+//    [NSString stringWithFormat:@"%@%@%ld",key,kAttributedDataNewKey,count]
+    LYJUnitAttributedDictionary *dictionary = [self object:(NSString *)];
+}
 
 - (NSMutableArray *)mutableDictionarys
 {
@@ -289,6 +476,14 @@
     return _mutableDictionarys;
 }
 
+- (NSMutableArray *)invalidMutableDictionarys
+{
+    if (!_invalidMutableDictionarys)
+    {
+        _invalidMutableDictionarys = [NSMutableArray array];
+    }
+    return _invalidMutableDictionarys;
+}
 
 + (instancetype)dataWithFullText:(NSString *)fullText
 {
@@ -301,247 +496,67 @@
     if (self = [super init])
     {
         self.fullText = fullText;
-        self.colors = [NSMutableArray array];
-        self.fonts = [NSMutableArray array];
-        self.lineOffsets = [NSMutableArray array];
-        self.kerns = [NSMutableArray array];
     }
     return self;
 }
 #pragma mark -----Add------
-- (void)addDictionary:(LYJUnitAttributedDictionary *)dictionary andDataType:(LYJAttributedDataType)dataType
-{
-    NSMutableArray *items = [self itemsWithDataType:dataType];
-    [items addObject:dictionary];
-}
 
 #pragma mark -----Set------
-- (LYJUnitAttributedDictionary *)addDictionary
-
+- (LYJUnitAttributedDictionary *)dictionary
 {
+    kWeakSelf;
     LYJUnitAttributedDictionary *dictionary = [[LYJUnitAttributedDictionary alloc] init];
+    dictionary.changeValid = ^(LYJUnitAttributedDictionary *dictionary) {
+        [weakSelf addDictionary:dictionary];
+    };
     dictionary.fullText = self.fullText;
-    [self.mutableDictionarys addObject:dictionary];
+    dictionary.hasCompletionKey = ^BOOL(NSString *key) {
+       return [weakSelf hasObjectForCompletionKeyIfNotNil:key];
+    };
     return dictionary;
-//    LYJUnitAttributedDictionary *dictionary = [self attributedDictionaryWithKey:key andDataType:dataType];
-//    dictionary.object = object;
-//    [self addDictionary:dictionary andDataType:dataType];
 }
 
 
-
-- (void)setObject:(id)object forKey:(id)key andDataType:(LYJAttributedDataType)dataType
+- (void)addDictionary:(LYJUnitAttributedDictionary *)dictionary
 {
-    LYJUnitAttributedDictionary *dictionary = [self attributedDictionaryWithKey:key andDataType:dataType];
-    dictionary.object = object;
-    [self addDictionary:dictionary andDataType:dataType];
+    [self.mutableDictionarys containsObject:dictionary] ? [self.mutableDictionarys removeObject:dictionary] : nil;
+    
+    [self.invalidMutableDictionarys containsObject:dictionary] ? [self.invalidMutableDictionarys removeObject:dictionary] : nil;
+    
+    dictionary.isValid ? [self.mutableDictionarys addObject:dictionary] : [self.invalidMutableDictionarys addObject:dictionary];
 }
 
-
-- (void)setObject:(id)object forAllKeyIfNotNil:(NSString *)key andDataType:(LYJAttributedDataType)dataType
+- (BOOL)hasObjectForCompletionKeyIfNotNil:(NSString *)completionkey
 {
-    if (object && key)
+    BOOL hasKey = NO;
+    for (LYJUnitAttributedDictionary *dictionary in self.mutableDictionarys)
     {
-        NSInteger count = [self calculateSubStringCountWithKey:key];
-        NSInteger tag = 0;
-        while (tag < count)
+        if ([dictionary.completionKey isEqualToString:completionkey])
         {
-            [self setObject:object forKey:key andDataType:dataType];
-            tag++;
+            hasKey = YES;
+            break;
         }
     }
-}
-
-- (void)setObject:(id)object forKeyIfNotNil:(NSString *)key andDataType:(LYJAttributedDataType)dataType
-{
-    if (object && key)
-    {
-        [self setObject:object forKey:key andDataType:dataType];
-    }
-}
-
-- (void)setIfNotNilWithDictionary:(LYJUnitAttributedDictionary *)dictionary andDataType:(LYJAttributedDataType)dataType
-{
-    if (![self hasObjectForCompletionKeyIfNotNil:dictionary.completionKey andDataType:dataType])
-    {
-        [self addDictionary:dictionary andDataType:dataType];
-    }
+    return hasKey;
 }
 
 #pragma mark -----Remove------
-- (void)removeObjectForDictionary:(LYJUnitAttributedDictionary *)dictionary andDataType:(LYJAttributedDataType)dataType
+- (LYJUnitAttributedDictionary *)objectForCompletionKeyIfNotNil:(NSString *)completionkey
 {
-    NSMutableArray *items = [self itemsWithDataType:dataType];
-    [items removeObject:dictionary];
-}
-
-#pragma mark -----Get------
-- (NSArray *)objectForKey:(NSString *)key andDataType:(LYJAttributedDataType)dataType
-{
-    NSMutableArray *dictionarys = [NSMutableArray array];
-    NSArray *items = [self itemsWithDataType:dataType];
-    for (LYJUnitAttributedDictionary *dictionary in items)
+    for (LYJUnitAttributedDictionary *dictionary in self.mutableDictionarys)
     {
-        if ([dictionary.key isEqualToString:key])
+        if ([dictionary.completionKey isEqualToString:completionkey])
         {
-            [dictionarys addObject:dictionary];
+            return dictionary;
         }
     }
-    return dictionarys;
-}
-
-- (NSArray *)allObjectOrNilForKey:(NSString *)key
-{
-    NSMutableArray *objects = [NSMutableArray array];
-
-    
-    for (int i = 0; i < 4; i++)
-    {
-        LYJAttributedDataType dataType = i;
-        NSArray *subObjects = [self objectForKey:key andDataType:dataType];
-        [objects addObjectsFromArray:subObjects];
-    }
-
-
-    return objects;
+    return [self dictionary];
 }
 
 
 
-#pragma mark -----ChangeValue------
-- (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary count:(NSInteger)count key:(NSString *)key object:(id)object andDataType:(LYJAttributedDataType)dataType
-{
-    
-    NSInteger maxCount = [self calculateSubStringCountWithKey:key];
-    if (maxCount == 0)
-    {
-        NSLog(@"当前不包含修改的Key");
-        return;
-    }
-    
-    NSString *completionKey = [NSString stringWithFormat:@"%@%@%ld",key,kAttributedDataNewKey,count];
-    
-    if (![dictionary.completionKey isEqualToString:completionKey] &&
-        [self hasObjectForCompletionKeyIfNotNil:completionKey andDataType:dataType])
-    {
-        NSLog(@"你修改的目标已经存在");
-        return;
-    }
-    
-    dictionary.count = count > maxCount ? maxCount : count;
-    dictionary.key = key;
-    dictionary.range = [self rangeWithCount:count andKey:key];
-    dictionary.completionKey = completionKey;
-    dictionary.object = object;
-    
-    if (dictionary.dataType != dataType)
-    {
-        [self removeObjectForDictionary:dictionary andDataType:dictionary.dataType];
-        dictionary.dataType = dataType;
-        [self setIfNotNilWithDictionary:dictionary andDataType:dataType];
-    }
-}
-
-- (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary count:(NSInteger)count key:(NSString *)key andObject:(id)object
-{
-    [self changeValueWithDictionary:dictionary count:count key:key object:object andDataType:dictionary.dataType];
-}
-
-- (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary count:(NSInteger)count andKey:(NSString *)key
-{
-    [self changeValueWithDictionary:dictionary count:count key:key andObject:dictionary.object];
-}
 
 
-- (void)changeValueWithDictionary:(LYJUnitAttributedDictionary *)dictionary andCount:(NSInteger)count
-{
-    [self changeValueWithDictionary:dictionary count:count andKey:dictionary.key];
-}
-
-
-
-#pragma mark -----取消包含key噶dictionarys------
-- (NSArray *)objectOrNilForKey:(NSString *)key andDataType:(LYJAttributedDataType)dataType
-{
-    if (key)
-    {
-        return [self objectForKey:key andDataType:dataType];
-    }
-    return nil;
-}
-
-- (BOOL)hasObjectForCompletionKeyIfNotNil:(NSString *)completionkey andDataType:(LYJAttributedDataType)dataType
-{
-    return [self hasKeyWithItems:[self itemsWithDataType:dataType] andCompletionKey:completionkey];
-}
-
-/**
- *创建dictionary
- */
-- (LYJUnitAttributedDictionary *)attributedDictionaryWithKey:(NSString *)key andDataType:(LYJAttributedDataType)dataType
-{
-    LYJUnitAttributedDictionary *dictionary = [LYJUnitAttributedDictionary new];
-    dictionary.dataType = dataType;
-    dictionary.key = key;
-    NSInteger currentCount = [self calculateSubStringCountWithKey:key];
-    if (currentCount == 0) return nil;
-    NSInteger count = 0;
-    while (count < currentCount)
-    {
-        dictionary.completionKey = [NSString stringWithFormat:@"%@%@%ld",key,kAttributedDataNewKey,count];
-        dictionary.count = count;
-        dictionary.range = [self rangeWithCount:count andKey:key];
-        if (![self hasObjectForCompletionKeyIfNotNil:dictionary.completionKey andDataType:dictionary.dataType])break;
-        count++;
-    }
-    return dictionary;
-}
-
-/**
- *计算出共有多少个重复的key值
- */
-- (NSInteger)calculateSubStringCountWithKey:(NSString *)key
-{
-    NSInteger count = 0; //有值时最少值为1
-    NSRange range = [self.fullText rangeOfString:key];
-    NSString *subText = self.fullText;
-    while (range.location != NSNotFound)
-    {
-        count++;
-        subText = [subText substringFromIndex:range.location + range.length];
-        range = [subText rangeOfString:key];
-    }
-    return count;
-}
-
-
-- (NSRange)rangeWithCount:(NSInteger)count andKey:(NSString *)key
-{
-    NSRange range = [self.fullText rangeOfString:key];
-    if (count == 0)
-    {
-        return range;
-    }
-    else
-    {
-        //求每个重复或者对应的字符的 range 位置
-        NSInteger currentCount = 0;
-        NSInteger location = 0;
-        NSRange tempRange = range;
-        NSString *subText = self.fullText;
-        while (tempRange.location != NSNotFound && currentCount < count + 1)
-        {
-            currentCount++;
-            NSInteger tempLenth = tempRange.location + tempRange.length;
-            subText = [subText substringFromIndex:tempLenth];
-            range = tempRange;
-            location += tempLenth;
-            tempRange = [subText rangeOfString:key];
-        }
-        range.location = location - range.length;
-        return range;
-    }
-}
 
 - (BOOL)hasKeyWithItems:(NSArray *)items andCompletionKey:(NSString *)completionKey
 {
@@ -560,60 +575,55 @@
 - (NSMutableAttributedString *)attributedString
 {
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:self.fullText];
-    
-    //设置颜色
-    [self setAttrStringWithItems:self.colors attributeName:NSForegroundColorAttributeName attrString:attrString];
-    //设置字体
-    [self setAttrStringWithItems:self.fonts attributeName:NSFontAttributeName attrString:attrString];
-    //设置位置
-    [self setAttrStringWithItems:self.lineOffsets attributeName:NSBaselineOffsetAttributeName attrString:attrString];
-    //设置间距
-    [self setAttrStringWithItems:self.kerns attributeName:NSKernAttributeName  attrString:attrString];
+
+//    [self.invalidMutableDictionarys removeAllObjects];
+
+    for (LYJUnitAttributedDictionary *dictionary in self.mutableDictionarys)
+    {
+        if (!dictionary.isValid) continue;
+        //设置颜色
+        [self setAttrStringWithObject:dictionary.color attributeName:NSForegroundColorAttributeName attrString:attrString range:dictionary.range];
+        //设置字体
+        [self setAttrStringWithObject:dictionary.font attributeName:NSFontAttributeName attrString:attrString range:dictionary.range];
+        //设置位置
+        [self setAttrStringWithObject:@(dictionary.lineOffset) attributeName:NSBaselineOffsetAttributeName attrString:attrString range:dictionary.range];
+        //设置间距
+        [self setAttrStringWithObject:@(dictionary.kern) attributeName:NSKernAttributeName  attrString:attrString range:dictionary.range];
+        //文字背景颜色
+        [self setAttrStringWithObject:dictionary.backgroundColor attributeName:NSBackgroundColorAttributeName attrString:attrString range:dictionary.range];
+        //删除线
+        [self setAttrStringWithObject:@(dictionary.strikethroughStyle) attributeName:NSStrikethroughStyleAttributeName attrString:attrString range:dictionary.range];
+        //删除线颜色
+        [self setAttrStringWithObject:dictionary.strikethroughColor attributeName:NSStrikethroughColorAttributeName attrString:attrString range:dictionary.range];
+        //下划线
+        [self setAttrStringWithObject:@(dictionary.underlineStyle) attributeName:NSUnderlineStyleAttributeName attrString:attrString range:dictionary.range];
+        //下划线颜色
+        [self setAttrStringWithObject:dictionary.underlineColor attributeName:NSUnderlineColorAttributeName attrString:attrString range:dictionary.range];
+        //描边宽度
+        [self setAttrStringWithObject:@(dictionary.strokeWidth) attributeName:NSStrokeWidthAttributeName attrString:attrString range:dictionary.range];
+        //描边颜色
+        [self setAttrStringWithObject:dictionary.strokeColor attributeName:NSStrokeColorAttributeName attrString:attrString range:dictionary.range];
+        //阴影
+        [self setAttrStringWithObject:dictionary.shadow attributeName:NSShadowAttributeName attrString:attrString range:dictionary.range];
+        //字体倾斜
+        [self setAttrStringWithObject:@(dictionary.obliqueness) attributeName:NSObliquenessAttributeName attrString:attrString range:dictionary.range];
+        //文本扁平化
+        [self setAttrStringWithObject:@(dictionary.expansion) attributeName:NSExpansionAttributeName attrString:attrString range:dictionary.range];
+        
+    }
     return attrString;
 }
 
 
-- (void)setAttrStringWithItems:(NSArray *)items attributeName:(NSString *)attibuteName attrString:(NSMutableAttributedString *)attrString
+- (void)setAttrStringWithObject:(id)object attributeName:(NSString *)attibuteName attrString:(NSMutableAttributedString *)attrString range:(NSRange)range
 {
-    for (LYJUnitAttributedDictionary *dictionary in items)
+    if (!object)
     {
-        [attrString addAttribute:attibuteName value:dictionary.object range:dictionary.range];
+        return;
     }
+    [attrString addAttribute:attibuteName value:object range:range];
 }
 
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wswitch"
-- (NSMutableArray *)itemsWithDataType:(LYJAttributedDataType)dataType
-{
-    switch (dataType)
-    {
-        case LYJAttributedDataTypeColor:
-        {
-            return self.colors;
-        }
-            break;
-        case LYJAttributedDataTypeFont:
-        {
-            return self.fonts;
-        }
-            break;
-        case LYJAttributedDataTypeLineOffset:
-        {
-            return self.lineOffsets;
-        }
-            break;
-        case LYJAttributedDataTypeKern:
-        {
-            return self.kerns;
-        }
-            break;
-        default:
-            break;
-    }
-    return [@[] mutableCopy];
-}
-#pragma clang diagnostic pop
 @end
 
 
