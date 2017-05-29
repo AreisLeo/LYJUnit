@@ -10,9 +10,11 @@
 #import <UIKit/UIKit.h>
 #import "LYJUnitMacro.h"
 
-@class LYJUnitAttributedDictionary,LYJUnitAttributedData;
+@class LYJUnitAttributedDictionary,LYJUnitAttributedAllDictionary,LYJUnitAttributedData;
 
-typedef LYJUnitAttributedDictionary *(^AttributedDataKeyRestAll)(NSString *key);
+typedef LYJUnitAttributedAllDictionary *(^AttributedDataKeyRestAll)(NSString *key);
+
+typedef LYJUnitAttributedAllDictionary * (^AttributedDataKeyAll)(NSString *key);
 
 typedef LYJUnitAttributedDictionary *(^AttributedDataKeyRestCount)(NSString *key,NSInteger count);
 
@@ -51,19 +53,18 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
  */
 @property (copy ,nonatomic ,readonly) AttributedDataKey dictionaryKey;
 
-
-/**
- key 创建全部与 key 相关的dictionary count 自增长 0 - 无限 
- */
-@property (copy ,nonatomic ,readonly) AttributedDataKey dictionaryKeyAll;
-
 /**
  key count 修改 目标字符串
  */
 @property (copy ,nonatomic ,readonly) AttributedDataKeyRestCount dictionaryKeyAndCount;
 
 /**
- key 全修改
+ key 创建全部与 key 相关的dictionary count 自增长 0 - 无限
+ */
+@property (copy ,nonatomic ,readonly) AttributedDataKeyAll dictionaryKeyAll;
+
+/**
+ key 只对 AttributedDataKeyAll 创建的 dictionary 生效 全修改 
  */
 @property (copy ,nonatomic ,readonly) AttributedDataKeyRestAll dictionaryKeyRestAll;
 
@@ -76,11 +77,13 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 
 - (NSMutableAttributedString *)attributedString;
 
-- (void)restdictionaryKeyAndCount:(NSString *)key count:(NSInteger)count andDictionaryKeyAndCount:(AttributedDataKeyRestCount)dictionaryKeyAndCount;
+
 @end
 
 
 @interface LYJUnitAttributedDictionary : NSObject
+
+
 
 
 @property (strong ,nonatomic) NSString *fullText;
@@ -88,7 +91,7 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 /**
  key 创建 count 全部默认:0
  */
-@property (copy ,nonatomic ,readonly) AttributedDataKey dictionaryKey;
+@property (copy ,nonatomic ) AttributedDataKey dictionaryKey;
 
 /**
  color 该属性用于指定一段文本的字体颜色。如果不指定该属性，则默认为黑色。
@@ -131,7 +134,7 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 @property (copy ,nonatomic ,readonly) AttributedDataColor dictionaryStrikethroughColor;
 
 /**
- dictionaryUnderline NSUnderlineStyle 下划线
+ dictionaryUnderline NSUnderlineStyle 下划线 与shadow同时使用时出bug
  */
 #pragma mark 与shadow同时使用时出bug
 @property (copy ,nonatomic ,readonly) AttributedDataUnderlineStyle dictionaryUnderline;
@@ -152,7 +155,7 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 @property (copy ,nonatomic ,readonly) AttributedDataStrokeWidth dictionaryStrokeWidth;
 
 /**
- dictionaryShadow 阴影
+ dictionaryShadow 阴影 与underline同时使用时出bug
  */
 #pragma mark 与underline同时使用时出bug
 @property (copy ,nonatomic ,readonly) AttributedDataShadow dictionaryShadow;
@@ -265,4 +268,22 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 @property (assign ,nonatomic)  BOOL isValid;
 
 
+
 @end
+
+
+
+@interface LYJUnitAttributedAllDictionary : LYJUnitAttributedDictionary
+
+/**
+ counts
+ */
+@property (strong ,nonatomic) NSMutableArray *counts;
+
+/**
+ ranges
+ */
+@property (strong ,nonatomic) NSMutableArray *ranges;
+
+@end
+
