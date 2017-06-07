@@ -18,17 +18,20 @@
 
 #pragma mark ------ENUM------
 typedef enum : NSUInteger {
-    LYJAttributedDataTypeColor = 0,
-    LYJAttributedDataTypeFont = 1,
-    LYJAttributedDataTypeLineOffset = 2,
-    LYJAttributedDataTypeKern = 3, 
-} LYJAttributedDataType;
+    LYJUnitDateNextTypeMinute,
+    LYJUnitDateNextTypeHour,
+    LYJUnitDateNextTypeDay,
+    LYJUnitDateNextTypeMonth,
+    LYJUnitDateNextTypeYear,
+} LYJUnitDateNextType;
 
 typedef enum : NSUInteger {
-    LYJAttributedDictionaryChangeTypeObject = 1 << 0,
-    LYJAttributedDictionaryChangeTypeKey = 1 << 1,
-    LYJAttributedDictionaryChangeTypeCount = 1 << 2,
-} LYJAttributedDictionaryChangeType;
-
+    /**多少时间后激活*/
+    LYJUnitNotificationTriggerTypeTimeInterval,
+    /**指定时间激活*/
+    LYJUnitNotificationTriggerTypeCalendar,
+    /**到达指定位置激活*/
+    LYJUnitNotificationTriggerTypeLocation,
+} LYJUnitNotificationTriggerType;
 
 #endif /* LYJUnitMacro_h */

@@ -18,6 +18,7 @@
 		03F75CD51ED473AC00C21160 /* LYJUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CD41ED473AC00C21160 /* LYJUnit.m */; };
 		03F75CD81ED475D500C21160 /* LYJActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CD71ED475D500C21160 /* LYJActionSheet.m */; };
 		03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */; };
+		1E5C24901EE7FE3A00CB809B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		03F75CD71ED475D500C21160 /* LYJActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJActionSheet.m; sourceTree = "<group>"; };
 		03F75CD91ED4833300C21160 /* LYJUnitAttributedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJUnitAttributedData.h; sourceTree = "<group>"; };
 		03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJUnitAttributedData.m; sourceTree = "<group>"; };
+		1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E5C24901EE7FE3A00CB809B /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +99,7 @@
 				03F75CB41ED470E900C21160 /* LYJUnitPublicTests */,
 				03F75CBF1ED470E900C21160 /* LYJUnitPublicUITests */,
 				03F75C991ED470E900C21160 /* Products */,
+				1E5C248E1EE7FE3A00CB809B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,6 +169,14 @@
 				03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */,
 			);
 			path = LYJUnit;
+			sourceTree = "<group>";
+		};
+		1E5C248E1EE7FE3A00CB809B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

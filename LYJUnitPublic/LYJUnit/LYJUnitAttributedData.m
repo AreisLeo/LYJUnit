@@ -56,10 +56,10 @@
  */
 @property (strong ,nonatomic) NSString *completionKey;
 
-/**
- 当前 dictionary 类型
- */
-@property (assign ,nonatomic,readwrite) LYJAttributedDataType dataType;
+///**
+// 当前 dictionary 类型
+// */
+//@property (assign ,nonatomic,readwrite) LYJAttributedDataType dataType;
 
 /**
  当前是第几个同样字符 当前字符出现相同时才 有使用效果
