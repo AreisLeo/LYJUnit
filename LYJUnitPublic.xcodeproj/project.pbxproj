@@ -18,6 +18,7 @@
 		03F75CD51ED473AC00C21160 /* LYJUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CD41ED473AC00C21160 /* LYJUnit.m */; };
 		03F75CD81ED475D500C21160 /* LYJActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CD71ED475D500C21160 /* LYJActionSheet.m */; };
 		03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */; };
+		1E44BA0A1EE8F21A00FD6BDF /* LYJTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E44BA091EE8F21A00FD6BDF /* LYJTestModel.m */; };
 		1E5C24901EE7FE3A00CB809B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,8 @@
 		03F75CD71ED475D500C21160 /* LYJActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJActionSheet.m; sourceTree = "<group>"; };
 		03F75CD91ED4833300C21160 /* LYJUnitAttributedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJUnitAttributedData.h; sourceTree = "<group>"; };
 		03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJUnitAttributedData.m; sourceTree = "<group>"; };
+		1E44BA081EE8F21A00FD6BDF /* LYJTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJTestModel.h; sourceTree = "<group>"; };
+		1E44BA091EE8F21A00FD6BDF /* LYJTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJTestModel.m; sourceTree = "<group>"; };
 		1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -121,6 +124,7 @@
 				03F75C9F1ED470E900C21160 /* AppDelegate.m */,
 				03F75CA11ED470E900C21160 /* ViewController.h */,
 				03F75CA21ED470E900C21160 /* ViewController.m */,
+				1E44BA071EE8F1FC00FD6BDF /* TestModel */,
 				03F75CA41ED470E900C21160 /* Main.storyboard */,
 				03F75CA71ED470E900C21160 /* Assets.xcassets */,
 				03F75CA91ED470E900C21160 /* LaunchScreen.storyboard */,
@@ -169,6 +173,15 @@
 				03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */,
 			);
 			path = LYJUnit;
+			sourceTree = "<group>";
+		};
+		1E44BA071EE8F1FC00FD6BDF /* TestModel */ = {
+			isa = PBXGroup;
+			children = (
+				1E44BA081EE8F21A00FD6BDF /* LYJTestModel.h */,
+				1E44BA091EE8F21A00FD6BDF /* LYJTestModel.m */,
+			);
+			name = TestModel;
 			sourceTree = "<group>";
 		};
 		1E5C248E1EE7FE3A00CB809B /* Frameworks */ = {
@@ -319,6 +332,7 @@
 				03F75CA01ED470E900C21160 /* AppDelegate.m in Sources */,
 				03F75C9D1ED470E900C21160 /* main.m in Sources */,
 				03F75CD81ED475D500C21160 /* LYJActionSheet.m in Sources */,
+				1E44BA0A1EE8F21A00FD6BDF /* LYJTestModel.m in Sources */,
 				03F75CD51ED473AC00C21160 /* LYJUnit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

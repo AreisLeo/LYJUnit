@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "LYJUnitAttributedData.h"
 #import "LYJUnit.h"
+#import "LYJTestModel.h"
 @interface ViewController ()
 {
     NSString *fullString;
@@ -55,7 +56,10 @@
     {
         [self localNotification];
     }
-
+    else if ([self.navigationItem.title isEqualToString:@"时间操作"])
+    {
+        [self dateController];
+    }
 }
 
 - (void)attributedText
@@ -72,13 +76,15 @@
         .dictionaryFont([UIFont systemFontOfSize:10])
         .dictionaryStrokeWidth(5);
     }];
+    
 }
 
 - (void)localNotification
 {
     if ([LYJUnit _ISIOS10])
     {
-        
+       UNNotificationTrigger *trigger = [LYJUnit _UNNotificationTriggerWithType:LYJUnitNotificationTriggerTypeTimeInterval item:@60 andRepeats:NO];
+        [LYJUnit _UNUserNotificationWithTitle:@"标题" subtitle:@"小标题" body:@"正文" identifier:@"2017" badge:@1 trigger:trigger];
     }
     else
     {
@@ -86,7 +92,38 @@
         //设置成一分钟后激活本地推送
         [LYJUnit _localNotificationWithDate:newDate alertBody:@"test" key:@"test" andIsNow:NO];
     }
+}
 
+- (void)dateController
+{
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeYYYYMMDDHHMMSS andTargetDate:[NSDate new]]);
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeYYYYMMDDHHMM andTargetDate:[NSDate new]]);
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeYYYYMMDDHH andTargetDate:[NSDate new]]);
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeYYYYMMDD andTargetDate:[NSDate new]]);
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeMMDD andTargetDate:[NSDate new]]);
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeDD andTargetDate:[NSDate new]]);
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeHHMMSS andTargetDate:[NSDate new]]);
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeHHMM andTargetDate:[NSDate new]]);
+    NSLog(@"%@",[LYJUnit _dateStrFromDateType:LYJUnitDateTypeHH andTargetDate:[NSDate new]]);
+}
+
+- (void)quickSort
+{
+    NSMutableArray *targetModels = [NSMutableArray array];
+    NSInteger i = 0;
+    while (i < 10)
+    {
+        LYJTestModel *model = [LYJTestModel new];
+        model.value = (arc4random() % 100000 )/ 100;
+        NSLog(@"%f",model.value);
+        [targetModels addObject:model];
+        i++;
+    }
+    [LYJUnit _quickSortArray:targetModels andKeyPath:@"value"];
+    for (LYJTestModel *model in targetModels)
+    {
+        NSLog(@"%f",model.value);
+    }
 }
 
 @end

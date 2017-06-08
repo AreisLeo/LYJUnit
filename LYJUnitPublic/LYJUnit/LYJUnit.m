@@ -33,13 +33,13 @@
 
 + (BOOL)_ISIOS10
 {
-    return [self _ISIOSWithIndex:10];
+    return [self _ISIOSWithIndex:10.0];
 }
 
-+ (BOOL)_ISIOSWithIndex:(NSInteger)index
++ (BOOL)_ISIOSWithIndex:(CGFloat)index
 {
     NSString* phoneVersion = [[UIDevice currentDevice] systemVersion];
-    if ([[[phoneVersion componentsSeparatedByString:@"."]firstObject]integerValue] >= index)
+    if ([[[phoneVersion componentsSeparatedByString:@"."]firstObject]floatValue] >= index)
     {
         return YES;
     }
@@ -92,7 +92,7 @@
 
 + (void)_quickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath
 {
-    
+    [self _quickSortArray:array keyPath:keyPath leftIndex:0 andRightIndex:array.count - 1];
 }
 + (void)_quickSortArray:(NSMutableArray *)array keyPath:(NSString *)keyPath leftIndex:(NSInteger)leftIndex andRightIndex:(NSInteger)rightIndex
 {
@@ -155,6 +155,45 @@
     return newdate;
 }
 
++ (NSString *)_dateStrFromDateType:(LYJUnitDateType)dateType andTargetDate:(NSDate *)targetDate
+{
+    NSString *dateTypeStr = @"yyyy-MM-dd HH:mm:ss";
+    switch (dateType) {
+        case LYJUnitDateTypeHH:
+            dateTypeStr = @"HH";
+            break;
+        case LYJUnitDateTypeHHMM:
+            dateTypeStr = @"HH:mm";
+            break;
+        case LYJUnitDateTypeHHMMSS:
+            dateTypeStr = @"HH:mm:ss";
+            break;
+        case LYJUnitDateTypeDD:
+            dateTypeStr = @"dd";
+            break;
+        case LYJUnitDateTypeMMDD:
+            dateTypeStr = @"MM-dd";
+            break;
+        case LYJUnitDateTypeYYYYMMDD:
+            dateTypeStr = @"yyyy-MM-dd";
+            break;
+        case LYJUnitDateTypeYYYYMMDDHH:
+            dateTypeStr = @"yyyy-MM-dd HH";
+            break;
+        case LYJUnitDateTypeYYYYMMDDHHMM:
+            dateTypeStr = @"yyyy-MM-dd HH:mm";
+            break;
+        case LYJUnitDateTypeYYYYMMDDHHMMSS:
+            dateTypeStr = @"yyyy-MM-dd HH:mm:ss";
+            break;
+        default:
+            break;
+    }
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:dateTypeStr];
+    return [dateFormatter stringFromDate:targetDate];
+}
+
 
 #pragma mark -----UILocalNotification------
 
@@ -215,7 +254,7 @@
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
 }
 
-+ (UNNotificationTrigger *)_triggerWithType:(LYJUnitNotificationTriggerType)type item:(id)item andRepeats:(BOOL)repeats
++ (UNNotificationTrigger *)_UNNotificationTriggerWithType:(LYJUnitNotificationTriggerType)type item:(id)item andRepeats:(BOOL)repeats
 {
     UNNotificationTrigger *trigger = nil;
     switch (type) {

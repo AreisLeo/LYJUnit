@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <UserNotifications/UserNotifications.h>
 #import "LYJUnitMacro.h"
 @class LYJUnitAttributedData;
@@ -17,7 +18,7 @@
 /**
  是否大于ios <Index> 系统版本
  */
-+ (BOOL)_ISIOSWithIndex:(NSInteger)index;
++ (BOOL)_ISIOSWithIndex:(CGFloat)index;
 
 /**
  是否大于ios10
@@ -47,6 +48,8 @@
  */
 + (NSDate *)_dateNextType:(LYJUnitDateNextType)dateType targetDate:(NSDate *)targetDate andIndex:(NSInteger)index;
 
++ (NSString *)_dateStrFromDateType:(LYJUnitDateType)dateType andTargetDate:(NSDate *)targetDate;
+
 #pragma mark UILocalNotificationMethod
 /**
  本地通知
@@ -68,8 +71,11 @@
 
 + (void)_cancelAllLocalNotifications;
 
-//item 对应为 TimeInterval  NSDateComponents CLRegion
-+ (UNNotificationTrigger *)_triggerWithType:(LYJUnitNotificationTriggerType)type item:(id)item andRepeats:(BOOL)repeats;
+/**
+ 10.0后才能使用的本地推送方法
+ */
+//item 对应为 TimeInterval 最少为60秒  NSDateComponents CLRegion
++ (UNNotificationTrigger *)_UNNotificationTriggerWithType:(LYJUnitNotificationTriggerType)type item:(id)item andRepeats:(BOOL)repeats;
 
 + (void)_UNUserNotificationWithTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body identifier:(NSString *)identifier badge:(NSNumber *)badge trigger:(UNNotificationTrigger *)trigger;
 

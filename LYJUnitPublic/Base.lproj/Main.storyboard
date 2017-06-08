@@ -83,7 +83,45 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZA-FH-wKF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2591" y="-89"/>
+            <point key="canvasLocation" x="2646" y="-36"/>
+        </scene>
+        <!--时间操作-->
+        <scene sceneID="ocO-fo-aUl">
+            <objects>
+                <viewController id="jaU-GC-xcg" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RvX-vH-vkf"/>
+                        <viewControllerLayoutGuide type="bottom" id="rnc-c6-hjL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DaS-Bl-8TW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="时间操作" id="JyW-iq-Z8O"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JOH-hE-hz6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2646" y="627"/>
+        </scene>
+        <!--排序操作-->
+        <scene sceneID="IaW-9a-Km2">
+            <objects>
+                <viewController id="iGF-PU-iTN" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qtW-Lv-a1P"/>
+                        <viewControllerLayoutGuide type="bottom" id="gUC-G0-mfh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0xI-Rg-93d">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="排序操作" id="t1f-gi-g47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pDR-Q4-bdW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3471" y="634"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="dk9-Xs-gsP">
@@ -170,6 +208,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="jaU-GC-xcg" kind="push" id="t7g-jl-HgY"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cells" textLabel="YXo-mz-8FN" style="IBUITableViewCellStyleDefault" id="wjd-0q-10N">
                                         <rect key="frame" x="0.0" y="132" width="375" height="44"/>
@@ -187,6 +228,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="iGF-PU-iTN" kind="push" id="1Z1-K1-U9H"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cells" textLabel="2fg-PA-rPT" style="IBUITableViewCellStyleDefault" id="6pC-3G-c1V">
                                         <rect key="frame" x="0.0" y="176" width="375" height="44"/>

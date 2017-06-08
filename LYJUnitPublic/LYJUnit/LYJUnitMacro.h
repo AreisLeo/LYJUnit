@@ -26,6 +26,18 @@ typedef enum : NSUInteger {
 } LYJUnitDateNextType;
 
 typedef enum : NSUInteger {
+    LYJUnitDateTypeHH,
+    LYJUnitDateTypeHHMM,
+    LYJUnitDateTypeHHMMSS,
+    LYJUnitDateTypeDD,
+    LYJUnitDateTypeMMDD,
+    LYJUnitDateTypeYYYYMMDD,
+    LYJUnitDateTypeYYYYMMDDHH,
+    LYJUnitDateTypeYYYYMMDDHHMM,
+    LYJUnitDateTypeYYYYMMDDHHMMSS,
+} LYJUnitDateType;
+
+typedef enum : NSUInteger {
     /**多少时间后激活*/
     LYJUnitNotificationTriggerTypeTimeInterval,
     /**指定时间激活*/
