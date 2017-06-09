@@ -48,6 +48,24 @@
             </objects>
             <point key="canvasLocation" x="2646" y="-707"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="wKB-Ap-nI7">
+            <objects>
+                <viewController id="DnV-c5-FTT" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1gC-DH-Sln"/>
+                        <viewControllerLayoutGuide type="bottom" id="srS-R0-0pi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="E2O-xL-HyG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wDF-Cm-AEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3433" y="-729"/>
+        </scene>
         <!--本地通知-->
         <scene sceneID="IeE-i7-5wZ">
             <objects>
@@ -84,6 +102,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZA-FH-wKF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2646" y="-36"/>
+        </scene>
+        <!--图像变化-->
+        <scene sceneID="AlR-Hv-jRw">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="9QP-Zk-uhn" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="P9i-JG-fMO"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wvc-xX-Kra"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="g2I-w4-ZT2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="vip-" translatesAutoresizingMaskIntoConstraints="NO" id="1xp-Tx-jx0">
+                                <rect key="frame" x="16" y="72" width="343" height="165"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="vip-" translatesAutoresizingMaskIntoConstraints="NO" id="tCA-Xx-6Nd">
+                                <rect key="frame" x="16" y="245" width="343" height="165"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="vip-" translatesAutoresizingMaskIntoConstraints="NO" id="jIh-Pl-EP4">
+                                <rect key="frame" x="16" y="445" width="343" height="165"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="图像变化" id="unQ-fd-J7D"/>
+                    <connections>
+                        <outlet property="ImageView1" destination="1xp-Tx-jx0" id="fZQ-Ir-tpr"/>
+                        <outlet property="imageView2" destination="tCA-Xx-6Nd" id="FWC-cq-g7R"/>
+                        <outlet property="imageView3" destination="jIh-Pl-EP4" id="JUM-eC-HfS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zpD-Ho-U4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3432.8000000000002" y="-75.112443778110944"/>
         </scene>
         <!--时间操作-->
         <scene sceneID="ocO-fo-aUl">
@@ -239,7 +295,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="排序操作" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2fg-PA-rPT">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="图像变化" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2fg-PA-rPT">
                                                     <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -248,6 +304,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="9QP-Zk-uhn" kind="push" id="R31-cQ-dtg"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -283,4 +342,7 @@
             <point key="canvasLocation" x="693.60000000000002" y="-473.6131934032984"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="vip-" width="19" height="19"/>
+    </resources>
 </document>

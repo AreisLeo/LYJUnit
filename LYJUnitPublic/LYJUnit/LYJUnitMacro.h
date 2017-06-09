@@ -46,4 +46,6 @@ typedef enum : NSUInteger {
     LYJUnitNotificationTriggerTypeLocation,
 } LYJUnitNotificationTriggerType;
 
+
+#define kWeakSelf __weak typeof(self) weakSelf = self;
 #endif /* LYJUnitMacro_h */

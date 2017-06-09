@@ -15,10 +15,23 @@
     NSString *fullString;
 }
 @property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIImageView *ImageView1;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView2;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView3;
 
 @end
 
 @implementation ViewController
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
+
 - (IBAction)tap:(id)sender {
 
 
@@ -60,6 +73,18 @@
     {
         [self dateController];
     }
+    else if ([self.navigationItem.title isEqualToString:@"排序操作"])
+    {
+        [self quickSort];
+    }
+    else if ([self.navigationItem.title isEqualToString:@"图像变化"])
+    {
+        [self imageChange];
+    }
+    else if ([self.navigationItem.title isEqualToString:@"扫描二维码"])
+    {
+        [self scanCode];
+    }
 }
 
 - (void)attributedText
@@ -84,7 +109,7 @@
     if ([LYJUnit _ISIOS10])
     {
        UNNotificationTrigger *trigger = [LYJUnit _UNNotificationTriggerWithType:LYJUnitNotificationTriggerTypeTimeInterval item:@60 andRepeats:NO];
-        [LYJUnit _UNUserNotificationWithTitle:@"标题" subtitle:@"小标题" body:@"正文" identifier:@"2017" badge:@1 trigger:trigger];
+        [LYJUnit _UNUserNotificationWithTitle:@"标题" subtitle:@"小标题" body:@"正文" identifier:@"2017" badge:@0 trigger:trigger];
     }
     else
     {
@@ -114,16 +139,45 @@
     while (i < 10)
     {
         LYJTestModel *model = [LYJTestModel new];
-        model.value = (arc4random() % 100000 )/ 100;
-        NSLog(@"%f",model.value);
+        model.value = (arc4random() % 100000 )/ 1000.0f;
         [targetModels addObject:model];
         i++;
     }
-    [LYJUnit _quickSortArray:targetModels andKeyPath:@"value"];
-    for (LYJTestModel *model in targetModels)
+    NSMutableArray *testModels1 = [NSMutableArray arrayWithArray:targetModels];
+    NSMutableArray *testModels2 = [NSMutableArray arrayWithArray:targetModels];
+    //升序
+    NSMutableString *testStr = [NSMutableString string];
+    [LYJUnit _ascendQuickSortArray:testModels1 andKeyPath:@"value"];
+    for (LYJTestModel *model in testModels1)
     {
-        NSLog(@"%f",model.value);
+        
+        [testStr appendFormat:@"%f,",model.value];
     }
+    NSLog(@"升序 === %@",testStr);
+    //降序
+    testStr = [NSMutableString string];
+    [LYJUnit _descendQuickSortArray:testModels2 andKeyPath:@"value"];
+    for (LYJTestModel *model in testModels2)
+    {
+        [testStr appendFormat:@"%f,",model.value];
+    }
+    NSLog(@"降序 === %@",testStr);
 }
 
+- (void)imageChange
+{
+    
+    self.ImageView1.image = [LYJUnit _changeChromaWithTargetImage:self.ImageView1.image type:1];
+    
+    self.imageView2.image = [LYJUnit _imageModelAlwaysTemplateWithImage:self.imageView2.image];
+    self.imageView2.tintColor = [UIColor greenColor];
+    
+    self.imageView3.image = [LYJUnit _zipImageWithImage:self.imageView3.image];
+}
+- (void)scanCode
+{
+    [LYJUnit _showScanWithView:self.view complete:^(NSString *result) {
+        
+    }];
+}
 @end

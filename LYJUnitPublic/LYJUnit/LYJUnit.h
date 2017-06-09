@@ -18,7 +18,7 @@
 /**
  是否大于ios <Index> 系统版本
  */
-+ (BOOL)_ISIOSWithIndex:(CGFloat)index;
++ (BOOL)_ISIOSWithVersion:(CGFloat)version;
 
 /**
  是否大于ios10
@@ -30,16 +30,93 @@
  */
 + (void)_registerLocalNotification;
 
+
+/**
+ *  是否有允许打开定位
+ *
+ *  @return YES / NO
+ */
++ (BOOL)_hasOpenLocation;
+
+
+#pragma mark ScanMethod
+/** 快速集成系统扫描 */
++ (void)_showScanWithView:(UIView *)view complete:(void(^)(NSString *result))complete;
+
++ (void)_hiddenScanViewWithRemove:(BOOL)remove;
+
++ (void)_hiddenScanView;
+
++ (void)_startScanView;
+
+#pragma mark UIImageMethod
+
+
+/**
+ *  颜色转换成image
+ *
+ *  @param color 颜色
+ *
+ *  @return image
+ */
++ (UIImage *)_createImageWithColor:(UIColor *)color size:(CGSize)size;
+
+/**
+ 图片指定范围不进行拉伸
+ 
+ @param edgInsets CGFloat top, left, bottom, right;
+ @param resizingMode UIImageResizingModeTile == 拉伸 UIImageResizingModeStretch == 平铺
+ @return 修改后的image
+ */
++ (UIImage *)_resizableImageWithCapInsets:(UIEdgeInsets)edgInsets resizingMode:(UIImageResizingMode)resizingMode image:(UIImage *)image;
+
+/**
+ 生成二维码
+ */
++ (UIImage *)_codeWithContent:(NSString *)content codeSize:(CGSize)codeSize andMidLogoImage:(UIImage *)logoImage;
+
+/**
+ 用 image 生成一个模版 可以通过 tintColor改变颜色
+ */
++ (UIImage *)_imageModelAlwaysTemplateWithImage:(UIImage *)image;
+
+/**
+ 压图片质量
+ 
+ @param image image 默认大小 小于300K  压缩比率 0.9f
+ @return image
+ */
++ (UIImage *)_zipImageWithImage:(UIImage *)image;
+
+
++ (UIImage *)_zipImageWithImage:(UIImage *)image maxFileSize:(CGFloat)maxFileSize compression:(CGFloat)compression;
+
+
+/**
+ 设置图片变黑白色
+ 
+ @param anImage 目标图片
+ @param type 变色属性 1为灰色 2 3 为特定色阶 不同图片效果不一样
+ @return 变色后的图片
+ */
++ (UIImage*)_changeChromaWithTargetImage:(UIImage*)anImage type:(int)type;
+
+
 #pragma mark NSArrayMethod
 /**
  快速排序
- 第一个方法 从左向右 第一个数组排序 按数字排序
- 第二个方法 从左向右 model value值进行排序
+ 第一个方法 升序
+ 第二个方法 降序
+ 第三个方法 升序 model keyPath值进行排序
+ 第四个方法 降序 model keyPath值进行排序
  */
-+ (void)_quickSortArray:(NSMutableArray *)array;
++ (void)_ascendQuickSortArray:(NSMutableArray *)array;
 
-+ (void)_quickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
++ (void)_descendQuickSortArray:(NSMutableArray *)array;
 
++ (void)_ascendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
+
++ (void)_descendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
 #pragma mark NSDateMethod
 /**
  求出下一天 一月 一年 或者 上一天  上一月 上一年

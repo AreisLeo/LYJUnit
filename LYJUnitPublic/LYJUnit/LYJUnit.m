@@ -8,7 +8,8 @@
 
 #import "LYJUnit.h"
 #import "LYJUnitAttributedData.h"
-
+#import <CoreLocation/CoreLocation.h>
+#import "LYJScanHelper.h"
 @implementation LYJUnit
 
 #pragma mark -----SystemSetting------
@@ -33,25 +34,349 @@
 
 + (BOOL)_ISIOS10
 {
-    return [self _ISIOSWithIndex:10.0];
+    return [self _ISIOSWithVersion:10.0];
 }
 
-+ (BOOL)_ISIOSWithIndex:(CGFloat)index
++ (BOOL)_ISIOSWithVersion:(CGFloat)version
 {
     NSString* phoneVersion = [[UIDevice currentDevice] systemVersion];
-    if ([[[phoneVersion componentsSeparatedByString:@"."]firstObject]floatValue] >= index)
+    if ([[[phoneVersion componentsSeparatedByString:@"."]firstObject]floatValue] >= version)
     {
         return YES;
     }
     return NO;
 }
 
++ (BOOL)_hasOpenLocation
+{
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if (kCLAuthorizationStatusDenied == status || kCLAuthorizationStatusRestricted == status)
+    {
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark ScanMethod
+
++ (void)_showScanWithView:(UIView *)view complete:(void (^)(NSString *))complete
+{
+    [[LYJScanHelper manager]addScanWithView:view];
+    [LYJScanHelper manager].resultBlock = ^(NSString *result) {
+        if (complete)
+        {
+            complete(result);
+        }
+    };
+    [self _startScanView];
+}
+
++ (void)_hiddenScanView
+{
+    [self _hiddenScanViewWithRemove:NO];
+}
+
++ (void)_hiddenScanViewWithRemove:(BOOL)remove
+{
+    [[LYJScanHelper manager]stopScanWithRemove:remove];
+}
+
++ (void)_startScanView
+{
+    [[LYJScanHelper manager]startScan];
+}
+
+#pragma mark -----UIImageMethod------
+
++ (UIImage *)_createImageWithColor:(UIColor *)color size:(CGSize)size
+{
+    CGRect rect = CGRectMake(0,0, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
+
+
++ (UIImage *)_resizableImageWithCapInsets:(UIEdgeInsets)edgInsets resizingMode:(UIImageResizingMode)resizingMode image:(UIImage *)image
+{
+    return [image resizableImageWithCapInsets:edgInsets resizingMode:resizingMode];
+}
+
++ (UIImage *)_codeWithContent:(NSString *)content codeSize:(CGSize)codeSize andMidLogoImage:(UIImage *)logoImage
+{
+    
+    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    // 2.恢复默认
+    [filter setDefaults];
+    // 3.给过滤器添加数据
+    NSData *data = [content dataUsingEncoding:NSUTF8StringEncoding];
+    // 4.通过KVO设置滤镜inputMessage数据
+    [filter setValue:data forKeyPath:@"inputMessage"];
+    // 4.获取输出的二维码
+    CIImage *outputImage = [filter outputImage];
+    // 5.将CIImage转换成UIImage，并放大显示
+    //    self.qrcodeImageView.image = [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:self.qrcodeImageView.width];
+    
+    UIImage *qrocdeImage = [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:codeSize.width];
+    
+    UIGraphicsBeginImageContext(codeSize);
+    
+    //把二维码图片画上去. (这里是以,图形上下文,左上角为 (0,0)点)
+    [qrocdeImage drawInRect:CGRectMake(0, 0, codeSize.width, codeSize.width)];
+    
+    
+    //再把小图片画上去
+    if (logoImage)
+    {
+        UIImage *sImage = logoImage;
+        CGFloat sImageW =  codeSize.width * 0.2;
+        CGFloat sImageH = sImageW;
+        CGFloat sImageX = (codeSize.width - sImageW) * 0.5;
+        CGFloat sImgaeY = (codeSize.width - sImageH) * 0.5;
+        
+        [sImage drawInRect:CGRectMake(sImageX, sImgaeY, sImageW, sImageH)];
+    }
+    
+    
+    //获取当前画得的这张图片
+    UIImage *finalyImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    //关闭图形上下文
+    UIGraphicsEndImageContext();
+    
+    return finalyImage;
+}
+
++ (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size
+{
+    
+    CGRect extent = CGRectIntegral(image.extent);
+    
+    //设置比例
+    
+    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
+    
+    // 创建bitmap（位图）;
+    
+    size_t width = CGRectGetWidth(extent) * scale;
+    
+    size_t height = CGRectGetHeight(extent) * scale;
+    
+    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
+    
+    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+    
+    CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
+    
+    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
+    
+    CGContextScaleCTM(bitmapRef, scale, scale);
+    
+    CGContextDrawImage(bitmapRef, extent, bitmapImage);
+    
+    // 保存bitmap到图片
+    
+    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
+    
+    CGContextRelease(bitmapRef);
+    
+    
+    
+    CGImageRelease(bitmapImage);
+    CGColorSpaceRelease(cs);
+    return [UIImage imageWithCGImage:scaledImage];
+    
+}
+
++ (UIImage *)_imageModelAlwaysTemplateWithImage:(UIImage *)image
+{
+    UIImage *changeImage = nil;
+    changeImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    return changeImage;
+}
+
+
+/**
+ 压图片质量
+ 
+ @param image image
+ @return image
+ */
+
++ (UIImage *)_zipImageWithImage:(UIImage *)image
+{
+    return [self _zipImageWithImage:image maxFileSize:30*1000 compression:0.9f];
+}
+
+
++ (UIImage *)_zipImageWithImage:(UIImage *)image maxFileSize:(CGFloat)maxFileSize compression:(CGFloat)compression
+{
+    if (!image) {
+        return nil;
+    }
+    NSData *compressedData = UIImageJPEGRepresentation(image, 1);
+    while ([compressedData length] > maxFileSize) {
+        compression *= 0.9;
+        compressedData = UIImageJPEGRepresentation([self  compressImage:image newWidth:image.size.width*compression], compression);
+    }
+    return [UIImage imageWithData:compressedData];
+}
+
+
+
+/**
+ *  等比缩放本图片大小
+ *
+ *  @param newImageWidth 缩放后图片宽度，像素为单位
+ *
+ *  @return self-->(image)
+ */
++ (UIImage *)compressImage:(UIImage *)image newWidth:(CGFloat)newImageWidth
+{
+    if (!image) return nil;
+    float imageWidth = image.size.width;
+    float imageHeight = image.size.height;
+    float width = newImageWidth;
+    float height = image.size.height/(image.size.width/width);
+    
+    float widthScale = imageWidth /width;
+    float heightScale = imageHeight /height;
+    
+    // 创建一个bitmap的context
+    // 并把它设置成为当前正在使用的context
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    
+    if (widthScale > heightScale) {
+        [image drawInRect:CGRectMake(0, 0, imageWidth /heightScale , height)];
+    }
+    else {
+        [image drawInRect:CGRectMake(0, 0, width , imageHeight /widthScale)];
+    }
+    
+    // 从当前context中创建一个改变大小后的图片
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+    
+}
+
++ (UIImage *)_changeChromaWithTargetImage:(UIImage *)anImage type:(int)type
+{
+    CGImageRef imageRef = anImage.CGImage;
+    
+    size_t width  = CGImageGetWidth(imageRef);
+    size_t height = CGImageGetHeight(imageRef);
+    
+    size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
+    size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
+    
+    size_t bytesPerRow = CGImageGetBytesPerRow(imageRef);
+    
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageRef);
+    
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+    
+    
+    bool shouldInterpolate = CGImageGetShouldInterpolate(imageRef);
+    
+    CGColorRenderingIntent intent = CGImageGetRenderingIntent(imageRef);
+    
+    CGDataProviderRef dataProvider = CGImageGetDataProvider(imageRef);
+    
+    CFDataRef data = CGDataProviderCopyData(dataProvider);
+    
+    UInt8 *buffer = (UInt8*)CFDataGetBytePtr(data);
+    
+    NSUInteger  x, y;
+    for (y = 0; y < height; y++) {
+        for (x = 0; x < width; x++) {
+            UInt8 *tmp;
+            tmp = buffer + y * bytesPerRow + x * 4;
+            
+            UInt8 red,green,blue;
+            red = *(tmp + 0);
+            green = *(tmp + 1);
+            blue = *(tmp + 2);
+            
+            UInt8 brightness;
+            switch (type) {
+                case 1:
+                    brightness = (77 * red + 28 * green + 151 * blue) / 256;
+                    *(tmp + 0) = brightness;
+                    *(tmp + 1) = brightness;
+                    *(tmp + 2) = brightness;
+                    break;
+                case 2:
+                    *(tmp + 0) = red;
+                    *(tmp + 1) = green * 0.7;
+                    *(tmp + 2) = blue * 0.4;
+                    break;
+                case 3:
+                    *(tmp + 0) = 255 - red;
+                    *(tmp + 1) = 255 - green;
+                    *(tmp + 2) = 255 - blue;
+                    break;
+                default:
+                    *(tmp + 0) = red;
+                    *(tmp + 1) = green;
+                    *(tmp + 2) = blue;
+                    break;
+            }
+        }
+    }
+    
+    
+    CFDataRef effectedData = CFDataCreate(NULL, buffer, CFDataGetLength(data));
+    
+    CGDataProviderRef effectedDataProvider = CGDataProviderCreateWithCFData(effectedData);
+    
+    CGImageRef effectedCgImage = CGImageCreate(
+                                               width, height,
+                                               bitsPerComponent, bitsPerPixel, bytesPerRow,
+                                               colorSpace, bitmapInfo, effectedDataProvider,
+                                               NULL, shouldInterpolate, intent);
+    
+    UIImage *effectedImage = [[UIImage alloc] initWithCGImage:effectedCgImage];
+    
+    CGImageRelease(effectedCgImage);
+    
+    CFRelease(effectedDataProvider);
+    
+    CFRelease(effectedData);
+    
+    CFRelease(data);
+    
+    return effectedImage;
+    
+
+}
+
 #pragma mark -----NSArray------
 
-+ (void)_quickSortArray:(NSMutableArray *)array
++ (void)_ascendQuickSortArray:(NSMutableArray *)array
 {
     [self _quickSortArray:array leftIndex:0 andRightIndex:array.count - 1];
 }
+
++ (void)_descendQuickSortArray:(NSMutableArray *)array
+{
+    [self _ascendQuickSortArray:array];
+    NSMutableArray *tempArray = [NSMutableArray arrayWithArray:array];
+    [array removeAllObjects];
+    for (id item in tempArray)
+    {
+        [array insertObject:item atIndex:0];
+    }
+}
+
 //排序
 + (void)_quickSortArray:(NSMutableArray *)array leftIndex:(NSInteger)leftIndex andRightIndex:(NSInteger)rightIndex
 {
@@ -90,10 +415,22 @@
     [self _quickSortArray:array leftIndex:i + 1 andRightIndex:rightIndex];
 }
 
-+ (void)_quickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath
++ (void)_ascendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath
 {
     [self _quickSortArray:array keyPath:keyPath leftIndex:0 andRightIndex:array.count - 1];
 }
+
++ (void)_descendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath
+{
+    [self _ascendQuickSortArray:array andKeyPath:keyPath];
+    NSMutableArray *tempArray = [NSMutableArray arrayWithArray:array];
+    [array removeAllObjects];
+    for (id item in tempArray)
+    {
+        [array insertObject:item atIndex:0];
+    }
+}
+
 + (void)_quickSortArray:(NSMutableArray *)array keyPath:(NSString *)keyPath leftIndex:(NSInteger)leftIndex andRightIndex:(NSInteger)rightIndex
 {
     if (leftIndex >= rightIndex) {
