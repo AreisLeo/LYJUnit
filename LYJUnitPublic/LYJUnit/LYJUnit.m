@@ -67,7 +67,6 @@
 
 + (LYJAlertController *)_showActionSheetWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle destructiveTitle:(NSString *)destructiveTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void (^)(NSInteger))clickBlock
 {
-    
     LYJAlertController *alert = [LYJAlertController actionSheetWithTitle:title message:message cancelButtonTitle:cancelButtonTitle destructiveTitle:destructiveTitle otherButtonTitles:otherButtonTitles];
     alert.clickBlock = clickBlock;
     [viewController presentViewController:alert animated:YES completion:nil];
@@ -137,15 +136,12 @@
     // 4.获取输出的二维码
     CIImage *outputImage = [filter outputImage];
     // 5.将CIImage转换成UIImage，并放大显示
-    //    self.qrcodeImageView.image = [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:self.qrcodeImageView.width];
-    
     UIImage *qrocdeImage = [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:codeSize.width];
     
     UIGraphicsBeginImageContext(codeSize);
     
     //把二维码图片画上去. (这里是以,图形上下文,左上角为 (0,0)点)
     [qrocdeImage drawInRect:CGRectMake(0, 0, codeSize.width, codeSize.width)];
-    
     
     //再把小图片画上去
     if (logoImage)
@@ -158,7 +154,6 @@
         
         [sImage drawInRect:CGRectMake(sImageX, sImgaeY, sImageW, sImageH)];
     }
-    
     
     //获取当前画得的这张图片
     UIImage *finalyImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -374,7 +369,6 @@
     
     return effectedImage;
     
-
 }
 
 #pragma mark -----NSArray------
