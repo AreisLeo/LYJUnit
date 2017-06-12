@@ -47,6 +47,11 @@
 + (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void(^)(NSInteger index))clickBlock;
 
 /**
+ showAlertView 带textField textField数量自定义
+ */
++ (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles viewController:(UIViewController *)viewController textFieldCount:(NSInteger)textFieldCount textFieldsBlock:(void(^)(NSMutableArray *textFields))textFieldsBlock clickBlock:(void(^)(NSInteger index))clickBlock;
+
+/**
  showActionSheet
  */
 + (LYJAlertController *)_showActionSheetWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle destructiveTitle:(NSString *)destructiveTitle otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void(^)(NSInteger index))clickBlock;
@@ -132,6 +137,7 @@
 + (void)_ascendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
 
 + (void)_descendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
+
 #pragma mark NSDateMethod
 /**
  求出下一天 一月 一年 或者 上一天  上一月 上一年

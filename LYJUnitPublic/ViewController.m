@@ -226,9 +226,13 @@
             break;
         case 1:
         {
-            [LYJUnit _showAlertViewWithTitle:@"title" message:@"message" cancelButtonTitle:nil otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"]viewController:self clickBlock:^(NSInteger index) {
+            [LYJUnit _showAlertViewWithTitle:@"title" message:@"message" cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"]viewController:self textFieldCount:3 textFieldsBlock:^(NSMutableArray *textFields) {
+                NSLog(@"%@",textFields);
+            } clickBlock:^(NSInteger index) {
                 NSLog(@"%ld",index);
             }];
+
+
         }
             break;
         case 2:
@@ -247,9 +251,10 @@
             break;
         case 4:
         {
-            [LYJUnit _showActionSheetWithTitle:@"title" message:@"message" cancelButtonTitle:nil destructiveTitle:nil otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"] viewController:self clickBlock:^(NSInteger index) {
+             [LYJUnit _showActionSheetWithTitle:@"title" message:@"message" cancelButtonTitle:nil destructiveTitle:nil otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"] viewController:self clickBlock:^(NSInteger index) {
                 NSLog(@"%ld",index);
             }];
+
         }
             break;
         default:

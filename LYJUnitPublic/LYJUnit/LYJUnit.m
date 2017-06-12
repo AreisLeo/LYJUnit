@@ -59,11 +59,32 @@
 #pragma mark ActionController
 + (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void (^)(NSInteger))clickBlock
 {
+    return [self _showAlertViewWithTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitles: otherButtonTitles viewController:viewController textFieldCount:0 textFieldsBlock:nil clickBlock:clickBlock];
+}
++ (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController textFieldCount:(NSInteger)textFieldCount textFieldsBlock:(void (^)(NSMutableArray *))textFieldsBlock clickBlock:(void (^)(NSInteger))clickBlock
+{
     LYJAlertController *alert = [LYJAlertController alertViewWithTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles];
     alert.clickBlock = clickBlock;
+    if (textFieldCount > 0)
+    {
+        NSMutableArray *textFields = [NSMutableArray array];
+        for (NSInteger i = 0; i < textFieldCount; i++)
+        {
+            [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                [textFields addObject:textField];
+            }];
+        }
+        if (textFieldsBlock)
+        {
+            textFieldsBlock(textFields);
+        }
+    }
+    
     [viewController presentViewController:alert animated:YES completion:nil];
     return alert;
 }
+
+
 
 + (LYJAlertController *)_showActionSheetWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle destructiveTitle:(NSString *)destructiveTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void (^)(NSInteger))clickBlock
 {
