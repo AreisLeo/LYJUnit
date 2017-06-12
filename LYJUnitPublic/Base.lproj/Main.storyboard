@@ -48,10 +48,10 @@
             </objects>
             <point key="canvasLocation" x="2646" y="-707"/>
         </scene>
-        <!--View Controller-->
+        <!--扫描二维码-->
         <scene sceneID="wKB-Ap-nI7">
             <objects>
-                <viewController id="DnV-c5-FTT" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="DnV-c5-FTT" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1gC-DH-Sln"/>
                         <viewControllerLayoutGuide type="bottom" id="srS-R0-0pi"/>
@@ -61,10 +61,72 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="扫描二维码" id="5TQ-51-P9m"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wDF-Cm-AEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3433" y="-729"/>
+        </scene>
+        <!--显示提示框-->
+        <scene sceneID="FyX-qr-9BZ">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="qSt-0P-Ljs" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JL4-la-pjR"/>
+                        <viewControllerLayoutGuide type="bottom" id="cgW-fH-wNc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VeS-s7-V5Q">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ikf-Su-Uyc">
+                                <rect key="frame" x="152" y="156" width="71" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="alertView1"/>
+                                <connections>
+                                    <action selector="alertviewone:" destination="qSt-0P-Ljs" eventType="touchUpInside" id="Mi2-2w-GPH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQE-Ek-WZp">
+                                <rect key="frame" x="143" y="235" width="89" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="actionSheet1"/>
+                                <connections>
+                                    <action selector="actionsheetone:" destination="qSt-0P-Ljs" eventType="touchUpInside" id="ZmY-EX-37p"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dd0-CX-UQD">
+                                <rect key="frame" x="151" y="204" width="73" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="alertView2"/>
+                                <connections>
+                                    <action selector="alertviewtwo:" destination="qSt-0P-Ljs" eventType="touchUpInside" id="Tp1-bB-l8t"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IFy-HL-vQB">
+                                <rect key="frame" x="142" y="297" width="91" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="actionSheet2"/>
+                                <connections>
+                                    <action selector="actionsheettwo:" destination="qSt-0P-Ljs" eventType="touchUpInside" id="MzZ-AR-sOy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFx-dH-LB3">
+                                <rect key="frame" x="141" y="341" width="92" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="actionSheet3"/>
+                                <connections>
+                                    <action selector="actionsheetThree:" destination="qSt-0P-Ljs" eventType="touchUpInside" id="t4h-ei-nrV"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="显示提示框" id="Li6-nC-Cws"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="neb-yk-bjI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4188" y="-499"/>
         </scene>
         <!--本地通知-->
         <scene sceneID="IeE-i7-5wZ">
@@ -306,6 +368,46 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="9QP-Zk-uhn" kind="push" id="R31-cQ-dtg"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cells" textLabel="D4Y-oz-SHt" style="IBUITableViewCellStyleDefault" id="g98-eD-uJ7">
+                                        <rect key="frame" x="0.0" y="220" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g98-eD-uJ7" id="4W6-zW-lJj">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="扫描二维码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D4Y-oz-SHt">
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="DnV-c5-FTT" kind="push" id="tvk-90-GA8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cells" textLabel="ybV-5h-TAR" style="IBUITableViewCellStyleDefault" id="Hgu-02-mLz">
+                                        <rect key="frame" x="0.0" y="264" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hgu-02-mLz" id="fiv-HW-NdB">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="显示提示框" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ybV-5h-TAR">
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qSt-0P-Ljs" kind="push" id="8xn-Es-kUm"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

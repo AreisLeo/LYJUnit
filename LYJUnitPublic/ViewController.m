@@ -85,6 +85,10 @@
     {
         [self scanCode];
     }
+    else if ([self.navigationItem.title isEqualToString:@"显示提示框"])
+    {
+        
+    }
 }
 
 - (void)attributedText
@@ -180,4 +184,85 @@
         
     }];
 }
+
+- (IBAction)alertviewone:(id)sender
+{
+    [self showAlertType:0];
+}
+
+- (IBAction)alertviewtwo:(id)sender
+{
+    [self showAlertType:1];
+}
+
+
+- (IBAction)actionsheetone:(id)sender
+{
+    [self showAlertType:2];
+}
+
+
+- (IBAction)actionsheettwo:(id)sender
+{
+    [self showAlertType:3];
+}
+
+
+- (IBAction)actionsheetThree:(id)sender
+{
+    [self showAlertType:4];
+}
+
+- (void)showAlertType:(NSInteger)type
+{
+    switch (type)
+    {
+        case 0:
+        {
+            [LYJUnit _showAlertViewWithTitle:@"title" message:@"message" cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"]viewController:self clickBlock:^(NSInteger index) {
+                NSLog(@"%ld",index);
+            }];
+        }
+            break;
+        case 1:
+        {
+            [LYJUnit _showAlertViewWithTitle:@"title" message:@"message" cancelButtonTitle:nil otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"]viewController:self clickBlock:^(NSInteger index) {
+                NSLog(@"%ld",index);
+            }];
+        }
+            break;
+        case 2:
+        {
+            [LYJUnit _showActionSheetWithTitle:@"title" message:@"message" cancelButtonTitle:@"取消" destructiveTitle:@"destructiveTitle" otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"] viewController:self clickBlock:^(NSInteger index) {
+                NSLog(@"%ld",index);
+            }];
+        }
+            break;
+        case 3:
+        {
+            [LYJUnit _showActionSheetWithTitle:@"title" message:@"message" cancelButtonTitle:nil destructiveTitle:@"destructiveTitle" otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"] viewController:self clickBlock:^(NSInteger index) {
+                NSLog(@"%ld",index);
+            }];
+        }
+            break;
+        case 4:
+        {
+            [LYJUnit _showActionSheetWithTitle:@"title" message:@"message" cancelButtonTitle:nil destructiveTitle:nil otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"] viewController:self clickBlock:^(NSInteger index) {
+                NSLog(@"%ld",index);
+            }];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+- (void)dealloc
+{
+    [LYJUnit _hiddenScanViewWithRemove:YES];
+    NSLog(@"%s",__func__);
+}
+
 @end

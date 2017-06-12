@@ -10,13 +10,14 @@
 #import <UIKit/UIKit.h>
 #import <UserNotifications/UserNotifications.h>
 #import "LYJUnitMacro.h"
+#import "LYJAlertController.h"
 @class LYJUnitAttributedData;
 
 @interface LYJUnit : NSObject
 
 #pragma mark SystemSettingMethod
 /**
- 是否大于ios <Index> 系统版本
+ 是否大于ios <version> 系统版本
  */
 + (BOOL)_ISIOSWithVersion:(CGFloat)version;
 
@@ -38,9 +39,23 @@
  */
 + (BOOL)_hasOpenLocation;
 
+#pragma mark ActionController
+
+/**
+ showAlertView
+ */
++ (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void(^)(NSInteger index))clickBlock;
+
+/**
+ showActionSheet
+ */
++ (LYJAlertController *)_showActionSheetWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle destructiveTitle:(NSString *)destructiveTitle otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void(^)(NSInteger index))clickBlock;
 
 #pragma mark ScanMethod
-/** 快速集成系统扫描 */
+
+/** 
+ 快速集成系统扫描
+ */
 + (void)_showScanWithView:(UIView *)view complete:(void(^)(NSString *result))complete;
 
 + (void)_hiddenScanViewWithRemove:(BOOL)remove;

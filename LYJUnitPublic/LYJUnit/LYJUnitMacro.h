@@ -11,7 +11,7 @@
 
 
 #define KeyWindow [UIApplication sharedApplication].keyWindow
-
+#define kWeakSelf __weak typeof(self) weakSelf = self;
 
 
 
@@ -47,5 +47,5 @@ typedef enum : NSUInteger {
 } LYJUnitNotificationTriggerType;
 
 
-#define kWeakSelf __weak typeof(self) weakSelf = self;
+
 #endif /* LYJUnitMacro_h */

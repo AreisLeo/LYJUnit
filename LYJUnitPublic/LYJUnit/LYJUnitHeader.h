@@ -9,5 +9,7 @@
 #ifndef LYJUnitHeader_h
 #define LYJUnitHeader_h
 #import "LYJUnit.h"
-#import "LYJActionSheet.h"
+#import "LYJUnitAttributedData.h"
+#import "LYJScanHelper.h"
+#import "LYJAlertController.h"
 #endif /* LYJUnitHeader_h */

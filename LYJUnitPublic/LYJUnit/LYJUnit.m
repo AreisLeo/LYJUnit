@@ -56,6 +56,24 @@
     }
     return YES;
 }
+#pragma mark ActionController
++ (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void (^)(NSInteger))clickBlock
+{
+    LYJAlertController *alert = [LYJAlertController alertViewWithTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles];
+    alert.clickBlock = clickBlock;
+    [viewController presentViewController:alert animated:YES completion:nil];
+    return alert;
+}
+
++ (LYJAlertController *)_showActionSheetWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle destructiveTitle:(NSString *)destructiveTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void (^)(NSInteger))clickBlock
+{
+    
+    LYJAlertController *alert = [LYJAlertController actionSheetWithTitle:title message:message cancelButtonTitle:cancelButtonTitle destructiveTitle:destructiveTitle otherButtonTitles:otherButtonTitles];
+    alert.clickBlock = clickBlock;
+    [viewController presentViewController:alert animated:YES completion:nil];
+    return alert;
+}
+
 
 #pragma mark ScanMethod
 
