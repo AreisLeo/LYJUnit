@@ -227,11 +227,12 @@
         case 1:
         {
             [LYJUnit _showAlertViewWithTitle:@"title" message:@"message" cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定",@"我才不相信",@"哈哈"]viewController:self textFieldCount:3 textFieldsBlock:^(NSMutableArray *textFields) {
-                NSLog(@"%@",textFields);
+                NSLog(@"\ntextFields === %@",textFields);
+            } textChangeBlock:^(UITextField *textField, NSString *newText) {
+                NSLog(@"\ntextField === %@ ,newText === %@",textField,newText);
             } clickBlock:^(NSInteger index) {
-                NSLog(@"%ld",index);
+                NSLog(@"\nindex === %ld",index);
             }];
-
 
         }
             break;

@@ -66,6 +66,14 @@
     return alert;
 }
 
+- (void)textFieldTextChangeValue:(UITextField *)textField
+{
+    if (self.textChangeBlock)
+    {
+        self.textChangeBlock(textField, textField.text);
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

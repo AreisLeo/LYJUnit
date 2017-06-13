@@ -56,12 +56,14 @@
     }
     return YES;
 }
+
 #pragma mark ActionController
 + (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void (^)(NSInteger))clickBlock
 {
-    return [self _showAlertViewWithTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitles: otherButtonTitles viewController:viewController textFieldCount:0 textFieldsBlock:nil clickBlock:clickBlock];
+    return [self _showAlertViewWithTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitles: otherButtonTitles viewController:viewController textFieldCount:0 textFieldsBlock:nil textChangeBlock:nil clickBlock:clickBlock];
 }
-+ (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController textFieldCount:(NSInteger)textFieldCount textFieldsBlock:(void (^)(NSMutableArray *))textFieldsBlock clickBlock:(void (^)(NSInteger))clickBlock
+
++ (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController textFieldCount:(NSInteger)textFieldCount textFieldsBlock:(void (^)(NSMutableArray <UITextField *>*))textFieldsBlock textChangeBlock:(void(^)(UITextField *,NSString *))textChangeBlock clickBlock:(void (^)(NSInteger))clickBlock
 {
     LYJAlertController *alert = [LYJAlertController alertViewWithTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles];
     alert.clickBlock = clickBlock;
@@ -70,7 +72,9 @@
         NSMutableArray *textFields = [NSMutableArray array];
         for (NSInteger i = 0; i < textFieldCount; i++)
         {
+            __block LYJAlertController *blockAlert = alert;
             [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                [textField addTarget:blockAlert action:@selector(textFieldTextChangeValue:) forControlEvents:UIControlEventEditingChanged];
                 [textFields addObject:textField];
             }];
         }
@@ -80,11 +84,16 @@
         }
     }
     
+    alert.textChangeBlock = ^(UITextField *textField, NSString *newText) {
+        if (textChangeBlock)
+        {
+            textChangeBlock(textField,newText);
+        }
+    };
+    
     [viewController presentViewController:alert animated:YES completion:nil];
     return alert;
 }
-
-
 
 + (LYJAlertController *)_showActionSheetWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle destructiveTitle:(NSString *)destructiveTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles viewController:(UIViewController *)viewController clickBlock:(void (^)(NSInteger))clickBlock
 {
@@ -93,7 +102,6 @@
     [viewController presentViewController:alert animated:YES completion:nil];
     return alert;
 }
-
 
 #pragma mark ScanMethod
 

@@ -49,7 +49,7 @@
 /**
  showAlertView 带textField textField数量自定义
  */
-+ (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles viewController:(UIViewController *)viewController textFieldCount:(NSInteger)textFieldCount textFieldsBlock:(void(^)(NSMutableArray *textFields))textFieldsBlock clickBlock:(void(^)(NSInteger index))clickBlock;
++ (LYJAlertController *)_showAlertViewWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles viewController:(UIViewController *)viewController textFieldCount:(NSInteger)textFieldCount textFieldsBlock:(void(^)(NSMutableArray <UITextField *>*textFields))textFieldsBlock textChangeBlock:(void(^)(UITextField *textField,NSString *newText))textChangeBlock clickBlock:(void(^)(NSInteger index))clickBlock;
 
 /**
  showActionSheet

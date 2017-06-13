@@ -19,4 +19,8 @@
 
 /** 点击block */
 @property (copy ,nonatomic) void(^clickBlock)(NSInteger index);
+
+@property (copy ,nonatomic) void(^textChangeBlock)(UITextField *textField,NSString *newText);
+
+- (void)textFieldTextChangeValue:(UITextField *)textField;
 @end
