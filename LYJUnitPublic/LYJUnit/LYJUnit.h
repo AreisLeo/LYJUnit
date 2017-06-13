@@ -10,8 +10,8 @@
 #import <UIKit/UIKit.h>
 #import <UserNotifications/UserNotifications.h>
 #import "LYJUnitMacro.h"
-#import "LYJAlertController.h"
-@class LYJUnitAttributedData;
+
+@class LYJUnitAttributedData,LYJKVOHandler,LYJAlertController;
 
 @interface LYJUnit : NSObject
 
@@ -38,6 +38,46 @@
  *  @return YES / NO
  */
 + (BOOL)_hasOpenLocation;
+
+/**
+ 系统文件夹方法
+ */
++ (NSString *)_documentPath;
+
++ (NSString *)_tempPath;
+
+
+#pragma mark KVOMethod
++ (LYJKVOHandler *)_addObserver:(id)target forKeyPath:(NSString *)keyPath valueChangeBlock:(valueChangeBlock)valueChangeBlock;
+
+#pragma mark RuntimeMethod
+/** 
+ 获取属性列表
+ */
++ (void)_classCopyPropertyListWithTarget:(id)target confirmBlock:(void(^)(id value, NSString *propertyName))confirmBlock;;
+/**
+ 获取属性列表 和 value值 kvc方法
+ */
++ (void)_classCopyPropertyListWithClass:(Class)Class confirmBlock:(void(^)(NSString *propertyName))confirmBlock;
+
+/**
+ 获取整个成员变量列表
+ */
++ (void)_classCopyIvarListWithClass:(Class)Class confirmBlock:(void(^)(NSString *key))confirmBlock;
+
+/**
+ 获取整个成员变量列表 和 value值 kvc方法
+ */
++ (void)_classCopyIvarListWithTarget:(id)target confirmBlock:(void(^)(id value, NSString *key))confirmBlock;
+/**
+ 获取所有方法的数组
+ */
++ (void)_classCopyMethodListWithClass:(Class)Class confirmBlock:(void(^)(NSString *methodName))confirmBlock;
+
+/**
+ 获取所有方法的数组 和 value值 kvc方法
+ */
++ (void)_classCopyMethodListWithTarget:(id)target confirmBlock:(void(^)(SEL method, NSString *methodName))confirmBlock;
 
 #pragma mark ActionController
 

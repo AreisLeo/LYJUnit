@@ -47,5 +47,7 @@ typedef enum : NSUInteger {
 } LYJUnitNotificationTriggerType;
 
 
+#pragma mark ------Block-------
+typedef void(^valueChangeBlock)(id newValue ,id oldValue ,id object ,NSString *keyPath);
 
 #endif /* LYJUnitMacro_h */

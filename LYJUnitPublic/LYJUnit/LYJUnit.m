@@ -10,7 +10,16 @@
 #import "LYJUnitAttributedData.h"
 #import <CoreLocation/CoreLocation.h>
 #import "LYJScanHelper.h"
+#import <objc/runtime.h>
+#import "LYJAlertController.h"
+#import "LYJKVOHandler.h"
 @implementation LYJUnit
+
+static NSMutableArray *__KVOHandlers;
++ (void)load
+{
+    __KVOHandlers = [NSMutableArray array];
+}
 
 #pragma mark -----SystemSetting------
 + (void)_registerLocalNotification
@@ -55,6 +64,119 @@
         return NO;
     }
     return YES;
+}
+
++ (NSString *)_documentPath
+{
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+}
+
++ (NSString *)_tempPath
+{
+    return NSTemporaryDirectory();
+}
+
+
+#pragma mark KVOMethod
++ (LYJKVOHandler *)_addObserver:(id)target forKeyPath:(NSString *)keyPath valueChangeBlock:(valueChangeBlock)valueChangeBlock
+{
+    LYJKVOHandler *KVOHandler = [LYJKVOHandler _addObserver:target forKeyPath:keyPath valueChangeBlock:valueChangeBlock];
+    [__KVOHandlers addObject:KVOHandler];
+    NSLog(@"%@",__KVOHandlers);
+    return KVOHandler;
+}
+
+#pragma mark RuntimeMethod
+
++ (void)_classCopyPropertyListWithTarget:(id)target confirmBlock:(void (^)(id, NSString *))confirmBlock
+{
+    Class Class = [target class];
+    [self _classCopyPropertyListWithClass:Class confirmBlock:^(NSString *propertyName) {
+        id value  = [target valueForKey:propertyName];
+        if (confirmBlock)
+        {
+            confirmBlock(value,propertyName);
+        }
+    }];
+}
+
++ (void)_classCopyPropertyListWithClass:(Class)Class confirmBlock:(void (^)(NSString *))confirmBlock
+
+{
+    unsigned int outCount = 0;
+    objc_property_t *propertys = class_copyPropertyList(Class, &outCount);
+    for (int i = 0; i < outCount; i++) {
+        objc_property_t property = propertys[i];
+        NSString *propertyName = [NSString stringWithUTF8String:property_getName(property)];
+        if (confirmBlock)
+        {
+            confirmBlock(propertyName);
+        }
+    }
+    free(propertys);
+}
+
+
++ (void)_classCopyIvarListWithTarget:(id)target confirmBlock:(void (^)(id, NSString *))confirmBlock
+{
+    Class Class = [target class];
+    [self _classCopyIvarListWithClass:Class confirmBlock:^(NSString *key) {
+        id value  = [target valueForKey:key];
+        if (confirmBlock)
+        {
+            confirmBlock(value,key);
+        }
+    }];
+}
+
++ (void)_classCopyIvarListWithClass:(Class)Class confirmBlock:(void (^)(NSString *))confirmBlock
+{
+    unsigned int outCount = 0;
+    Ivar *ivars = class_copyIvarList(Class, &outCount);
+    for (int i = 0; i < outCount; i++) {
+        Ivar ivar = ivars[i];
+        NSString *key = [NSString stringWithUTF8String:ivar_getName(ivar)];
+        if (confirmBlock)
+        {
+            confirmBlock(key);
+        }
+    }
+    free(ivars);
+}
+
++ (void)_classCopyMethodListWithClass:(Class)Class confirmBlock:(void (^)(NSString *))confirmBlock
+{
+    unsigned int outCount = 0;
+    Method *methods = class_copyMethodList(Class, &outCount);
+    for (int i = 0; i < outCount; i++) {
+        Method method = methods[i];
+       ;
+        
+        NSString *methodName = NSStringFromSelector(method_getName(method));
+        if (confirmBlock)
+        {
+            confirmBlock(methodName);
+        }
+    }
+    free(methods);
+}
+
++ (void)_classCopyMethodListWithTarget:(id)target confirmBlock:(void (^)(SEL, NSString *))confirmBlock
+{
+    Class Class = [target class];
+    unsigned int outCount = 0;
+    Method *methods = class_copyMethodList(Class, &outCount);
+    for (int i = 0; i < outCount; i++) {
+        Method method = methods[i];
+        
+        SEL selector = method_getName(method);
+        NSString *methodName = NSStringFromSelector(selector);
+        if (confirmBlock)
+        {
+            confirmBlock(selector,methodName);
+        }
+    }
+    free(methods);
 }
 
 #pragma mark ActionController

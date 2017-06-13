@@ -10,6 +10,7 @@
 #import "LYJUnitAttributedData.h"
 #import "LYJUnit.h"
 #import "LYJTestModel.h"
+#import "LYJKVOHandler.h"
 @interface ViewController ()
 {
     NSString *fullString;
@@ -87,6 +88,41 @@
     }
     else if ([self.navigationItem.title isEqualToString:@"显示提示框"])
     {
+
+    }
+    else if ([self.navigationItem.title isEqualToString:@"runtime"])
+    {
+        [LYJUnit _classCopyPropertyListWithTarget:self confirmBlock:^(id value, NSString *propertyName) {
+            //            NSLog(@"%@ %@",value ,propertyName);
+        }];
+        
+        [LYJUnit _classCopyIvarListWithTarget:self confirmBlock:^(id value, NSString *key) {
+            //            NSLog(@"%@ %@",value ,key);
+        }];
+        [LYJUnit _classCopyMethodListWithClass:[self class] confirmBlock:^(NSString *methodName) {
+            NSLog(@"%@",methodName);
+        }];
+        
+        [LYJUnit _classCopyMethodListWithTarget:[self class] confirmBlock:^(SEL method, NSString *methodName) {
+            
+            NSLog(@"%@",methodName);
+        }];
+    }
+    else if ([self.navigationItem.title isEqualToString:@"KVO"])
+    {
+        UILabel *label = [UILabel new];
+        [[LYJUnit _addObserver:label forKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
+            NSLog(@"%@%@%@%@",newValue,oldValue,object,keyPath);
+         }]removeObserverWithSEL:NSSelectorFromString(@"dealloc") removeBlock:^{
+            
+        }];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            label.text = @"123456";
+            label.text = @"123456";
+            label.text = @"123456";
+            label.text = @"123456";
+        });
+
         
     }
 }
