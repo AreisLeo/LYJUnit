@@ -81,10 +81,11 @@ static NSMutableArray *__KVOHandlers;
 + (LYJKVOHandler *)_addObserver:(id)target forKeyPath:(NSString *)keyPath valueChangeBlock:(valueChangeBlock)valueChangeBlock
 {
     LYJKVOHandler *KVOHandler = [LYJKVOHandler _addObserver:target forKeyPath:keyPath valueChangeBlock:valueChangeBlock];
-    [__KVOHandlers addObject:KVOHandler];
+//    [__KVOHandlers addObject:KVOHandler];
     NSLog(@"%@",__KVOHandlers);
     return KVOHandler;
 }
+
 
 #pragma mark RuntimeMethod
 

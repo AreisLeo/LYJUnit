@@ -11,6 +11,7 @@
 #import "LYJUnit.h"
 #import "LYJTestModel.h"
 #import "LYJKVOHandler.h"
+#import "NSObject+LYJKVOCategory.h"
 @interface ViewController ()
 {
     NSString *fullString;
@@ -112,16 +113,11 @@
     {
         UILabel *label = [UILabel new];
         [[LYJUnit _addObserver:label forKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
-            NSLog(@"%@%@%@%@",newValue,oldValue,object,keyPath);
-         }]removeObserverWithSEL:NSSelectorFromString(@"dealloc") removeBlock:^{
             
+         }]removeObserverWithSEL:@selector(viewDidDisappear:) removeBlock:^{
+             NSLog(@"删除");
         }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            label.text = @"123456";
-            label.text = @"123456";
-            label.text = @"123456";
-            label.text = @"123456";
-        });
+
 
         
     }

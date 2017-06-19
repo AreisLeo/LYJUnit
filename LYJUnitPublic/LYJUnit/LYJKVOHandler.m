@@ -7,7 +7,8 @@
 //
 
 #import "LYJKVOHandler.h"
-#import <objc/runtime.h>
+#import "NSObject+LYJKVOCategory.h"
+#import <objc/message.h>
 @implementation LYJKVOHandler
 
 + (instancetype)_addObserver:(id)target forKeyPath:(NSString *)keyPath valueChangeBlock:(valueChangeBlock)valueChangeBlock
@@ -34,9 +35,28 @@
         self.valueChangeBlock(newValue, oldValue, object, keyPath);
     }
 }
-- (void)removeObserverWithSEL:(SEL)selector removeBlock:(void (^)(void))removeBlock
+- (void)removeObserverWithSEL:(SEL)selector removeBlock:(removeBlock)removeBlock
 {
-    objc_setAssociatedObject(self.target, selector, removeBlock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.removeBlock = removeBlock;
+    
+    NSString *selectorName = NSStringFromSelector(selector);
+    SEL aliasSelector = NSSelectorFromString([NSString stringWithFormat:@"LYJKVO_%@",selectorName]);
+    Class class = [self.target class];
+    
+    objc_setAssociatedObject(self.target, aliasSelector, self, OBJC_ASSOCIATION_RETAIN);
+    Method targetMethod = class_getInstanceMethod(class, selector);
+    const char *typeEncoding = method_getTypeEncoding(targetMethod);
+    
+    class_addMethod(class, aliasSelector, method_getImplementation(targetMethod), typeEncoding);
+    
+    class_replaceMethod(class, selector, _objc_msgForward, typeEncoding);
+    
+    
+    //    [self.target setAssociatedObject:selector item:removeBlock];
 }
 
+- (void)dealloc
+{
+    NSLog(@"%s",__func__);
+}
 @end

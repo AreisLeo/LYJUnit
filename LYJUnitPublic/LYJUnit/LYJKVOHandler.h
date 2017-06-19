@@ -16,7 +16,10 @@
 /** valueChangeBlock */
 @property (copy ,nonatomic) valueChangeBlock valueChangeBlock ;
 
+/** removeBlock */
+@property (copy ,nonatomic) removeBlock removeBlock ;
+
 + (instancetype)_addObserver:(id)target forKeyPath:(NSString *)keyPath valueChangeBlock:(valueChangeBlock)valueChangeBlock;
 
-- (void)removeObserverWithSEL:(SEL)selector removeBlock:(void(^)(void))removeBlock;
+- (void)removeObserverWithSEL:(SEL)selector removeBlock:(removeBlock)removeBlock;
 @end
