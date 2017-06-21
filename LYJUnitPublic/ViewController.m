@@ -7,11 +7,9 @@
 //
 
 #import "ViewController.h"
-#import "LYJUnitAttributedData.h"
-#import "LYJUnit.h"
 #import "LYJTestModel.h"
-#import "LYJKVOHandler.h"
-#import "NSObject+LYJKVOCategory.h"
+#import "LYJUnitHeader.h"
+#import "LYJRadarView.h"
 @interface ViewController ()
 {
     NSString *fullString;
@@ -112,16 +110,38 @@
     else if ([self.navigationItem.title isEqualToString:@"KVO"])
     {
         UILabel *label = [UILabel new];
-        [[LYJUnit _addObserver:label forKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
-            
-         }]removeObserverWithSEL:@selector(viewDidDisappear:) removeBlock:^{
-             NSLog(@"删除");
+        label.tag = 999;
+//        [[LYJUnit _addObserver:label forKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
+//            
+//         }]removeObserverWithSEL:@selector(viewDidDisappear:) removeBlock:^{
+//             NSLog(@"删除");
+//        }];
+
+        [self LYJ_addObserver:label forKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
+            NSLog(@"%@",keyPath);
         }];
-
-
+        
+        label.text = @"1";
+        [self.view addSubview:label];
+        
+        LYJRadarView *radarView = [[LYJRadarView alloc]initWithFrame:self.view.bounds];
+        radarView.backgroundColor = [UIColor clearColor];
+        radarView.indicatorStartColor = [[UIColor blueColor] colorWithAlphaComponent:0.3];
+        radarView.frame = ({
+            CGRect frame  = radarView.frame;
+            frame.origin = CGPointMake(0, 64);
+            frame.size = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) / 2.0f);
+            frame;
+        });
+        radarView.radius = 150.0f;
+        radarView.pointSize = CGSizeMake(50, 55);
+        [self.view addSubview:radarView];
+        [radarView scan];
         
     }
 }
+
+
 
 - (void)attributedText
 {
@@ -300,6 +320,8 @@
 - (void)dealloc
 {
     [LYJUnit _hiddenScanViewWithRemove:YES];
+    UIView *view = [self.view viewWithTag:999];
+    [self LYJ_removeObserver:view forKeyPath:@"text"];
     NSLog(@"%s",__func__);
 }
 

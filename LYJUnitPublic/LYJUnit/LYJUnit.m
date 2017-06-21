@@ -12,7 +12,6 @@
 #import "LYJScanHelper.h"
 #import <objc/runtime.h>
 #import "LYJAlertController.h"
-#import "LYJKVOHandler.h"
 @implementation LYJUnit
 
 static NSMutableArray *__KVOHandlers;
@@ -75,17 +74,6 @@ static NSMutableArray *__KVOHandlers;
 {
     return NSTemporaryDirectory();
 }
-
-
-#pragma mark KVOMethod
-+ (LYJKVOHandler *)_addObserver:(id)target forKeyPath:(NSString *)keyPath valueChangeBlock:(valueChangeBlock)valueChangeBlock
-{
-    LYJKVOHandler *KVOHandler = [LYJKVOHandler _addObserver:target forKeyPath:keyPath valueChangeBlock:valueChangeBlock];
-//    [__KVOHandlers addObject:KVOHandler];
-    NSLog(@"%@",__KVOHandlers);
-    return KVOHandler;
-}
-
 
 #pragma mark RuntimeMethod
 

@@ -12,5 +12,6 @@
 #import "LYJUnitAttributedData.h"
 #import "LYJScanHelper.h"
 #import "LYJAlertController.h"
-#import "LYJKVOHandler.h"
+#import "NSObject+LYJKVOCategory.h"
+
 #endif /* LYJUnitHeader_h */

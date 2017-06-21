@@ -17,11 +17,12 @@
 		03F75CC11ED470E900C21160 /* LYJUnitPublicUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CC01ED470E900C21160 /* LYJUnitPublicUITests.m */; };
 		03F75CD51ED473AC00C21160 /* LYJUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CD41ED473AC00C21160 /* LYJUnit.m */; };
 		03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */; };
+		1E011DDF1EFA1463009A5291 /* LYJRadarIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E011DDE1EFA1463009A5291 /* LYJRadarIndicatorView.m */; };
 		1E06CC5C1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E06CC5B1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m */; };
 		1E4469941EEE665A00751B80 /* UIAlertController+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4469931EEE665A00751B80 /* UIAlertController+Category.m */; };
 		1E44BA0A1EE8F21A00FD6BDF /* LYJTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E44BA091EE8F21A00FD6BDF /* LYJTestModel.m */; };
 		1E5C24901EE7FE3A00CB809B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */; };
-		1E725CA11EEFD6C4009852E4 /* LYJKVOHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E725CA01EEFD6C4009852E4 /* LYJKVOHandler.m */; };
+		1EE0B5EF1EF91E2800E5167A /* LYJRadarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0B5EE1EF91E2800E5167A /* LYJRadarView.m */; };
 		1EF4631F1EEAA70400721AAC /* LYJScanHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EF4631E1EEAA70400721AAC /* LYJScanHelper.m */; };
 		1EFB2B461EEE4898009A2F99 /* LYJAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB2B451EEE4898009A2F99 /* LYJAlertController.m */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,8 @@
 		03F75CD41ED473AC00C21160 /* LYJUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJUnit.m; sourceTree = "<group>"; };
 		03F75CD91ED4833300C21160 /* LYJUnitAttributedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJUnitAttributedData.h; sourceTree = "<group>"; };
 		03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJUnitAttributedData.m; sourceTree = "<group>"; };
+		1E011DDD1EFA1463009A5291 /* LYJRadarIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJRadarIndicatorView.h; sourceTree = "<group>"; };
+		1E011DDE1EFA1463009A5291 /* LYJRadarIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJRadarIndicatorView.m; sourceTree = "<group>"; };
 		1E06CC5A1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+LYJKVOCategory.h"; sourceTree = "<group>"; };
 		1E06CC5B1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+LYJKVOCategory.m"; sourceTree = "<group>"; };
 		1E4469921EEE665A00751B80 /* UIAlertController+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+Category.h"; sourceTree = "<group>"; };
@@ -73,8 +76,8 @@
 		1E44BA081EE8F21A00FD6BDF /* LYJTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJTestModel.h; sourceTree = "<group>"; };
 		1E44BA091EE8F21A00FD6BDF /* LYJTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJTestModel.m; sourceTree = "<group>"; };
 		1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		1E725C9F1EEFD6C4009852E4 /* LYJKVOHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJKVOHandler.h; sourceTree = "<group>"; };
-		1E725CA01EEFD6C4009852E4 /* LYJKVOHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJKVOHandler.m; sourceTree = "<group>"; };
+		1EE0B5ED1EF91E2800E5167A /* LYJRadarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJRadarView.h; sourceTree = "<group>"; };
+		1EE0B5EE1EF91E2800E5167A /* LYJRadarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJRadarView.m; sourceTree = "<group>"; };
 		1EF4631D1EEAA70400721AAC /* LYJScanHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJScanHelper.h; sourceTree = "<group>"; };
 		1EF4631E1EEAA70400721AAC /* LYJScanHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJScanHelper.m; sourceTree = "<group>"; };
 		1EFB2B441EEE4898009A2F99 /* LYJAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJAlertController.h; sourceTree = "<group>"; };
@@ -187,10 +190,12 @@
 				1EFB2B451EEE4898009A2F99 /* LYJAlertController.m */,
 				1E4469921EEE665A00751B80 /* UIAlertController+Category.h */,
 				1E4469931EEE665A00751B80 /* UIAlertController+Category.m */,
-				1E725C9F1EEFD6C4009852E4 /* LYJKVOHandler.h */,
-				1E725CA01EEFD6C4009852E4 /* LYJKVOHandler.m */,
 				1E06CC5A1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.h */,
 				1E06CC5B1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m */,
+				1EE0B5ED1EF91E2800E5167A /* LYJRadarView.h */,
+				1EE0B5EE1EF91E2800E5167A /* LYJRadarView.m */,
+				1E011DDD1EFA1463009A5291 /* LYJRadarIndicatorView.h */,
+				1E011DDE1EFA1463009A5291 /* LYJRadarIndicatorView.m */,
 			);
 			path = LYJUnit;
 			sourceTree = "<group>";
@@ -351,10 +356,11 @@
 				03F75CA31ED470E900C21160 /* ViewController.m in Sources */,
 				03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */,
 				1EFB2B461EEE4898009A2F99 /* LYJAlertController.m in Sources */,
-				1E725CA11EEFD6C4009852E4 /* LYJKVOHandler.m in Sources */,
+				1EE0B5EF1EF91E2800E5167A /* LYJRadarView.m in Sources */,
 				1E06CC5C1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m in Sources */,
 				03F75CA01ED470E900C21160 /* AppDelegate.m in Sources */,
 				03F75C9D1ED470E900C21160 /* main.m in Sources */,
+				1E011DDF1EFA1463009A5291 /* LYJRadarIndicatorView.m in Sources */,
 				1E4469941EEE665A00751B80 /* UIAlertController+Category.m in Sources */,
 				1E44BA0A1EE8F21A00FD6BDF /* LYJTestModel.m in Sources */,
 				1EF4631F1EEAA70400721AAC /* LYJScanHelper.m in Sources */,

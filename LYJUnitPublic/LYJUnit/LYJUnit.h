@@ -46,10 +46,6 @@
 
 + (NSString *)_tempPath;
 
-
-#pragma mark KVOMethod
-+ (LYJKVOHandler *)_addObserver:(id)target forKeyPath:(NSString *)keyPath valueChangeBlock:(valueChangeBlock)valueChangeBlock;
-
 #pragma mark RuntimeMethod
 /** 
  获取属性列表
