@@ -105,10 +105,10 @@
             </objects>
             <point key="canvasLocation" x="4238" y="-1167"/>
         </scene>
-        <!--View Controller-->
+        <!--果冻动画-->
         <scene sceneID="9Qc-9q-3Jl">
             <objects>
-                <viewController id="ylD-nh-Sfh" customClass="ViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="ylD-nh-Sfh" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HeO-je-ElO"/>
                         <viewControllerLayoutGuide type="bottom" id="wba-Ys-SyM"/>
@@ -118,6 +118,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="果冻动画" id="aUR-CC-rHR"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rVd-fq-Pcd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -140,7 +141,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I4i-GO-Tf1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5231" y="-1201"/>
+            <point key="canvasLocation" x="5087" y="-976"/>
         </scene>
         <!--显示提示框-->
         <scene sceneID="FyX-qr-9BZ">
@@ -545,6 +546,26 @@
                                             <segue destination="fa6-9y-Iif" kind="push" id="LJF-aa-bQJ"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cells" textLabel="Vbl-Ci-Iwj" rowHeight="42" style="IBUITableViewCellStyleDefault" id="taA-bK-6Id">
+                                        <rect key="frame" x="0.0" y="436" width="375" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="taA-bK-6Id" id="8WP-NY-CFQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="41.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="果冻动画" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vbl-Ci-Iwj">
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="41.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="ylD-nh-Sfh" kind="push" id="Ub1-pH-hVq"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -557,7 +578,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tGO-Cf-ilR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1632.8" y="-473.6131934032984"/>
+            <point key="canvasLocation" x="1638" y="-486"/>
         </scene>
         <!--列表-->
         <scene sceneID="9Ew-4a-zja">

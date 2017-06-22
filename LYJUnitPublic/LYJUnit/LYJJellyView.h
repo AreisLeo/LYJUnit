@@ -13,4 +13,13 @@
 /** 核心动画layer */
 @property (strong ,nonatomic) CADisplayLink *displayLinkLayer;
 
+- (void)beginAnimation;
+
+- (void)endAnimation;
+
+- (void)refreshDisplayLinkLayer:(CADisplayLink *)displayLinkLayer;
+
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 @end

@@ -65,7 +65,7 @@
 - (void)scan;
 - (void)show;
 
-- (instancetype)new NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
