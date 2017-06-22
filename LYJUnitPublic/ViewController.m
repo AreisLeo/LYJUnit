@@ -128,6 +128,10 @@
     {
         [self showRadar];
     }
+    else if ([self.navigationItem.title isEqualToString:@"果冻动画"])
+    {
+        [self showJelly];
+    }
 }
 
 
@@ -315,10 +319,18 @@
         frame.size = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) / 2.0f);
         frame;
     });
-    radarView.radius = 150.0f;
-    radarView.pointSize = CGSizeMake(50, 55);
+    radarView.pointViewPadding = 20;
+    radarView.sectionsNum = 4;
+    
+    radarView.radius = (CGRectGetWidth(self.view.bounds) - 60) / 2.0f;
+    radarView.pointSize = CGSizeMake(70, 77);
     [self.view addSubview:radarView];
     [radarView scan];
+}
+
+- (void)showJelly
+{
+    
 }
 
 - (void)dealloc

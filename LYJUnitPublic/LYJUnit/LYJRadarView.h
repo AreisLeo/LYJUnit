@@ -53,6 +53,13 @@
 
 /** 标注的图标 */
 @property (strong ,nonatomic) NSString *pointViewImageName;
+
+/** 与最大的圆相关时不计算多少距离 default:5 */
+@property (assign ,nonatomic) CGFloat pointViewPadding;
+
+/** 能否相关 default:NO */
+@property (assign ,nonatomic) BOOL canIntersect;
+
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)scan;

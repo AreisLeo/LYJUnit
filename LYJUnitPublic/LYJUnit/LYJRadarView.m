@@ -45,12 +45,15 @@
     self.radius = 100.0f;
     self.sectionsNum = 3;
     self.isRandomPoint = YES;
-    self.maxPointCount = 4;
+    self.maxPointCount = 6;
     self.minPointCount = 2;
     self.pointsView = [[UIView alloc] initWithFrame:self.bounds];
     [self addSubview:self.pointsView];
     self.pointViewImageName = @"椭圆-2";
     self.pointsArray = [NSMutableArray array];
+    self.pointViewPadding = 5.0f;
+    self.canIntersect = NO;
+    
 }
 
 
@@ -79,7 +82,7 @@
     self.calculateLayer = [CAShapeLayer layer];
     self.calculateLayer.path = path.CGPath;
     //arcLayer.strokeColor可设置画笔颜色
-    self.calculateLayer.lineWidth = 1;
+    self.calculateLayer.lineWidth = 2;
     self.calculateLayer.frame = self.bounds;
     self.calculateLayer.fillColor = [UIColor clearColor].CGColor;
     self.calculateLayer.strokeColor = [UIColor clearColor].CGColor;
@@ -97,9 +100,9 @@
     CGPoint centerPoint = CGPointMake(CGRectGetWidth(self.bounds) / 2.0f, CGRectGetHeight(self.bounds) / 2.0f);
     for (NSInteger i  = 0 ; i < self.sectionsNum; i ++)
     {
-        [self drawRoundView:centerPoint withStartAngle:start withEndAngle:end  withRadius: sectionRadius - 5 * (self.sectionsNum - i - 1) alpha:(1 - (float)i / (self.sectionsNum + 1)) * 0.5];
-        
-        [self drawRoundView:centerPoint withStartAngle:end withEndAngle:start  withRadius: sectionRadius - 5 * (self.sectionsNum - i - 1) alpha:(1 - (float)i / (self.sectionsNum + 1)) * 0.5];
+        [self drawRoundView:centerPoint withStartAngle:start withEndAngle:end  withRadius: sectionRadius - 5 * (self.sectionsNum - i - 1) alpha:1];
+        //        (1 - (float)i / (self.sectionsNum + 1)) * 0.5
+        [self drawRoundView:centerPoint withStartAngle:end withEndAngle:start  withRadius: sectionRadius - 5 * (self.sectionsNum - i - 1) alpha:1];
         
         sectionRadius += self.radius / self.sectionsNum;
     }
@@ -118,46 +121,62 @@
     }
     [self.pointsArray removeAllObjects];
     BOOL addPoint = YES;
-//    arc4random() 
-    NSInteger maxPointCount =  arc4random() % self.maxPointCount + self.minPointCount;
+    //    arc4random()
+    NSInteger randomCount = self.maxPointCount - self.minPointCount > 0 ? self.maxPointCount - self.minPointCount : 0;
+    if (randomCount > 0) randomCount = arc4random() % randomCount;
+    NSInteger maxPointCount = randomCount + self.minPointCount;
     while (addPoint)
     {
-        
-        NSInteger diameter = (self.radius * 2 + self.pointSize.width * 2);
+        NSInteger diameter = (self.radius * 2);
         NSInteger width = (arc4random() % diameter) + ((NSInteger)(CGRectGetWidth(self.calculateLayer.frame) - diameter)) / 2.0f;
         NSInteger height = (arc4random() % diameter) + ((NSInteger)CGRectGetHeight(self.calculateLayer.frame) - diameter) / 2.0;
         CGPoint point = CGPointMake(width, height);
         CGRect frame = CGRectMake(width - self.pointSize.width / 2.0f, height - self.pointSize.height / 2.0f, self.pointSize.width, self.pointSize.height);
         BOOL contains = NO;
-        for (NSValue *value in self.pointsArray)
+        
+        if (!self.canIntersect)
         {
-            CGPoint valuePoint = [value CGPointValue];
-            CGRect valueFrame = CGRectMake(valuePoint.x - self.pointSize.width / 2.0f, valuePoint.y - self.pointSize.height / 2.0f, self.pointSize.width, self.pointSize.height);
-            contains = CGRectIntersectsRect(valueFrame, frame);
-            if (contains) break;
-            contains = CGRectContainsRect(valueFrame, frame);
-            if (contains) break;
+            for (NSValue *value in self.pointsArray)
+            {
+                CGPoint valuePoint = [value CGPointValue];
+                CGRect valueFrame = CGRectMake(valuePoint.x - self.pointSize.width / 2.0f, valuePoint.y - self.pointSize.height / 2.0f, self.pointSize.width, self.pointSize.height);
+                contains = CGRectIntersectsRect(valueFrame, frame);
+                if (contains) break;
+                contains = CGRectContainsRect(valueFrame, frame);
+                if (contains) break;
+            }
         }
-        if (CGPathContainsPoint(self.calculateLayer.path, NULL, point, NO) && !contains)
+        
+        CGPoint leftTop =  CGPointMake(frame.origin.x + self.pointViewPadding, frame.origin.y + self.pointViewPadding) ;
+        CGPoint leftBottom = CGPointMake(leftTop.x, leftTop.y + frame.size.height - (self.pointViewPadding * 2.0f));
+        CGPoint rightTop = CGPointMake(leftTop.x + frame.size.width - (self.pointViewPadding * 2.0f), leftTop.y );
+        CGPoint rightBottom = CGPointMake(rightTop.x, leftBottom.y);
+        
+        
+        if (CGPathContainsPoint(self.calculateLayer.path, NULL, leftTop, NO) &&
+            CGPathContainsPoint(self.calculateLayer.path, NULL, leftBottom, NO) &&
+            CGPathContainsPoint(self.calculateLayer.path, NULL, rightTop, NO) &&
+            CGPathContainsPoint(self.calculateLayer.path, NULL, rightBottom, NO) &&
+            !contains)
         {
-
+            
             [self.pointsArray addObject:[NSValue valueWithCGPoint:point]];
             addPoint = self.pointsArray.count == maxPointCount ? NO : YES;
         }
     }
     
-
+    
     for (int index = 0; index < self.pointsArray.count; index++)
     {
         CGPoint point = [self.pointsArray[index] CGPointValue];
-
+        
         UIImageView *pointView = [UIImageView new];
         pointView.tag = index;
         pointView.image = [UIImage imageNamed:self.pointViewImageName];
         pointView.frame = CGRectZero;
         pointView.center = point;
         pointView.contentMode = UIViewContentModeScaleAspectFit;
-
+        
         [UIView animateWithDuration:0.25 delay:index * 0.25 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             pointView.frame = ({
                 CGRect frame  = pointView.frame;
@@ -205,7 +224,8 @@
 - (void)drawLineAnimation:(CALayer*)layer
 {
     CABasicAnimation *bas = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    bas.duration = 1;
+    bas.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    bas.duration = 0.75;
     bas.delegate = self;
     bas.fromValue = [NSNumber numberWithInteger:0];
     bas.toValue = [NSNumber numberWithInteger:1];
@@ -227,12 +247,13 @@
             CABasicAnimation* rotationAnimation;
             rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
             rotationAnimation.toValue = [NSNumber numberWithFloat: (self.indicatorClockwise ? 1 : -1) * M_PI * 2.0 ];
-            rotationAnimation.duration = 1.25f;
+            rotationAnimation.duration = 1.f;
             rotationAnimation.cumulative = YES;
             rotationAnimation.repeatCount = 3;
             rotationAnimation.delegate = self;
+            rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
             [_indicatorView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-//            INT_MAX
+            //            INT_MAX
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self show];
             });
