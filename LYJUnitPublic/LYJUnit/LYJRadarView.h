@@ -36,8 +36,11 @@
 /** 是否随机生成点 default:YES */
 @property (assign ,nonatomic) BOOL isRandomPoint;
 
-/** 最大随机生成点数目 default:6*/
+/** 最大随机生成点 default:6*/
 @property (assign ,nonatomic) NSInteger maxPointCount;
+
+/** 最小随机生成点 default:2*/
+@property (assign ,nonatomic) NSInteger minPointCount;
 
 /** 生成点 */
 @property (strong ,nonatomic) NSMutableArray *pointsArray;
@@ -48,6 +51,8 @@
 /** 标注的size */
 @property (assign ,nonatomic) CGSize pointSize;;
 
+/** 标注的图标 */
+@property (strong ,nonatomic) NSString *pointViewImageName;
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)scan;

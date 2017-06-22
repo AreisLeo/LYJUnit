@@ -14,9 +14,9 @@
     NSInteger _count ;
 }
 /** 点生成的view */
-@property (nonatomic, strong) UIView *pointsView;
+@property (strong ,nonatomic) UIView *pointsView;
 
-@property (nonatomic, strong) CAShapeLayer *calculateLayer;
+@property (strong ,nonatomic) CAShapeLayer *calculateLayer;
 
 @end
 
@@ -45,9 +45,11 @@
     self.radius = 100.0f;
     self.sectionsNum = 3;
     self.isRandomPoint = YES;
-    self.maxPointCount = 6;
+    self.maxPointCount = 4;
+    self.minPointCount = 2;
     self.pointsView = [[UIView alloc] initWithFrame:self.bounds];
     [self addSubview:self.pointsView];
+    self.pointViewImageName = @"椭圆-2";
     self.pointsArray = [NSMutableArray array];
 }
 
@@ -55,7 +57,8 @@
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-    if (self.indicatorView) {
+    if (self.indicatorView)
+    {
         self.indicatorView.frame = self.bounds;
         self.indicatorView.backgroundColor = [UIColor clearColor];
         self.indicatorView.radius = self.radius;
@@ -115,18 +118,31 @@
     }
     [self.pointsArray removeAllObjects];
     BOOL addPoint = YES;
-    self.maxPointCount = arc4random() % 4 + 2;
+//    arc4random() 
+    NSInteger maxPointCount =  arc4random() % self.maxPointCount + self.minPointCount;
     while (addPoint)
     {
         
-        NSInteger diameter = (self.radius * 2 + 100);
+        NSInteger diameter = (self.radius * 2 + self.pointSize.width * 2);
         NSInteger width = (arc4random() % diameter) + ((NSInteger)(CGRectGetWidth(self.calculateLayer.frame) - diameter)) / 2.0f;
         NSInteger height = (arc4random() % diameter) + ((NSInteger)CGRectGetHeight(self.calculateLayer.frame) - diameter) / 2.0;
         CGPoint point = CGPointMake(width, height);
-        if (CGPathContainsPoint(self.calculateLayer.path, NULL, point, NO))
+        CGRect frame = CGRectMake(width - self.pointSize.width / 2.0f, height - self.pointSize.height / 2.0f, self.pointSize.width, self.pointSize.height);
+        BOOL contains = NO;
+        for (NSValue *value in self.pointsArray)
         {
+            CGPoint valuePoint = [value CGPointValue];
+            CGRect valueFrame = CGRectMake(valuePoint.x - self.pointSize.width / 2.0f, valuePoint.y - self.pointSize.height / 2.0f, self.pointSize.width, self.pointSize.height);
+            contains = CGRectIntersectsRect(valueFrame, frame);
+            if (contains) break;
+            contains = CGRectContainsRect(valueFrame, frame);
+            if (contains) break;
+        }
+        if (CGPathContainsPoint(self.calculateLayer.path, NULL, point, NO) && !contains)
+        {
+
             [self.pointsArray addObject:[NSValue valueWithCGPoint:point]];
-            addPoint = self.pointsArray.count == self.maxPointCount ? NO : YES;
+            addPoint = self.pointsArray.count == maxPointCount ? NO : YES;
         }
     }
     
@@ -136,15 +152,9 @@
         CGPoint point = [self.pointsArray[index] CGPointValue];
 
         UIImageView *pointView = [UIImageView new];
-//        pointView.backgroundColor = [UIColor redColor];
-        
         pointView.tag = index;
-        pointView.image = [UIImage imageNamed:@"椭圆-2"];
-        pointView.frame = ({
-            CGRect frame  = pointView.frame;
-            frame.size = CGSizeZero;
-            frame;
-        });;
+        pointView.image = [UIImage imageNamed:self.pointViewImageName];
+        pointView.frame = CGRectZero;
         pointView.center = point;
         pointView.contentMode = UIViewContentModeScaleAspectFit;
 
@@ -192,7 +202,8 @@
     [self drawLineAnimation:arcLayer];
 }
 
-- (void)drawLineAnimation:(CALayer*)layer {
+- (void)drawLineAnimation:(CALayer*)layer
+{
     CABasicAnimation *bas = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     bas.duration = 1;
     bas.delegate = self;
@@ -218,10 +229,10 @@
             rotationAnimation.toValue = [NSNumber numberWithFloat: (self.indicatorClockwise ? 1 : -1) * M_PI * 2.0 ];
             rotationAnimation.duration = 1.25f;
             rotationAnimation.cumulative = YES;
-            rotationAnimation.repeatCount = INT_MAX;
+            rotationAnimation.repeatCount = 3;
             rotationAnimation.delegate = self;
             [_indicatorView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-            
+//            INT_MAX
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self show];
             });

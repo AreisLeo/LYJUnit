@@ -123,21 +123,10 @@
         
         label.text = @"1";
         [self.view addSubview:label];
-        
-        LYJRadarView *radarView = [[LYJRadarView alloc]initWithFrame:self.view.bounds];
-        radarView.backgroundColor = [UIColor clearColor];
-        radarView.indicatorStartColor = [[UIColor blueColor] colorWithAlphaComponent:0.3];
-        radarView.frame = ({
-            CGRect frame  = radarView.frame;
-            frame.origin = CGPointMake(0, 64);
-            frame.size = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) / 2.0f);
-            frame;
-        });
-        radarView.radius = 150.0f;
-        radarView.pointSize = CGSizeMake(50, 55);
-        [self.view addSubview:radarView];
-        [radarView scan];
-        
+    }
+    else if ([self.navigationItem.title isEqualToString:@"雷达演示"])
+    {
+        [self showRadar];
     }
 }
 
@@ -315,7 +304,22 @@
     }
 }
 
-
+- (void)showRadar
+{
+    LYJRadarView *radarView = [[LYJRadarView alloc]initWithFrame:self.view.bounds];
+    radarView.backgroundColor = [UIColor clearColor];
+    radarView.indicatorStartColor = [[UIColor blueColor] colorWithAlphaComponent:0.1];
+    radarView.frame = ({
+        CGRect frame  = radarView.frame;
+        frame.origin = CGPointMake(0, 64);
+        frame.size = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) / 2.0f);
+        frame;
+    });
+    radarView.radius = 150.0f;
+    radarView.pointSize = CGSizeMake(50, 55);
+    [self.view addSubview:radarView];
+    [radarView scan];
+}
 
 - (void)dealloc
 {
