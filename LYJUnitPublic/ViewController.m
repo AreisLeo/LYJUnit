@@ -10,7 +10,6 @@
 #import "LYJTestModel.h"
 #import "LYJUnitHeader.h"
 #import "LYJRadarView.h"
-#import "LYJJellyView.h"
 @interface ViewController ()
 {
     NSString *fullString;
@@ -129,9 +128,9 @@
     {
         [self showRadar];
     }
-    else if ([self.navigationItem.title isEqualToString:@"果冻动画"])
+    else if ([self.navigationItem.title isEqualToString:@"弹性动画"])
     {
-        [self showJelly];
+        [self showSpring];
     }
 }
 
@@ -329,42 +328,6 @@
     [radarView scan];
 }
 
-- (void)showJelly
-{
-    LYJJellyView *view = [[LYJJellyView alloc]initWithFrame:CGRectMake(-100, 150, 80, 80)];
-
-    view.tag = 9999;
-//    view.backgroundColor = [UIColor redColor];
-    [self.view addSubview:view];
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    [button sizeToFit];
-    button.frame = ({
-        CGRect frame = button.frame;
-        frame.origin = CGPointMake(0, 64);
-        frame;
-    });
-    [button addTarget:self action:@selector(add:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
-}
-
-- (void)add:(UIButton *)btn
-{
-    LYJJellyView *view  = [self.view viewWithTag:9999];
-    [view beginAnimation];
-    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.85 initialSpringVelocity:0 options:0 animations:^{
-        view.frame = ({
-            CGRect frame = view.frame;
-            frame.origin = CGPointMake(100, 150);
-            frame.size = CGSizeMake(80, 80);
-            frame;
-        });
-    } completion:^(BOOL finished) {
-        [view endAnimation];
-    }];
-    
-
-}
 
 - (void)dealloc
 {
