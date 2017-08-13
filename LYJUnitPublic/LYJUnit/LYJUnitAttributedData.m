@@ -12,15 +12,8 @@
 #define kAttributedDataNewAllKey @"LYJUnitAttributedDataNewAllKey"
 #define kWeakSelf __weak typeof(self) weakSelf = self;
 
-#pragma mark LYJUnitAttributedDictionary
-@interface LYJUnitAttributedDictionary ()
+@interface AttributedValue ()
 
-
-
-/**
- key
- */
-@property (strong ,nonatomic ,readwrite) NSString *key;
 
 /**
  color
@@ -51,6 +44,56 @@
 
 @property (assign ,nonatomic ,readwrite) CGFloat strokeWidth;
 
+@property (assign ,nonatomic ,readwrite) NSUnderlineStyle underlineStyle;
+
+@property (strong ,nonatomic ,readwrite) UIColor *underlineColor;
+
+@property (assign ,nonatomic ,readwrite) NSUnderlineStyle strikethroughStyle;
+
+@property (strong ,nonatomic ,readwrite) UIColor *strikethroughColor;
+
+@property (strong ,nonatomic ,readwrite) NSShadow *shadow;
+
+@property (assign ,nonatomic ,readwrite) NSInteger verticalGlyph;
+
+@property (assign ,nonatomic ,readwrite) CGFloat obliqueness;
+
+@property (assign ,nonatomic ,readwrite) CGFloat expansion;
+
+@end
+
+@implementation AttributedValue
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.kern = 0;
+        self.lineOffset = 0;
+        self.color = nil;
+        self.font = nil;
+        self.strokeWidth = 0;
+        self.obliqueness = 0;
+        self.expansion = 0;
+        self.verticalGlyph = 0;
+    }
+    return self;
+}
+
+@end
+
+#pragma mark LYJUnitAttributedDictionary
+
+@interface LYJUnitAttributedDictionary ()
+
+
+
+/**
+ key
+ */
+@property (strong ,nonatomic ,readwrite) NSString *key;
+
+
 /**
  newKey
  */
@@ -66,20 +109,7 @@
  */
 @property (assign ,nonatomic,readwrite) NSInteger count;
 
-@property (assign ,nonatomic ,readwrite) NSUnderlineStyle underlineStyle;
-@property (strong ,nonatomic,readwrite) UIColor *underlineColor;
-
-@property (assign ,nonatomic ,readwrite) NSUnderlineStyle strikethroughStyle;
-
-@property (strong ,nonatomic,readwrite) UIColor *strikethroughColor;
-
-@property (strong ,nonatomic,readwrite) NSShadow *shadow;
-
-@property (assign ,nonatomic, readwrite) NSInteger verticalGlyph;
-
-@property (assign ,nonatomic ,readwrite) CGFloat obliqueness;
-
-@property (assign ,nonatomic ,readwrite) CGFloat expansion;
+@property (strong ,nonatomic ,readwrite) AttributedValue *value;
 
 /**  */
 @property (copy ,nonatomic) BOOL (^hasCompletionKey)(NSString *key);
@@ -122,14 +152,8 @@
         self.key = @"";
         self.completionKey = @"";
         self.count = 0;
-        self.kern = 0;
-        self.lineOffset = 0;
-        self.color = nil;
-        self.font = nil;
-        self.strokeWidth = 0;
-        self.obliqueness = 0;
-        self.expansion = 0;
-        self.verticalGlyph = 0;
+        self.value = [[AttributedValue alloc]init];
+
     }
     return self;
 }
@@ -170,7 +194,7 @@
     {
         kWeakSelf;
         _dictionaryColor = ^(UIColor *color){
-            weakSelf.color = color;
+            weakSelf.value.color = color;
             return weakSelf;
         };
     }
@@ -183,7 +207,7 @@
     {
         kWeakSelf;
         _dictionaryKern = ^(CGFloat value){
-            weakSelf.kern = value;
+            weakSelf.value.kern = value;
             return weakSelf;
         };
     }
@@ -196,7 +220,7 @@
     {
         kWeakSelf;
         _dictionaryFont = ^(UIFont *font){
-            weakSelf.font = font;
+            weakSelf.value.font = font;
             return weakSelf;
         };
     }
@@ -227,7 +251,7 @@
     {
         kWeakSelf;
         _dictionaryLineOffset = ^(CGFloat value){
-            weakSelf.lineOffset = value;
+            weakSelf.value.lineOffset = value;
             return weakSelf;
         };
     }
@@ -241,7 +265,7 @@
         kWeakSelf;
         _dictionaryBackgroundColor = ^(UIColor *color){
           
-            weakSelf.backgroundColor = color;
+            weakSelf.value.backgroundColor = color;
             return weakSelf;
         };
     }
@@ -255,7 +279,7 @@
     {
         kWeakSelf;
         _dictionaryStrikethrough = ^(NSUnderlineStyle style){
-            weakSelf.strikethroughStyle = style;
+            weakSelf.value.strikethroughStyle = style;
             return weakSelf;
         };
     }
@@ -268,7 +292,7 @@
     {
         kWeakSelf;
         _dictionaryStrikethroughColor = ^(UIColor *color){
-            weakSelf.strikethroughColor = color;
+            weakSelf.value.strikethroughColor = color;
             return weakSelf;
         };
     }
@@ -281,7 +305,7 @@
     {
         kWeakSelf;
         _dictionaryUnderline = ^(NSUnderlineStyle style){
-            weakSelf.underlineStyle = style;
+            weakSelf.value.underlineStyle = style;
             return weakSelf;
         };
     }
@@ -294,7 +318,7 @@
     {
         kWeakSelf;
         _dictionaryUnderlineColor = ^(UIColor *color){
-            weakSelf.underlineColor = color;
+            weakSelf.value.underlineColor = color;
             return weakSelf;
         };
     }
@@ -307,7 +331,7 @@
     {
         kWeakSelf;
         _dictionaryStrokeColor = ^(UIColor *color){
-            weakSelf.strokeColor = color;
+            weakSelf.value.strokeColor = color;
             return weakSelf;
         };
     }
@@ -320,7 +344,7 @@
     {
         kWeakSelf;
         _dictionaryStrokeWidth = ^(CGFloat strokeWidth){
-            weakSelf.strokeWidth = strokeWidth;
+            weakSelf.value.strokeWidth = strokeWidth;
             return weakSelf;
         };
     }
@@ -337,7 +361,7 @@
             shadow.shadowOffset = shadowOffset;
             shadow.shadowBlurRadius = shadowBlurRadius;
             shadow.shadowColor = shadowColor;
-            weakSelf.shadow = shadow;
+            weakSelf.value.shadow = shadow;
             return weakSelf;
         };
     }
@@ -350,7 +374,7 @@
     {
         kWeakSelf;
         _dictionaryObliqueness = ^(CGFloat obliqueness) {
-            weakSelf.obliqueness = obliqueness;
+            weakSelf.value.obliqueness = obliqueness;
             return weakSelf;
         };
     }
@@ -363,7 +387,7 @@
     {
         kWeakSelf;
         _dictionaryExpansion = ^(CGFloat expansion) {
-            weakSelf.expansion = expansion;
+            weakSelf.value.expansion = expansion;
             return weakSelf;
         };
     }
@@ -467,6 +491,7 @@
     {
         [self.ranges addObject:[NSValue valueWithRange:[self rangeWithCount:i andKey:key]]];
         [self.counts addObject:@(i)];
+        [self.values addObject:[[AttributedValue alloc] init]];
     }
     
     self.completionKey = [self.class completionKeyWithCount:0 key:key identifier:[self identifier]];
@@ -519,7 +544,9 @@
 @property (copy ,nonatomic ,readwrite) AttributedDataKeyRestCount dictionaryKeyAndCount;
 @property (copy ,nonatomic ,readwrite) AttributedDataKeyRestAll dictionaryKeyRestAll;
 @property (copy ,nonatomic ,readwrite) AttributedDataColor dictionaryColor;
-@property (strong ,nonatomic , readwrite) NSString *fullText;
+@property (strong ,nonatomic ,readwrite) NSString *fullText;
+
+@property (strong ,nonatomic ,readwrite) LYJUnitAttributedDictionary *fullTextDictionary;
 
 @end
 
@@ -551,6 +578,13 @@
     return data;
 }
 
++ (NSMutableAttributedString *)attributedStringWithFullText:(NSString *)fullText attributedData:(void (^)(LYJUnitAttributedData *))attributedData
+{
+    LYJUnitAttributedData *data = [self dataWithFullText:fullText];
+    if (attributedData) attributedData(data);
+    return [data attributedString];
+}
+
 - (instancetype)initWithFullText:(NSString *)fullText
 {
     if (self = [super init])
@@ -577,13 +611,15 @@
     {
         kWeakSelf;
         _dictionaryKeyAndCount = ^(NSString *key,NSInteger count) {
-            NSString *completionKey = [LYJUnitAttributedDictionary completionKeyWithCount:count key:key identifier:kAttributedDataNewKey];
-            LYJUnitAttributedDictionary *dictionary = [weakSelf objectForCompletionKeyIfNotNil:completionKey];
+            NSString *completionKey = [LYJUnitAttributedDictionary completionKeyWithCount:0 key:key identifier:kAttributedDataNewAllKey];
+            LYJUnitAttributedAllDictionary *dictionary = [weakSelf objectForCompletionKeyIfNotNil:completionKey];
             return dictionary;
         };
     }
     return _dictionaryKeyAndCount;
 }
+
+
 
 - (AttributedDataKeyAll)dictionaryKeyAll
 {
@@ -618,6 +654,16 @@
 }
 
 
+- (LYJUnitAttributedDictionary *)fullTextDictionary
+{
+    if (!_fullTextDictionary)
+    {
+        _fullTextDictionary = [self dictionary];
+        _fullTextDictionary.dictionaryKey(self.fullText);
+    }
+    return _fullTextDictionary;
+}
+
 
 #pragma mark -----Add------
 - (LYJUnitAttributedDictionary *)dictionary
@@ -638,13 +684,11 @@
 - (void)dictionaryBlockMethod:(LYJUnitAttributedDictionary *)dictionary
 {
     kWeakSelf
-    dictionary.changeValid = ^(LYJUnitAttributedDictionary *dictionary)
-    {
+    dictionary.changeValid = ^(LYJUnitAttributedDictionary *dictionary){
         [weakSelf addDictionary:dictionary];
     };
     dictionary.fullText = self.fullText;
-    dictionary.hasCompletionKey = ^BOOL(NSString *key)
-    {
+    dictionary.hasCompletionKey = ^BOOL(NSString *key){
         return [weakSelf hasObjectForCompletionKeyIfNotNil:key];
     };
 }
@@ -718,33 +762,33 @@
 {
     
     //设置颜色
-    [self setAttrStringWithObject:dictionary.color attributeName:NSForegroundColorAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:dictionary.value.color attributeName:NSForegroundColorAttributeName attrString:attrString range:range];
     //设置字体
-    [self setAttrStringWithObject:dictionary.font attributeName:NSFontAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:dictionary.value.font attributeName:NSFontAttributeName attrString:attrString range:range];
     //设置位置
-    [self setAttrStringWithObject:@(dictionary.lineOffset) attributeName:NSBaselineOffsetAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:@(dictionary.value.lineOffset) attributeName:NSBaselineOffsetAttributeName attrString:attrString range:range];
     //设置间距
-    [self setAttrStringWithObject:@(dictionary.kern) attributeName:NSKernAttributeName  attrString:attrString range:range];
+    [self setAttrStringWithObject:@(dictionary.value.kern) attributeName:NSKernAttributeName  attrString:attrString range:range];
     //文字背景颜色
-    [self setAttrStringWithObject:dictionary.backgroundColor attributeName:NSBackgroundColorAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:dictionary.value.backgroundColor attributeName:NSBackgroundColorAttributeName attrString:attrString range:range];
     //删除线
-    [self setAttrStringWithObject:@(dictionary.strikethroughStyle) attributeName:NSStrikethroughStyleAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:@(dictionary.value.strikethroughStyle) attributeName:NSStrikethroughStyleAttributeName attrString:attrString range:range];
     //删除线颜色
-    [self setAttrStringWithObject:dictionary.strikethroughColor attributeName:NSStrikethroughColorAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:dictionary.value.strikethroughColor attributeName:NSStrikethroughColorAttributeName attrString:attrString range:range];
     //下划线
-    [self setAttrStringWithObject:@(dictionary.underlineStyle) attributeName:NSUnderlineStyleAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:@(dictionary.value.underlineStyle) attributeName:NSUnderlineStyleAttributeName attrString:attrString range:range];
     //下划线颜色
-    [self setAttrStringWithObject:dictionary.underlineColor attributeName:NSUnderlineColorAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:dictionary.value.underlineColor attributeName:NSUnderlineColorAttributeName attrString:attrString range:range];
     //描边宽度
-    [self setAttrStringWithObject:@(dictionary.strokeWidth) attributeName:NSStrokeWidthAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:@(dictionary.value.strokeWidth) attributeName:NSStrokeWidthAttributeName attrString:attrString range:range];
     //描边颜色
-    [self setAttrStringWithObject:dictionary.strokeColor attributeName:NSStrokeColorAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:dictionary.value.strokeColor attributeName:NSStrokeColorAttributeName attrString:attrString range:range];
     //阴影
-    [self setAttrStringWithObject:dictionary.shadow attributeName:NSShadowAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:dictionary.value.shadow attributeName:NSShadowAttributeName attrString:attrString range:range];
     //字体倾斜
-    [self setAttrStringWithObject:@(dictionary.obliqueness) attributeName:NSObliquenessAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:@(dictionary.value.obliqueness) attributeName:NSObliquenessAttributeName attrString:attrString range:range];
     //文本扁平化
-    [self setAttrStringWithObject:@(dictionary.expansion) attributeName:NSExpansionAttributeName attrString:attrString range:range];
+    [self setAttrStringWithObject:@(dictionary.value.expansion) attributeName:NSExpansionAttributeName attrString:attrString range:range];
 }
 
 
@@ -755,6 +799,5 @@
 }
 
 @end
-
 
 

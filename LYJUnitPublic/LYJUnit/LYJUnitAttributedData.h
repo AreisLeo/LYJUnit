@@ -16,7 +16,9 @@ typedef LYJUnitAttributedAllDictionary *(^AttributedDataKeyRestAll)(NSString *ke
 
 typedef LYJUnitAttributedAllDictionary * (^AttributedDataKeyAll)(NSString *key);
 
-typedef LYJUnitAttributedDictionary *(^AttributedDataKeyRestCount)(NSString *key,NSInteger count);
+typedef LYJUnitAttributedAllDictionary *(^AttributedDataKeyRestCount)(NSString *key,NSInteger count);
+
+//typedef LYJUnitAttributedDictionary *(^AttributedDataKeyRestCount)(NSString *key,NSInteger count);
 
 typedef LYJUnitAttributedDictionary * (^AttributedDataKey)(NSString *key);
 
@@ -68,6 +70,10 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
  */
 @property (copy ,nonatomic ,readonly) AttributedDataKeyRestAll dictionaryKeyRestAll;
 
+/**
+ 对全部进行修改
+ */
+@property (strong ,nonatomic ,readonly) LYJUnitAttributedDictionary *fullTextDictionary;
 
 + (instancetype)dataWithFullText:(NSString *)fullText;
 
@@ -77,9 +83,11 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 
 - (NSMutableAttributedString *)attributedString;
 
-
++ (NSMutableAttributedString *)attributedStringWithFullText:(NSString *)fullText attributedData:(void(^)(LYJUnitAttributedData *attributedData))attributedData;
 @end
 
+
+@class AttributedValue;
 
 @interface LYJUnitAttributedDictionary : NSObject
 
@@ -186,6 +194,43 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 @property (assign ,nonatomic,readonly) NSInteger count;
 
 /**
+ 储存噶数据模型
+ */
+@property (strong ,nonatomic ,readonly) AttributedValue *value;
+
+/**
+ 当前是否有效
+ */
+@property (assign ,nonatomic)  BOOL isValid;
+
+
+
+@end
+
+
+
+@interface LYJUnitAttributedAllDictionary : LYJUnitAttributedDictionary
+
+/**
+ counts
+ */
+@property (strong ,nonatomic) NSMutableArray *counts;
+
+/**
+ ranges
+ */
+@property (strong ,nonatomic) NSMutableArray *ranges;
+
+/**
+ values
+ */
+@property (strong ,nonatomic) NSMutableArray *values;
+
+@end
+
+@interface AttributedValue : NSObject
+
+/**
  文字颜色 默认 nil
  */
 @property (strong ,nonatomic ,readonly) UIColor *color;
@@ -245,7 +290,7 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
  */
 @property (strong ,nonatomic ,readonly) NSShadow *shadow;
 
-/** 
+/**
  横竖排版 横：0 竖：1 默认：0
  */
 @property (assign ,nonatomic, readonly) NSInteger verticalGlyph;
@@ -261,29 +306,6 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
  扁平化 默认 0 value < 0 缩小 value > 0 扩大
  */
 @property (assign ,nonatomic ,readonly) CGFloat expansion;
-
-/**
- 当前是否有效
- */
-@property (assign ,nonatomic)  BOOL isValid;
-
-
-
-@end
-
-
-
-@interface LYJUnitAttributedAllDictionary : LYJUnitAttributedDictionary
-
-/**
- counts
- */
-@property (strong ,nonatomic) NSMutableArray *counts;
-
-/**
- ranges
- */
-@property (strong ,nonatomic) NSMutableArray *ranges;
 
 @end
 

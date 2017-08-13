@@ -789,8 +789,6 @@ static NSMutableArray *__KVOHandlers;
 #pragma mark -----NSMutableAttributedString------
 + (NSMutableAttributedString *)_attributedStringWithFullText:(NSString *)fullText andAttributedData:(void (^)(LYJUnitAttributedData *))attributedData
 {
-    LYJUnitAttributedData *data = [LYJUnitAttributedData dataWithFullText:fullText];
-    if (attributedData) attributedData(data);
-    return [data attributedString];
+    return [LYJUnitAttributedData  attributedStringWithFullText:fullText attributedData:attributedData];
 }
 @end

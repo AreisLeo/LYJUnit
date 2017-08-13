@@ -36,14 +36,21 @@
 
 
     self.label.attributedText = [LYJUnit _attributedStringWithFullText:fullString andAttributedData:^(LYJUnitAttributedData *attributedData) {
-        attributedData.dictionaryKeyAll(@"哈哈")
+        attributedData.fullTextDictionary
         .dictionaryColor([UIColor redColor])
         .dictionaryFont([UIFont systemFontOfSize:20])
         .dictionaryStrokeWidth(5);
+        
         attributedData.dictionaryKeyAll(@"我")
         .dictionaryColor([UIColor blueColor])
         .dictionaryFont([UIFont systemFontOfSize:25])
         .dictionaryStrokeWidth(5);
+        
+        attributedData.dictionaryKeyAndCount(@"我", 1)
+        .dictionaryColor([UIColor yellowColor])
+        .dictionaryFont([UIFont systemFontOfSize:25])
+        .dictionaryStrokeWidth(5);
+
     }];
     
 }
@@ -130,7 +137,7 @@
     }
     else if ([self.navigationItem.title isEqualToString:@"弹性动画"])
     {
-        [self showSpring];
+//        [self showSpring];
     }
 }
 
