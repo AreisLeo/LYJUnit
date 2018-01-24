@@ -13,5 +13,7 @@
 #import "LYJScanHelper.h"
 #import "LYJAlertController.h"
 #import "NSObject+LYJKVOCategory.h"
+#import "NSArray+Log.h"
+#import "NSDictionary+Log.h"
 
 #endif /* LYJUnitHeader_h */

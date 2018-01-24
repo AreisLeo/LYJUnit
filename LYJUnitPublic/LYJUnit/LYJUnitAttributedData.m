@@ -181,7 +181,7 @@
         kWeakSelf;
         _dictionaryKey = ^(NSString *key){
             weakSelf.key = key;
-            weakSelf.isValid = [weakSelf setKey:key count:0];
+            weakSelf.isValid = [weakSelf setKey:key count:weakSelf.count];
             return weakSelf;
         };
     }
@@ -485,6 +485,10 @@
 - (BOOL)setKey:(NSString *)key count:(NSInteger)count
 {
     NSInteger maxCount = [self.class calculateSubStringCountWithKey:key fullText:self.fullText];
+    if (count > maxCount - 1)
+    {
+        return NO;
+    }
     [self.ranges removeAllObjects];
     [self.counts removeAllObjects];
     for (int i = 0; i < maxCount; i++)
@@ -494,7 +498,7 @@
         [self.values addObject:[[AttributedValue alloc] init]];
     }
     
-    self.completionKey = [self.class completionKeyWithCount:0 key:key identifier:[self identifier]];
+    self.completionKey = [self.class completionKeyWithCount:count key:key identifier:[self identifier]];
     if (([self.ranges count] == 0 ||
         [self.counts count] == 0) ||
         self.ranges.count != self.counts.count)
@@ -611,8 +615,12 @@
     {
         kWeakSelf;
         _dictionaryKeyAndCount = ^(NSString *key,NSInteger count) {
-            NSString *completionKey = [LYJUnitAttributedDictionary completionKeyWithCount:0 key:key identifier:kAttributedDataNewAllKey];
+            NSString *completionKey = [LYJUnitAttributedDictionary completionKeyWithCount:count key:key identifier:kAttributedDataNewAllKey];
             LYJUnitAttributedAllDictionary *dictionary = [weakSelf objectForCompletionKeyIfNotNil:completionKey];
+            dictionary.count = count;
+            dictionary.dictionaryKey(key);
+            dictionary.changeCount = @(count);
+            [weakSelf addDictionary:dictionary];
             return dictionary;
         };
     }
@@ -744,10 +752,19 @@
         
         if ([dictionary isKindOfClass:[LYJUnitAttributedAllDictionary class]])
         {
+            
             LYJUnitAttributedAllDictionary *allDictionary = (LYJUnitAttributedAllDictionary *)dictionary;
-            for (NSValue *rangeValue in allDictionary.ranges)
+            if (allDictionary.changeCount && [allDictionary.counts containsObject:allDictionary.changeCount])
             {
+                NSValue *rangeValue = allDictionary.ranges[[allDictionary.changeCount integerValue] ];
                 [self addAttributeWithDictionary:dictionary attrString:attrString range:[rangeValue rangeValue]];
+            }
+            else
+            {
+                for (NSValue *rangeValue in allDictionary.ranges)
+                {
+                    [self addAttributeWithDictionary:dictionary attrString:attrString range:[rangeValue rangeValue]];
+                }
             }
         }
         else

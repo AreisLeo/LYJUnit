@@ -16,15 +16,6 @@
 @interface LYJUnit : NSObject
 
 #pragma mark SystemSettingMethod
-/**
- 是否大于ios <version> 系统版本
- */
-+ (BOOL)_ISIOSWithVersion:(CGFloat)version;
-
-/**
- 是否大于ios10
- */
-+ (BOOL)_ISIOS10;
 
 /**
  注册本地通知
@@ -174,6 +165,8 @@
 
 + (void)_descendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
 
++ (NSArray *)_mapWithTargetArray:(NSArray *)array mapBlock:(arrayMapBlock)mapBlock;
+
 #pragma mark NSDateMethod
 /**
  求出下一天 一月 一年 或者 上一天  上一月 上一年
@@ -223,4 +216,19 @@
  */
 + (NSMutableAttributedString *)_attributedStringWithFullText:(NSString *)fullText andAttributedData:(void(^)(LYJUnitAttributedData *attributedData))attributedData;
 
+
+#pragma mark UIViewMethod
+/**
+ 输入 classname 可直接从 targetView 中获取到对应的 view ,如果所有子 view 都不包含情况下返回 nil 只能从 subviews 中存在的 view 搜索得到
+ classname 需要获取的 view 的 ClassName
+ targetView 目标查找的targetView
+ */
++ (UIView *)_subViewOfClassName:(NSString *)className
+                    targetView:(UIView *)targetView;
+
+/**
+ targetView 中获取到对应的 view ,返回所有 subview 中可以搜索 view 到的 ClassName
+ targetView 目标查找的targetView
+ */
++ (NSDictionary *)_classNameDictOfTargetView:(UIView *)targetView;
 @end

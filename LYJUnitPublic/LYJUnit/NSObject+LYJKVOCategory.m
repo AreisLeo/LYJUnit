@@ -68,5 +68,4 @@ const char *LYJKVOTargetsKey = "LYJKVOTargets";
     [self.LYJKVOTargets removeObject:target];
 }
 
-
 @end

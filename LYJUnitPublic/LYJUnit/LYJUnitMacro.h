@@ -13,8 +13,25 @@
 #define KeyWindow [UIApplication sharedApplication].keyWindow
 #define kWeakSelf __weak typeof(self) weakSelf = self;
 
+#define IS_IOSX(a) @available(ios a,*)
 
+#define IS_IOS7 IS_IOSX(7.0)
 
+#define IS_IOS8 IS_IOSX(8.0)
+
+#define IS_IOS9 IS_IOSX(9.0)
+
+#define IS_IOS10 IS_IOSX(10.0)
+
+#define IS_IOS11 IS_IOSX(11.0)
+
+#define IS_IOS12 IS_IOSX(12.0)
+
+#define IS_IOS13 IS_IOSX(13.0)
+
+#define IS_IOS14 IS_IOSX(14.0)
+
+#define IS_IOS15 IS_IOSX(15.0)
 
 #pragma mark ------ENUM------
 typedef enum : NSUInteger {
@@ -48,7 +65,8 @@ typedef enum : NSUInteger {
 
 
 #pragma mark ------Block-------
-typedef void(^valueChangeBlock)(id newValue ,id oldValue ,id object ,NSString *keyPath);
+typedef void (^valueChangeBlock)(id newValue ,id oldValue ,id object ,NSString *keyPath);
+typedef id (^arrayMapBlock)(id value);
 
-typedef void(^removeBlock)();
+typedef void(^removeBlock)(void);
 #endif /* LYJUnitMacro_h */

@@ -23,7 +23,7 @@ static NSMutableArray *__KVOHandlers;
 #pragma mark -----SystemSetting------
 + (void)_registerLocalNotification
 {
-    if ([self _ISIOS10])
+    if (IS_IOS10)
     {
         //iOS 10
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -40,20 +40,7 @@ static NSMutableArray *__KVOHandlers;
     }
 }
 
-+ (BOOL)_ISIOS10
-{
-    return [self _ISIOSWithVersion:10.0];
-}
 
-+ (BOOL)_ISIOSWithVersion:(CGFloat)version
-{
-    NSString* phoneVersion = [[UIDevice currentDevice] systemVersion];
-    if ([[[phoneVersion componentsSeparatedByString:@"."]firstObject]floatValue] >= version)
-    {
-        return YES;
-    }
-    return NO;
-}
 
 + (BOOL)_hasOpenLocation
 {
@@ -613,6 +600,18 @@ static NSMutableArray *__KVOHandlers;
     return [[item valueForKey:keyPath] floatValue];
 }
 
++ (NSArray *)_mapWithTargetArray:(NSArray *)array mapBlock:(arrayMapBlock)mapBlock
+{
+    if (!mapBlock) return @[];
+    NSMutableArray *mapArray = [NSMutableArray array];
+    for (id value in array)
+    {
+        id changeValue = mapBlock(value);
+        [mapArray addObject:changeValue];
+    }
+    return mapArray;
+}
+
 
 #pragma mark -----NSDate------
 
@@ -791,4 +790,44 @@ static NSMutableArray *__KVOHandlers;
 {
     return [LYJUnitAttributedData  attributedStringWithFullText:fullText attributedData:attributedData];
 }
+
+
+#pragma mark UIViewMethod
++ (UIView *)_subViewOfClassName:(NSString *)className
+                    targetView:(UIView *)targetView
+{
+    for (UIView *subView in targetView.subviews)
+    {
+        if ([NSStringFromClass(subView.class) isEqualToString:className])
+        {
+            return subView;
+        }
+        UIView* resultFound = [self _subViewOfClassName:className targetView:targetView];
+        if (resultFound)
+        {
+            return resultFound;
+        }
+    }
+    return nil;
+}
+
++ (NSDictionary *)_classNameDictOfTargetView:(UIView *)targetView
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSMutableArray *array = [NSMutableArray array];
+    for (UIView *subView in targetView.subviews)
+    {
+        NSString *subViewClassName = NSStringFromClass(subView.class);
+        [array addObject:subViewClassName];
+        if (subView.subviews.count > 0)
+        {
+            NSDictionary *subDict = [self _classNameDictOfTargetView:subView];
+            [dict setObject:subDict forKey:subViewClassName];
+        }
+    }
+    [dict setObject:array forKey:NSStringFromClass(targetView.class)];
+    return dict;
+}
+
+
 @end

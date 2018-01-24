@@ -56,7 +56,7 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 @property (copy ,nonatomic ,readonly) AttributedDataKey dictionaryKey;
 
 /**
- key count 修改 目标字符串
+ key count 修改 目标字符串 0 开始
  */
 @property (copy ,nonatomic ,readonly) AttributedDataKeyRestCount dictionaryKeyAndCount;
 
@@ -226,6 +226,8 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
  */
 @property (strong ,nonatomic) NSMutableArray *values;
 
+
+@property (strong ,nonatomic) NSNumber *changeCount;
 @end
 
 @interface AttributedValue : NSObject

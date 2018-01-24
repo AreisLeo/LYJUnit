@@ -16,11 +16,8 @@
 /** LYJtargets */
 @property (strong ,nonatomic) NSMutableArray *LYJKVOTargets;
 
-- (void)LYJ_addObserver:(id)target valueChangeBlock:(valueChangeBlock)LYJKVOvalueChangeBlock;
-
 - (void)LYJ_addObserver:(id)target forKeyPath:(NSString *)keyPath valueChangeBlock:(valueChangeBlock)LYJKVOvalueChangeBlock;
 
 - (void)LYJ_removeObserver:(id)target forKeyPath:(NSString *)keyPath;
 
-- (void)LYJ_removeObserver:(id)target;
 @end

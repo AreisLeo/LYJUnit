@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *ImageView1;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView2;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView3;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -41,7 +42,7 @@
         .dictionaryFont([UIFont systemFontOfSize:20])
         .dictionaryStrokeWidth(5);
         
-        attributedData.dictionaryKeyAll(@"我")
+        attributedData.dictionaryKeyAll(@"f")
         .dictionaryColor([UIColor blueColor])
         .dictionaryFont([UIFont systemFontOfSize:25])
         .dictionaryStrokeWidth(5);
@@ -50,7 +51,10 @@
         .dictionaryColor([UIColor yellowColor])
         .dictionaryFont([UIFont systemFontOfSize:25])
         .dictionaryStrokeWidth(5);
-
+        
+        attributedData.dictionaryKeyAndCount(@"哈", 2)
+        .dictionaryColor([UIColor purpleColor])
+        .dictionaryFont([UIFont systemFontOfSize:25]);
     }];
     
 }
@@ -105,12 +109,12 @@
         [LYJUnit _classCopyIvarListWithTarget:self confirmBlock:^(id value, NSString *key) {
             //            NSLog(@"%@ %@",value ,key);
         }];
+
         [LYJUnit _classCopyMethodListWithClass:[self class] confirmBlock:^(NSString *methodName) {
             NSLog(@"%@",methodName);
         }];
         
         [LYJUnit _classCopyMethodListWithTarget:[self class] confirmBlock:^(SEL method, NSString *methodName) {
-            
             NSLog(@"%@",methodName);
         }];
     }
@@ -118,12 +122,6 @@
     {
         UILabel *label = [UILabel new];
         label.tag = 999;
-//        [[LYJUnit _addObserver:label forKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
-//            
-//         }]removeObserverWithSEL:@selector(viewDidDisappear:) removeBlock:^{
-//             NSLog(@"删除");
-//        }];
-
         [self LYJ_addObserver:label forKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
             NSLog(@"%@",keyPath);
         }];
@@ -138,6 +136,10 @@
     else if ([self.navigationItem.title isEqualToString:@"弹性动画"])
     {
 //        [self showSpring];
+    }
+    else if ([self.navigationItem.title isEqualToString:@"View图片操作"])
+    {
+        [self showViewSubViewAllClass];
     }
 }
 
@@ -162,7 +164,7 @@
 
 - (void)localNotification
 {
-    if ([LYJUnit _ISIOS10])
+    if (IS_IOS10)
     {
        UNNotificationTrigger *trigger = [LYJUnit _UNNotificationTriggerWithType:LYJUnitNotificationTriggerTypeTimeInterval item:@60 andRepeats:NO];
         [LYJUnit _UNUserNotificationWithTitle:@"标题" subtitle:@"小标题" body:@"正文" identifier:@"2017" badge:@0 trigger:trigger];
@@ -201,15 +203,16 @@
     }
     NSMutableArray *testModels1 = [NSMutableArray arrayWithArray:targetModels];
     NSMutableArray *testModels2 = [NSMutableArray arrayWithArray:targetModels];
+
     //升序
     NSMutableString *testStr = [NSMutableString string];
     [LYJUnit _ascendQuickSortArray:testModels1 andKeyPath:@"value"];
     for (LYJTestModel *model in testModels1)
     {
-        
         [testStr appendFormat:@"%f,",model.value];
     }
     NSLog(@"升序 === %@",testStr);
+
     //降序
     testStr = [NSMutableString string];
     [LYJUnit _descendQuickSortArray:testModels2 andKeyPath:@"value"];
@@ -218,6 +221,14 @@
         [testStr appendFormat:@"%f,",model.value];
     }
     NSLog(@"降序 === %@",testStr);
+
+
+    NSArray *array = [LYJUnit _mapWithTargetArray:@[@1,@3,@3,@9,@12] mapBlock:^id(NSNumber *value) {
+        LYJTestModel *model = [LYJTestModel new];
+        model.value = value.floatValue;
+        return  model;
+    }];
+    NSLog(@"%@",array);
 }
 
 - (void)imageChange
@@ -333,6 +344,11 @@
     radarView.pointSize = CGSizeMake(70, 77);
     [self.view addSubview:radarView];
     [radarView scan];
+}
+
+- (void)showViewSubViewAllClass
+{
+    NSLog(@"%@",[LYJUnit _classNameDictOfTargetView:self.searchBar]);
 }
 
 
