@@ -63,6 +63,17 @@ typedef enum : NSUInteger {
     LYJUnitNotificationTriggerTypeLocation,
 } LYJUnitNotificationTriggerType;
 
+typedef enum : NSUInteger {
+    /** 比较字符串头部是否包含对应字符*/
+    LYJUnitMatchTypePrefix,
+    /** 比较字符串尾部是否包含对应字符*/
+    LYJUnitMatchTypeSuffix,
+    /** 比较字符串是否包含对应字符*/
+    LYJUnitMatchTypeContainsString,
+    /** 比较值是否一致*/
+    LYJUnitMatchTypeContains,
+} LYJUnitMatchType;
+
 
 #pragma mark ------Block-------
 typedef void (^valueChangeBlock)(id newValue ,id oldValue ,id object ,NSString *keyPath);

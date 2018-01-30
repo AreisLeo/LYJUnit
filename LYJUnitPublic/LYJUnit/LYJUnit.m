@@ -604,14 +604,95 @@ static NSMutableArray *__KVOHandlers;
 {
     if (!mapBlock) return @[];
     NSMutableArray *mapArray = [NSMutableArray array];
-    for (id value in array)
+    for (id model in array)
     {
-        id changeValue = mapBlock(value);
-        [mapArray addObject:changeValue];
+        id targetValue = mapBlock(model);
+        [mapArray addObject:targetValue];
     }
     return mapArray;
 }
 
++ (CGFloat)_accumulateWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath
+{
+    CGFloat floatValue = 0.0f;
+    for (id model in array)
+    {
+        id targetValue = [self _targetValueWithKeyPath:keyPath model:model];
+        floatValue += [targetValue floatValue];
+    }
+    return floatValue;
+}
+
++ (BOOL)_allMatchingWithWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue
+{
+    BOOL allMatch = YES;
+    for (id model in array)
+    {
+        id targetValue = [self _targetValueWithKeyPath:keyPath model:model];
+        allMatch = [self _modelWithMatchType:matchType matchValue:matchValue targetValue:targetValue];
+        if (!allMatch)
+        {
+            return allMatch;
+        }
+    }
+    return allMatch;
+}
+
++ (BOOL)_allNoneMatchingWithWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue
+{
+    BOOL allMatch = NO;
+    for (id model in array)
+    {
+        id targetValue = [self _targetValueWithKeyPath:keyPath model:model];
+        allMatch = [self _modelWithMatchType:matchType matchValue:matchValue targetValue:targetValue];
+        if (allMatch)
+        {
+            return allMatch;
+        }
+    }
+    return allMatch;
+}
+
++ (id)_targetValueWithKeyPath:(NSString *)keyPath model:(id)model
+{
+    id targetValue = keyPath && (keyPath.length > 0) ? [model objectForKey:keyPath] : model;
+    return targetValue;
+}
+
+
++ (BOOL)_modelWithMatchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue targetValue:(id)targetValue
+{
+    if (![matchValue isKindOfClass:[NSString class]])
+    {
+        matchType = LYJUnitMatchTypeContains;
+    }
+    BOOL isContains = YES;
+    switch (matchType)
+    {
+        case LYJUnitMatchTypePrefix:
+        {
+            isContains = [targetValue hasPrefix:matchValue];
+        }
+            break;
+        case LYJUnitMatchTypeSuffix:
+        {
+            isContains = [targetValue hasSuffix:matchValue];
+        }
+            break;
+        case LYJUnitMatchTypeContainsString:
+        {
+            isContains = [targetValue containsString:matchValue];
+        }
+            break;
+        case LYJUnitMatchTypeContains:
+        default:
+        {
+            isContains = [targetValue containsObject:matchValue];
+        }
+            break;
+    }
+    return isContains;
+}
 
 #pragma mark -----NSDate------
 

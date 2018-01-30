@@ -165,7 +165,25 @@
 
 + (void)_descendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
 
+/**
+ 数据转换 mapBlock 返回需要的转换 model
+ */
 + (NSArray *)_mapWithTargetArray:(NSArray *)array mapBlock:(arrayMapBlock)mapBlock;
+
+/**
+ 累加计算 当 keyPath 为 nil 时 直接取出 floatValue
+ */
++ (CGFloat)_accumulateWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath;
+
+/**
+ 计算当前数组是否全部满足条件 当其它一个不满足时返回 NO
+ */
++ (BOOL)_allMatchingWithWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue;
+
+/**
+ 计算当前数组是否全部不满足条件 当其它一个满足时返回 NO
+ */
++ (BOOL)_allNoneMatchingWithWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue;
 
 #pragma mark NSDateMethod
 /**
