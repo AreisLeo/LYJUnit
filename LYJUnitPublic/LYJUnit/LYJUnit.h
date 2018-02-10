@@ -185,6 +185,55 @@
  */
 + (BOOL)_allNoneMatchingWithWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue;
 
+/**
+ 求和 integer
+ */
++ (NSInteger)_reduceEachIntegerWithArray:(NSArray *)array;
+
+/**
+ 求和 float
+ */
++ (CGFloat)_reduceEachFloatWithArray:(NSArray *)array;
+
+/**
+ 取出当前数组需要的 count,count 后面的直接放弃 从前到后
+ */
++ (NSArray *)_takeWithArray:(NSArray *)array count:(NSInteger)count;
+
+/**
+ 取出当前数组需要的 count,count 前面的直接放弃 从后到前
+ */
++ (NSArray *)_takeLastWithArray:(NSArray *)array count:(NSInteger)count;
+
+/**
+ 取出当前数组中符合条件的值 当不条件符合后 后面不再进行条件判断 直接返回
+ */
++ (NSArray *)_takeUntilWithArray:(NSArray *)array block:(valuePredicateBlock)block;
+
+/**
+ 取出当前数组中不符合条件的值 当条件符合后 后面不再进行条件判断 直接返回
+ */
++ (NSArray *)_takeWhileWithArray:(NSArray *)array block:(valuePredicateBlock)block;
+
+/**
+ 取出当前数组跳过的 count 后的值 取后值
+ */
++ (NSArray *)_skipWithArray:(NSArray *)array skipCount:(NSInteger)skipCount;
+
+/**
+ 取出当前数组最后跳过的 count 前的值 取前值
+ */
++ (NSArray *)_skipLastWithArray:(NSArray *)array skipLastCount:(NSInteger)skipLastCount;
+
+/**
+ 取出当前数组中符合条件的值 当条件符合后 后面不再进行条件判断
+ */
++ (NSArray *)_skipUntilWithArray:(NSArray *)array block:(valuePredicateBlock)block;
+
+/**
+ 取出当前数组中不符合条件的值 当条件符合后 后面不再进行条件判断
+ */
++ (NSArray *)_skipWhileWithArray:(NSArray *)array block:(valuePredicateBlock)block;
 #pragma mark NSDateMethod
 /**
  求出下一天 一月 一年 或者 上一天  上一月 上一年

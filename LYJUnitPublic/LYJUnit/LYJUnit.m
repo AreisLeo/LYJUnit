@@ -694,6 +694,136 @@ static NSMutableArray *__KVOHandlers;
     return isContains;
 }
 
++ (NSInteger)_reduceEachIntegerWithArray:(NSArray *)array
+{
+    NSInteger originalNum = 0;
+    for (NSNumber *number in array)
+    {
+        originalNum += number.integerValue;
+    }
+    return originalNum;
+}
+
++ (CGFloat)_reduceEachFloatWithArray:(NSArray *)array
+{
+    CGFloat originalNum = 0;
+    for (NSNumber *number in array)
+    {
+        originalNum += number.floatValue;
+    }
+    return originalNum;
+}
+
++ (NSArray *)_takeWithArray:(NSArray *)array count:(NSInteger)count
+{
+    if (count == 0) return @[];
+
+    __block NSMutableArray *takeArray = [NSMutableArray array];
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [takeArray addObject:obj];
+        if (idx + 1 == count)
+        {
+            *stop = YES;
+        }
+    }];
+    return takeArray;
+}
+
++ (NSArray *)_takeLastWithArray:(NSArray *)array count:(NSInteger)count
+{
+    if (count == 0) return @[];
+
+    __block NSMutableArray *takeArray = [NSMutableArray array];
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [takeArray addObject:obj];
+        while (takeArray.count > count)
+        {
+            [takeArray removeObjectAtIndex:0];
+        }
+    }];
+    return takeArray;
+}
+
++ (NSArray *)_takeUntilWithArray:(NSArray *)array block:(valuePredicateBlock)block
+{
+    if (!block) return @[];
+
+    NSMutableArray *takeUntilArray = [NSMutableArray array];
+    for (id model in array)
+    {
+        BOOL predicate = block(model);
+        if (predicate)
+        {
+            [takeUntilArray addObject:model];
+        }
+        else
+        {
+            break;
+        }
+    }
+    return takeUntilArray;
+}
+
++ (NSArray *)_takeWhileWithArray:(NSArray *)array block:(valuePredicateBlock)block
+{
+    return [self _takeUntilWithArray:array block:^BOOL(id value) {
+        BOOL predicate = block(value);
+        return !predicate;
+    }];
+}
+
++ (NSArray *)_skipWithArray:(NSArray *)array skipCount:(NSInteger)skipCount
+{
+    __block NSMutableArray *skipArray = [NSMutableArray array];
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx > skipCount)
+        {
+            [skipArray addObject:obj];
+        }
+    }];
+    return skipArray;
+}
+
++ (NSArray *)_skipLastWithArray:(NSArray *)array skipLastCount:(NSInteger)skipLastCount
+{
+    return [self _takeWithArray:array count:(array.count - skipLastCount)];
+}
+
++ (NSArray *)_skipUntilWithArray:(NSArray *)array block:(valuePredicateBlock)block
+{
+    if (!block) return @[];
+
+    BOOL skipping = YES;
+    NSMutableArray *skipUntilArray = [NSMutableArray array];
+    for (id model in array)
+    {
+        if (skipping)
+        {
+            BOOL predicate = block(model);
+            if (predicate)
+            {
+                skipping = NO;
+                [skipUntilArray addObject:model];
+            }
+        }
+        else
+        {
+            [skipUntilArray addObject:model];
+        }
+    }
+    return skipUntilArray;
+}
+
++ (NSArray *)_skipWhileWithArray:(NSArray *)array block:(valuePredicateBlock)block
+{
+    return [self _skipUntilWithArray:array block:^BOOL(id value) {
+        BOOL predicate = block(value);
+        return !predicate;
+    }];
+}
+
+
+
 #pragma mark -----NSDate------
 
 + (NSDate *)_dateNextType:(LYJUnitDateNextType)dateType targetDate:(NSDate *)targetDate andIndex:(NSInteger)index

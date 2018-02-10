@@ -78,6 +78,6 @@ typedef enum : NSUInteger {
 #pragma mark ------Block-------
 typedef void (^valueChangeBlock)(id newValue ,id oldValue ,id object ,NSString *keyPath);
 typedef id (^arrayMapBlock)(id value);
-
+typedef BOOL (^valuePredicateBlock)(id value);
 typedef void(^removeBlock)(void);
 #endif /* LYJUnitMacro_h */
