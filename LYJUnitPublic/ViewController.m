@@ -141,6 +141,10 @@
     {
         [self showViewSubViewAllClass];
     }
+    else if ([self.navigationItem.title isEqualToString:@"微信按钮"])
+    {
+        
+    }
 }
 
 
@@ -349,6 +353,9 @@
 - (void)showViewSubViewAllClass
 {
     NSLog(@"%@",[LYJUnit _classNameDictOfTargetView:self.searchBar]);
+}
+- (IBAction)WXBtn:(id)sender {
+
 }
 
 

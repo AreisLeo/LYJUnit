@@ -13,6 +13,10 @@
 /**
  回调
  */
+
+/** rectOfInterest这个方法设置的区域是相对于设备的大小的，默认值是CGRectMake(0, 0, 1, 1)，是有比例关系的 */
+@property (assign ,nonatomic) CGRect rectOfInterest;
+
 @property (strong ,nonatomic) void(^resultBlock)(NSString *result);
 
 + (LYJScanHelper *)manager;

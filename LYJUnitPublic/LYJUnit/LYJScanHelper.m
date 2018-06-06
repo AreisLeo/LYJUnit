@@ -77,6 +77,11 @@ static AVCaptureSession *_session;
         [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
         //初始化连接对象
         //高质量采集率
+        if (!CGRectIsEmpty(self.rectOfInterest))
+        {
+            [output setRectOfInterest:self.rectOfInterest];
+        }
+
         [_session setSessionPreset:AVCaptureSessionPresetHigh];
         [_session addInput:input];
         [_session addOutput:output];
