@@ -149,6 +149,11 @@
 + (UIImage*)_changeChromaWithTargetImage:(UIImage*)anImage type:(int)type;
 
 
+/**
+ *  渐变颜色 使用图片
+ */
++ (UIColor *)_textColorWithImage:(NSString *)image;
+
 #pragma mark NSArrayMethod
 /**
  快速排序
@@ -234,6 +239,7 @@
  取出当前数组中不符合条件的值 当条件符合后 后面不再进行条件判断
  */
 + (NSArray *)_skipWhileWithArray:(NSArray *)array block:(valuePredicateBlock)block;
+
 #pragma mark NSDateMethod
 /**
  求出下一天 一月 一年 或者 上一天  上一月 上一年
@@ -284,6 +290,17 @@
 + (NSMutableAttributedString *)_attributedStringWithFullText:(NSString *)fullText andAttributedData:(void(^)(LYJUnitAttributedData *attributedData))attributedData;
 
 
+/**
+ 文字投影
+
+ @param color 投影颜色
+ @param offset 投影面积
+ @param bluradius 模糊程度
+ @param attributedString 需要添加的对象文本
+ @return 添加完成后的对象文本
+ */
++ (NSMutableAttributedString *)_attributedStringWithShadowColor:(UIColor *)color offset:(CGSize)offset blurRadius:(CGFloat)bluradius attributedString:(NSMutableAttributedString *)attributedString;
+
 #pragma mark UIViewMethod
 /**
  输入 classname 可直接从 targetView 中获取到对应的 view ,如果所有子 view 都不包含情况下返回 nil 只能从 subviews 中存在的 view 搜索得到
@@ -298,4 +315,60 @@
  targetView 目标查找的targetView
  */
 + (NSDictionary *)_classNameDictOfTargetView:(UIView *)targetView;
+
+/**
+ *  创建视图的属性
+ *
+ *  @param cornerRadius 圆角
+ *  @param borderWidth  描边宽度
+ *  @param borderColor  描边颜色
+ *  @param view         视图
+ *  @param masksToBounds 是否删除多余的视图
+ *
+ */
++ (void)_cornerRadius:(CGFloat)cornerRadius
+          borderWidth:(CGFloat)borderWidth
+          borderColor:(UIColor *)borderColor
+        masksToBounds:(BOOL)masksToBounds
+                 view:(UIView *)view;
+
+
+#pragma mark LayerMethod
+/**
+ 添加圆角，使用UIBezierPath
+
+ @param view 需要圆角的视图
+ @param corners 需要的圆角的角 可以UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft|UIRectCornerBottomRight|
+ @param cornerRadii 圆角的大小
+ */
++ (CAShapeLayer *)_bezierPathByView:(UIView *)view roundingCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii;
+
+/**
+ 投影
+ */
++ (void)_bezierPathWithView:(UIView *)view shadowColor:(UIColor *)shadowColor shadowOffset:(CGSize)shadowOffset andShadowOpacity:(CGFloat)shadowOpacity;
+
+
+/**
+ 画圆
+
+ @param frame 需要画的frame
+ @param strokeColor 描边颜色
+ @param fillColor 填充颜色
+ @param lineWidth 线宽
+ @return CAShapeLayer
+ */
++ (CAShapeLayer *)_drawCircleWithCircleFrame:(CGRect)frame strokeColor:(UIColor *)strokeColor fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth;
+
+/**
+ *  渐变颜色 layer层
+ */
+
++ (NSArray *)_gradientLayerColorsForColors:(NSArray <UIColor *>*)colors;
+
++ (CAGradientLayer *)_gradientLayerWithColors:(NSArray *)colors originType:(LYJGradientLayerType)originType endType:(LYJGradientLayerType)endType targetView:(UIView *)view;
+
++ (CAGradientLayer *)_gradientLayerWithColors:(NSArray *)colors startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint targetView:(UIView *)view;
+
++ (CAGradientLayer *)_gradientLayerWithColors:(NSArray *)colors startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint locations:(NSArray *)locations targetView:(UIView *)view;
 @end

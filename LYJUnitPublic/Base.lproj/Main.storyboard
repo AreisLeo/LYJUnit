@@ -665,7 +665,7 @@
         <!--微信按钮-->
         <scene sceneID="vYR-o9-0s3">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="3Im-ac-kUs" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="3Im-ac-kUs" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eOJ-MA-V1O"/>
                         <viewControllerLayoutGuide type="bottom" id="KzH-2Z-6Au"/>
@@ -678,13 +678,12 @@
                     <navigationItem key="navigationItem" title="微信按钮" id="BIT-aQ-puF">
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="action" id="4x4-51-vaA">
                             <connections>
-                                <action selector="WXBtn:" destination="K49-cL-wgS" id="6Qy-d7-U6W"/>
+                                <action selector="WXBtn:" destination="3Im-ac-kUs" id="73r-eW-R1q"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PIO-nq-sb4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="K49-cL-wgS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1615" y="238"/>
         </scene>

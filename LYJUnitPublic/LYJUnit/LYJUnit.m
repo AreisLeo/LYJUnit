@@ -498,6 +498,13 @@ static NSMutableArray *__KVOHandlers;
     
 }
 
++ (UIColor *)_textColorWithImage:(NSString *)image
+{
+    return [UIColor colorWithPatternImage:[UIImage
+                                           imageNamed:image]];
+}
+
+
 #pragma mark -----NSArray------
 
 + (void)_ascendQuickSortArray:(NSMutableArray *)array
@@ -1022,6 +1029,21 @@ static NSMutableArray *__KVOHandlers;
     return nil;
 }
 
++ (NSMutableAttributedString *)_attributedStringWithShadowColor:(UIColor *)color offset:(CGSize)offset blurRadius:(CGFloat)bluradius attributedString:(NSMutableAttributedString *)attributedString
+{
+
+    NSShadow *shadow = [[NSShadow alloc]init];
+    shadow.shadowBlurRadius = bluradius;
+    shadow.shadowOffset = offset;
+    shadow.shadowColor = color;
+    [attributedString addAttribute:NSShadowAttributeName
+                             value:shadow
+                             range:NSMakeRange(0, attributedString.length)];
+    return attributedString;
+}
+
+
+
 + (NSDictionary *)_classNameDictOfTargetView:(UIView *)targetView
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -1040,5 +1062,162 @@ static NSMutableArray *__KVOHandlers;
     return dict;
 }
 
++ (void)_cornerRadius:(CGFloat)cornerRadius
+          borderWidth:(CGFloat)borderWidth
+          borderColor:(UIColor *)borderColor
+        masksToBounds:(BOOL)masksToBounds
+                 view:(UIView *)view
+{
+    view.layer.cornerRadius = cornerRadius;
+    if (borderColor)
+    {
+        view.layer.borderColor = borderColor.CGColor;
+    }
+    view.layer.masksToBounds = masksToBounds;
+    view.layer.borderWidth = borderWidth;
+}
+
+
+
+#pragma mark LayerMethod
+
++ (CAShapeLayer *)_bezierPathByView:(UIView *)view roundingCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii
+{
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:corners cornerRadii:cornerRadii];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = view.bounds;
+    maskLayer.path = maskPath.CGPath;
+    view.layer.mask = maskLayer;
+    return maskLayer;
+}
+
++ (void)_bezierPathWithView:(UIView *)view shadowColor:(UIColor *)shadowColor shadowOffset:(CGSize)shadowOffset andShadowOpacity:(CGFloat)shadowOpacity
+{
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+
+    view.layer.masksToBounds = NO;
+
+    view.layer.shadowColor = shadowColor.CGColor;
+
+    view.layer.shadowOffset = shadowOffset;
+
+    view.layer.shadowOpacity = shadowOpacity;
+
+    view.layer.shadowPath = shadowPath.CGPath;
+}
+
+//    NSArray *arr = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:10],[NSNumber numberWithInt:5], nil];
+//    dotteLine.lineDashPhase = 1.0;
+//    dotteLine.lineDashPattern = arr;
++ (CAShapeLayer *)_drawCircleWithCircleFrame:(CGRect)frame strokeColor:(UIColor *)strokeColor fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth
+{
+    CAShapeLayer *circleShapeLayer =  [CAShapeLayer layer];
+    CGMutablePathRef dottePath =  CGPathCreateMutable();
+    circleShapeLayer.lineWidth = lineWidth ;
+    circleShapeLayer.strokeColor = strokeColor.CGColor;
+    circleShapeLayer.fillColor = fillColor.CGColor;
+    CGPathAddEllipseInRect(dottePath, nil, frame);
+    circleShapeLayer.path = dottePath;
+    CGPathRelease(dottePath);
+    return circleShapeLayer;
+}
+
++ (NSArray *)_gradientLayerColorsForColors:(NSArray<UIColor *> *)colors
+{
+    NSMutableArray *targetColors = [NSMutableArray array];
+    for (UIColor *color in colors)
+    {
+        [targetColors addObject:(__bridge id)color.CGColor];
+    }
+    return targetColors;
+}
+
+
++ (CAGradientLayer *)_gradientLayerWithColors:(NSArray *)colors originType:(LYJGradientLayerType)originType endType:(LYJGradientLayerType)endType targetView:(UIView *)view
+{
+    return [self _gradientLayerWithColors:colors startPoint:[self _pointWithGradientLayerType:originType] endPoint:[self _pointWithGradientLayerType:endType] targetView:view];
+}
+
++ (CAGradientLayer *)_gradientLayerWithColors:(NSArray *)colors startPoint:(CGPoint)startPoint  endPoint:(CGPoint)endPoint targetView:(UIView *)view
+{
+    return [self _gradientLayerWithColors:colors startPoint:startPoint endPoint:endPoint locations:nil targetView:view];
+}
+
+
++ (CAGradientLayer *)_gradientLayerWithColors:(NSArray *)colors startPoint:(CGPoint)startPoint  endPoint:(CGPoint)endPoint locations:(NSArray *)locations targetView:(UIView *)view
+{
+    CAGradientLayer *gradientLayer = nil;
+    NSArray *sulayers = [view.layer sublayers];
+    for (CALayer *layer in sulayers)
+    {
+        if ([layer isKindOfClass:[CAGradientLayer class]])
+        {
+            gradientLayer = (CAGradientLayer *)layer;
+            break;
+        }
+    }
+
+
+    if (!gradientLayer)
+    {
+        gradientLayer = [CAGradientLayer layer];
+        [view.layer addSublayer:gradientLayer];
+    }
+
+
+    gradientLayer.frame = view.bounds;
+
+
+    //set gradient colors
+    if (colors) gradientLayer.colors = colors;
+
+    //set locations
+    if (locations) gradientLayer.locations = locations;
+
+    //set gradient start and end points
+    gradientLayer.startPoint = startPoint;
+    gradientLayer.endPoint = endPoint;
+
+    return gradientLayer;
+}
+
++ (CGPoint)_pointWithGradientLayerType:(LYJGradientLayerType)type
+{
+    CGPoint point = CGPointZero;
+    switch (type) {
+        case LYJGradientLayerTypeTopLeft:
+            point = CGPointMake(0, 0);
+            break;
+        case LYJGradientLayerTypeTopMid:
+            point = CGPointMake(0.5, 0);
+            break;
+        case LYJGradientLayerTypeTopRight:
+            point = CGPointMake(1, 0);
+            break;
+        case LYJGradientLayerTypeMidLeft:
+            point = CGPointMake(0, 0.5);
+            break;
+        case LYJGradientLayerTypeMidMid:
+            point = CGPointMake(0.5, 0.5);
+            break;
+        case LYJGradientLayerTypeMidRight:
+            point = CGPointMake(1, 0.5);
+            break;
+        case LYJGradientLayerTypeBottomLeft:
+            point = CGPointMake(0, 1);
+            break;
+        case LYJGradientLayerTypeBottomMid:
+            point = CGPointMake(0.5, 1);
+            break;
+        case LYJGradientLayerTypeBottomRight:
+            point = CGPointMake(1, 1);
+            break;
+        default:
+            point = CGPointZero;
+            break;
+    }
+
+    return point;
+}
 
 @end

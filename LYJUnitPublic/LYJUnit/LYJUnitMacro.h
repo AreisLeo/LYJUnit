@@ -75,6 +75,19 @@ typedef enum : NSUInteger {
 } LYJUnitMatchType;
 
 
+typedef enum : NSUInteger {
+    LYJGradientLayerTypeTopLeft = 0,
+    LYJGradientLayerTypeTopMid = 1,
+    LYJGradientLayerTypeTopRight = 2,
+    LYJGradientLayerTypeMidLeft = 3,
+    LYJGradientLayerTypeMidMid = 4,
+    LYJGradientLayerTypeMidRight = 5,
+    LYJGradientLayerTypeBottomLeft = 6,
+    LYJGradientLayerTypeBottomMid = 7,
+    LYJGradientLayerTypeBottomRight = 8
+} LYJGradientLayerType;
+
+
 #pragma mark ------Block-------
 typedef void (^valueChangeBlock)(id newValue ,id oldValue ,id object ,NSString *keyPath);
 typedef id (^arrayMapBlock)(id value);

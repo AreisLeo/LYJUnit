@@ -10,7 +10,8 @@
 #import "LYJTestModel.h"
 #import "LYJUnitHeader.h"
 #import "LYJRadarView.h"
-@interface ViewController ()
+#import "LYJKeyWindowButton.h"
+@interface ViewController ()<UIGestureRecognizerDelegate>
 {
     NSString *fullString;
 }
@@ -143,6 +144,19 @@
     }
     else if ([self.navigationItem.title isEqualToString:@"微信按钮"])
     {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [button setTitle:@"关闭" forState:UIControlStateNormal];
+//        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+        button.frame = ({
+            CGRect frame  = button.frame;
+            frame.origin = CGPointMake(0, 0);
+            frame.size = CGSizeMake(22, 22);
+            frame;
+        });
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+        self.navigationController.interactivePopGestureRecognizer.delegate = self;
         
     }
 }
@@ -355,9 +369,13 @@
     NSLog(@"%@",[LYJUnit _classNameDictOfTargetView:self.searchBar]);
 }
 - (IBAction)WXBtn:(id)sender {
-
+    [LYJKeyWindowButton showBtn];
 }
 
+- (void)pop
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)dealloc
 {

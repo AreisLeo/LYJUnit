@@ -19,11 +19,14 @@
 		03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F75CDA1ED4833300C21160 /* LYJUnitAttributedData.m */; };
 		1E011DDF1EFA1463009A5291 /* LYJRadarIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E011DDE1EFA1463009A5291 /* LYJRadarIndicatorView.m */; };
 		1E06CC5C1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E06CC5B1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m */; };
+		1E242A3E20C8E324009B7999 /* LYJKeyWindowCancelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E242A3D20C8E324009B7999 /* LYJKeyWindowCancelView.m */; };
+		1E242A4120C9084B009B7999 /* NavigationPushAndPopControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E242A4020C9084B009B7999 /* NavigationPushAndPopControl.m */; };
 		1E313BB2201724DA00758D86 /* NSDictionary+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E313BAF201724D900758D86 /* NSDictionary+Log.m */; };
 		1E313BB3201724DA00758D86 /* NSArray+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E313BB0201724DA00758D86 /* NSArray+Log.m */; };
 		1E4469941EEE665A00751B80 /* UIAlertController+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4469931EEE665A00751B80 /* UIAlertController+Category.m */; };
 		1E44BA0A1EE8F21A00FD6BDF /* LYJTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E44BA091EE8F21A00FD6BDF /* LYJTestModel.m */; };
 		1E5C24901EE7FE3A00CB809B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */; };
+		1E6BADD420C8CD3200CB78ED /* LYJKeyWindowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6BADD320C8CD3200CB78ED /* LYJKeyWindowButton.m */; };
 		1E77DB502018790A007646F8 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E77DB4F20187909007646F8 /* libz.tbd */; };
 		1E77DB5220187918007646F8 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E77DB5120187918007646F8 /* libc++.tbd */; };
 		1E77DB5420187925007646F8 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E77DB5320187925007646F8 /* libstdc++.6.0.9.tbd */; };
@@ -77,6 +80,10 @@
 		1E011DDE1EFA1463009A5291 /* LYJRadarIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJRadarIndicatorView.m; sourceTree = "<group>"; };
 		1E06CC5A1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+LYJKVOCategory.h"; sourceTree = "<group>"; };
 		1E06CC5B1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+LYJKVOCategory.m"; sourceTree = "<group>"; };
+		1E242A3C20C8E324009B7999 /* LYJKeyWindowCancelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYJKeyWindowCancelView.h; sourceTree = "<group>"; };
+		1E242A3D20C8E324009B7999 /* LYJKeyWindowCancelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYJKeyWindowCancelView.m; sourceTree = "<group>"; };
+		1E242A3F20C9084B009B7999 /* NavigationPushAndPopControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationPushAndPopControl.h; sourceTree = "<group>"; };
+		1E242A4020C9084B009B7999 /* NavigationPushAndPopControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationPushAndPopControl.m; sourceTree = "<group>"; };
 		1E313BAE201724D900758D86 /* NSDictionary+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Log.h"; sourceTree = "<group>"; };
 		1E313BAF201724D900758D86 /* NSDictionary+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Log.m"; sourceTree = "<group>"; };
 		1E313BB0201724DA00758D86 /* NSArray+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Log.m"; sourceTree = "<group>"; };
@@ -86,6 +93,8 @@
 		1E44BA081EE8F21A00FD6BDF /* LYJTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYJTestModel.h; sourceTree = "<group>"; };
 		1E44BA091EE8F21A00FD6BDF /* LYJTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYJTestModel.m; sourceTree = "<group>"; };
 		1E5C248F1EE7FE3A00CB809B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		1E6BADD220C8CD3200CB78ED /* LYJKeyWindowButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYJKeyWindowButton.h; sourceTree = "<group>"; };
+		1E6BADD320C8CD3200CB78ED /* LYJKeyWindowButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYJKeyWindowButton.m; sourceTree = "<group>"; };
 		1E77DB4F20187909007646F8 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1E77DB5120187918007646F8 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		1E77DB5320187925007646F8 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
@@ -218,6 +227,12 @@
 				1EE0B5EE1EF91E2800E5167A /* LYJRadarView.m */,
 				1E011DDD1EFA1463009A5291 /* LYJRadarIndicatorView.h */,
 				1E011DDE1EFA1463009A5291 /* LYJRadarIndicatorView.m */,
+				1E6BADD220C8CD3200CB78ED /* LYJKeyWindowButton.h */,
+				1E6BADD320C8CD3200CB78ED /* LYJKeyWindowButton.m */,
+				1E242A3C20C8E324009B7999 /* LYJKeyWindowCancelView.h */,
+				1E242A3D20C8E324009B7999 /* LYJKeyWindowCancelView.m */,
+				1E242A3F20C9084B009B7999 /* NavigationPushAndPopControl.h */,
+				1E242A4020C9084B009B7999 /* NavigationPushAndPopControl.m */,
 			);
 			path = LYJUnit;
 			sourceTree = "<group>";
@@ -379,10 +394,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E242A4120C9084B009B7999 /* NavigationPushAndPopControl.m in Sources */,
 				03F75CA31ED470E900C21160 /* ViewController.m in Sources */,
 				1E313BB3201724DA00758D86 /* NSArray+Log.m in Sources */,
 				03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */,
 				1EFB2B461EEE4898009A2F99 /* LYJAlertController.m in Sources */,
+				1E242A3E20C8E324009B7999 /* LYJKeyWindowCancelView.m in Sources */,
 				1EE0B5EF1EF91E2800E5167A /* LYJRadarView.m in Sources */,
 				1E06CC5C1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m in Sources */,
 				03F75CA01ED470E900C21160 /* AppDelegate.m in Sources */,
@@ -392,6 +409,7 @@
 				1E4469941EEE665A00751B80 /* UIAlertController+Category.m in Sources */,
 				1E44BA0A1EE8F21A00FD6BDF /* LYJTestModel.m in Sources */,
 				1EF4631F1EEAA70400721AAC /* LYJScanHelper.m in Sources */,
+				1E6BADD420C8CD3200CB78ED /* LYJKeyWindowButton.m in Sources */,
 				03F75CD51ED473AC00C21160 /* LYJUnit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
