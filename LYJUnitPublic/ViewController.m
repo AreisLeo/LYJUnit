@@ -11,7 +11,7 @@
 #import "LYJUnitHeader.h"
 #import "LYJRadarView.h"
 #import "LYJKeyWindowButton.h"
-@interface ViewController ()<UIGestureRecognizerDelegate>
+@interface ViewController ()<UIGestureRecognizerDelegate,UINavigationControllerDelegate>
 {
     NSString *fullString;
 }
@@ -157,6 +157,8 @@
         });
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
+
+        self.view.backgroundColor = [UIColor redColor];
         
     }
 }
@@ -376,6 +378,13 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSLog(@"%@",self.navigationItem.title);
+}
+
 
 - (void)dealloc
 {

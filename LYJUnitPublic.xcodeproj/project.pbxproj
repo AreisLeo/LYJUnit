@@ -21,6 +21,7 @@
 		1E06CC5C1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E06CC5B1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m */; };
 		1E242A3E20C8E324009B7999 /* LYJKeyWindowCancelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E242A3D20C8E324009B7999 /* LYJKeyWindowCancelView.m */; };
 		1E242A4120C9084B009B7999 /* NavigationPushAndPopControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E242A4020C9084B009B7999 /* NavigationPushAndPopControl.m */; };
+		1E242A4520C930E1009B7999 /* NavigationControllerAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E242A4420C930E1009B7999 /* NavigationControllerAnimatedTransitioning.m */; };
 		1E313BB2201724DA00758D86 /* NSDictionary+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E313BAF201724D900758D86 /* NSDictionary+Log.m */; };
 		1E313BB3201724DA00758D86 /* NSArray+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E313BB0201724DA00758D86 /* NSArray+Log.m */; };
 		1E4469941EEE665A00751B80 /* UIAlertController+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4469931EEE665A00751B80 /* UIAlertController+Category.m */; };
@@ -84,6 +85,8 @@
 		1E242A3D20C8E324009B7999 /* LYJKeyWindowCancelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYJKeyWindowCancelView.m; sourceTree = "<group>"; };
 		1E242A3F20C9084B009B7999 /* NavigationPushAndPopControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationPushAndPopControl.h; sourceTree = "<group>"; };
 		1E242A4020C9084B009B7999 /* NavigationPushAndPopControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationPushAndPopControl.m; sourceTree = "<group>"; };
+		1E242A4320C930E1009B7999 /* NavigationControllerAnimatedTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationControllerAnimatedTransitioning.h; sourceTree = "<group>"; };
+		1E242A4420C930E1009B7999 /* NavigationControllerAnimatedTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationControllerAnimatedTransitioning.m; sourceTree = "<group>"; };
 		1E313BAE201724D900758D86 /* NSDictionary+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Log.h"; sourceTree = "<group>"; };
 		1E313BAF201724D900758D86 /* NSDictionary+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Log.m"; sourceTree = "<group>"; };
 		1E313BB0201724DA00758D86 /* NSArray+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Log.m"; sourceTree = "<group>"; };
@@ -233,6 +236,8 @@
 				1E242A3D20C8E324009B7999 /* LYJKeyWindowCancelView.m */,
 				1E242A3F20C9084B009B7999 /* NavigationPushAndPopControl.h */,
 				1E242A4020C9084B009B7999 /* NavigationPushAndPopControl.m */,
+				1E242A4320C930E1009B7999 /* NavigationControllerAnimatedTransitioning.h */,
+				1E242A4420C930E1009B7999 /* NavigationControllerAnimatedTransitioning.m */,
 			);
 			path = LYJUnit;
 			sourceTree = "<group>";
@@ -400,6 +405,7 @@
 				03F75CDB1ED4833300C21160 /* LYJUnitAttributedData.m in Sources */,
 				1EFB2B461EEE4898009A2F99 /* LYJAlertController.m in Sources */,
 				1E242A3E20C8E324009B7999 /* LYJKeyWindowCancelView.m in Sources */,
+				1E242A4520C930E1009B7999 /* NavigationControllerAnimatedTransitioning.m in Sources */,
 				1EE0B5EF1EF91E2800E5167A /* LYJRadarView.m in Sources */,
 				1E06CC5C1EF7C60B0045BD25 /* NSObject+LYJKVOCategory.m in Sources */,
 				03F75CA01ED470E900C21160 /* AppDelegate.m in Sources */,

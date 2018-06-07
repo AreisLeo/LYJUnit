@@ -10,6 +10,11 @@
 
 @interface LYJKeyWindowButton : UIButton
 
+/** <#message#> */
+@property (strong ,nonatomic) UIViewController *currentController;
+
 + (instancetype)showBtn;
+
++ (LYJKeyWindowButton *)keyWindowBtn;
 
 @end

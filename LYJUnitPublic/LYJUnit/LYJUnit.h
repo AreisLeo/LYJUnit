@@ -361,9 +361,34 @@
 + (CAShapeLayer *)_drawCircleWithCircleFrame:(CGRect)frame strokeColor:(UIColor *)strokeColor fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth;
 
 /**
+ 描写扇形
+
+ @param center 起点
+ @param radius 半径
+ @param startAngle 开始位置
+ @param endAngle 结束位置
+ @param clockwise 顺时针
+ @param lineWidth 半径宽度
+ @param strokeColor 描边颜色
+ @param fillColor 填充颜色
+ @param lineCap kCALineCapButt 默认
+ @param animations 动画block
+ @return shapeLayer
+ */
++ (CAShapeLayer *)_drawArcWithCenter:(CGPoint)center
+                              radius:(CGFloat)radius
+                          startAngle:(CGFloat)startAngle
+                            endAngle:(CGFloat)endAngle
+                           clockwise:(BOOL)clockwise
+                      layerLineWidth:(CGFloat)lineWidth
+                    layerStrokeColor:(UIColor *)strokeColor
+                      layerFillColor:(UIColor *)fillColor
+                        layerLineCap:(NSString *)lineCap
+                          animations:(void(^)(CAShapeLayer *shapeLayer))animations;
+
+/**
  *  渐变颜色 layer层
  */
-
 + (NSArray *)_gradientLayerColorsForColors:(NSArray <UIColor *>*)colors;
 
 + (CAGradientLayer *)_gradientLayerWithColors:(NSArray *)colors originType:(LYJGradientLayerType)originType endType:(LYJGradientLayerType)endType targetView:(UIView *)view;

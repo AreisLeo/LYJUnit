@@ -1122,6 +1122,40 @@ static NSMutableArray *__KVOHandlers;
     return circleShapeLayer;
 }
 
++ (CAShapeLayer *)_drawArcWithCenter:(CGPoint)center
+                              radius:(CGFloat)radius
+                          startAngle:(CGFloat)startAngle
+                            endAngle:(CGFloat)endAngle
+                           clockwise:(BOOL)clockwise
+                      layerLineWidth:(CGFloat)lineWidth
+                    layerStrokeColor:(UIColor *)strokeColor
+                      layerFillColor:(UIColor *)fillColor
+                        layerLineCap:(NSString *)lineCap
+                          animations:(void(^)(CAShapeLayer *shapeLayer))animations
+{
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+
+    UIBezierPath *bezierPath = [UIBezierPath bezierPath];
+    [bezierPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:clockwise];
+
+    shapeLayer.path = bezierPath.CGPath;
+    shapeLayer.lineWidth = lineWidth;
+    shapeLayer.strokeColor = strokeColor.CGColor;
+    shapeLayer.fillColor = fillColor.CGColor;
+    if (!lineCap)
+    {
+        lineCap = kCALineCapButt;
+    }
+    shapeLayer.lineCap = lineCap;
+
+    if (animations)
+    {
+        animations(shapeLayer);
+    }
+    return shapeLayer;
+}
+
+
 + (NSArray *)_gradientLayerColorsForColors:(NSArray<UIColor *> *)colors
 {
     NSMutableArray *targetColors = [NSMutableArray array];

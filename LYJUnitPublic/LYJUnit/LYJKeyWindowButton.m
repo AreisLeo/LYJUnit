@@ -8,8 +8,8 @@
 
 #import "LYJKeyWindowButton.h"
 #import "LYJKeyWindowCancelView.h"
-
-#define kCancelViewWidth 150.0f
+#import "NavigationPushAndPopControl.h"
+#define kCancelViewWidth 200.0f
 #define kButtonWidth 60.0f
 @interface LYJKeyWindowButton ()
 ;
@@ -18,12 +18,15 @@
 /** <#message#> */
 @property (assign ,nonatomic) CGPoint touchPoint;
 
+
+
 @end
 
 @implementation LYJKeyWindowButton
 
 static LYJKeyWindowButton *_keywindowBtn;
 static LYJKeyWindowCancelView *_cancelView;
+static NavigationPushAndPopControl *_navigationControl;
 static dispatch_once_t onceToken;
 
 + (instancetype)showBtn
@@ -35,10 +38,24 @@ static dispatch_once_t onceToken;
         _keywindowBtn.layer.masksToBounds = YES;
 
         _cancelView = [[LYJKeyWindowCancelView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height, kCancelViewWidth, kCancelViewWidth)];
+
+        _navigationControl = [NavigationPushAndPopControl new];
     });
     [[UIApplication sharedApplication].keyWindow addSubview:_cancelView];
     [[UIApplication sharedApplication].keyWindow addSubview:_keywindowBtn];
     [[UIApplication sharedApplication].keyWindow bringSubviewToFront:_keywindowBtn];
+    UITabBarController *tabbar = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    UINavigationController *navi = (UINavigationController *)tabbar.selectedViewController;
+    NSLog(@"%@",navi.viewControllers);
+    _keywindowBtn.currentController = navi.viewControllers.lastObject;
+    _keywindowBtn.currentController.navigationController.delegate = _navigationControl;
+    [_keywindowBtn.currentController.navigationController popViewControllerAnimated:YES];
+    _keywindowBtn.currentController.navigationController.delegate = nil;
+    return _keywindowBtn;
+}
+
++ (LYJKeyWindowButton *)keyWindowBtn
+{
     return _keywindowBtn;
 }
 
@@ -81,6 +98,20 @@ static dispatch_once_t onceToken;
             });
         }];
     }
+    else if (CGRectContainsRect([_cancelView containsRect], self.frame))
+    {
+        if (_cancelView.midView.frame.origin.x != 10.0f &&
+            _cancelView.midView.frame.origin.y != 10.0f)
+        {
+            [UIView animateWithDuration:0.2f animations:^{
+                [_cancelView animations];
+            }];
+        }
+    }
+    else
+    {
+        [_cancelView setupMidView];
+    }
 
 
 }
@@ -88,10 +119,14 @@ static dispatch_once_t onceToken;
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint currentPoint = [touches.allObjects.lastObject locationInView:self.superview];
+    UITabBarController *tabbar = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    UINavigationController *navi = (UINavigationController *)tabbar.selectedViewController;
 
     if (CGPointEqualToPoint(self.lastPoint, currentPoint))
     {
-        NSLog(@"点击");
+        navi.delegate = _navigationControl;
+        [navi pushViewController:self.currentController animated:YES];
+
     }
     else
     {
@@ -139,8 +174,10 @@ static dispatch_once_t onceToken;
         if (!CGRectEqualToRect(_cancelView.topView.frame, frame))
         {
             [UIView animateWithDuration:0.2f animations:^{
-                if (CGRectContainsRect(_cancelView.frame, self.frame))
+                if (CGRectContainsRect([_cancelView containsRect], self.frame))
                 {
+                    navi.delegate = nil;
+                    self.currentController = nil;
                     [self removeFromSuperview];
                     self.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - kButtonWidth - 10, 200, kButtonWidth, kButtonWidth);
                 }

@@ -16,4 +16,10 @@
 /** <#message#> */
 @property (strong ,nonatomic) UIView *midView;
 
+- (void)animations;
+
+- (void)setupMidView;
+
+- (CGRect)containsRect;
+
 @end

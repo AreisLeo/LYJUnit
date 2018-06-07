@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface NavigationPushAndPopControl : NSObject
+#import <UIKit/UIKit.h>
+@interface NavigationPushAndPopControl : NSObject <UINavigationControllerDelegate>
 
 @end
