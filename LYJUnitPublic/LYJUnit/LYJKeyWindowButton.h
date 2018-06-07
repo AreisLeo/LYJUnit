@@ -15,6 +15,10 @@
 
 + (instancetype)showBtn;
 
++ (instancetype)showBtnAndPop;
+
 + (LYJKeyWindowButton *)keyWindowBtn;
+
++ (void)pop;
 
 @end

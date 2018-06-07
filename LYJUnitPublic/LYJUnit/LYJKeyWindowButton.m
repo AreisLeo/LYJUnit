@@ -44,14 +44,37 @@ static dispatch_once_t onceToken;
     [[UIApplication sharedApplication].keyWindow addSubview:_cancelView];
     [[UIApplication sharedApplication].keyWindow addSubview:_keywindowBtn];
     [[UIApplication sharedApplication].keyWindow bringSubviewToFront:_keywindowBtn];
+ 
+    return _keywindowBtn;
+}
+
++ (void)pop
+{
+
     UITabBarController *tabbar = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     UINavigationController *navi = (UINavigationController *)tabbar.selectedViewController;
-    NSLog(@"%@",navi.viewControllers);
-    _keywindowBtn.currentController = navi.viewControllers.lastObject;
-    _keywindowBtn.currentController.navigationController.delegate = _navigationControl;
-    [_keywindowBtn.currentController.navigationController popViewControllerAnimated:YES];
-    _keywindowBtn.currentController.navigationController.delegate = nil;
-    return _keywindowBtn;
+    UIViewController *currentViewController = navi.viewControllers.lastObject;
+    
+    if (!_keywindowBtn.currentController) {
+        _keywindowBtn.currentController = currentViewController;
+        currentViewController.navigationController.delegate = _navigationControl;
+    }
+    
+    [currentViewController.navigationController popViewControllerAnimated:YES];
+    
+    
+
+    
+    currentViewController.navigationController.delegate = nil;
+//    NSLog(@"%@",navi.viewControllers);
+    navi.delegate = nil;
+}
+
++ (instancetype)showBtnAndPop
+{
+    LYJKeyWindowButton *button = [self showBtn];
+    [self pop];
+    return button;
 }
 
 + (LYJKeyWindowButton *)keyWindowBtn
@@ -126,7 +149,7 @@ static dispatch_once_t onceToken;
     {
         navi.delegate = _navigationControl;
         [navi pushViewController:self.currentController animated:YES];
-
+        
     }
     else
     {

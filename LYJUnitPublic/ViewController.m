@@ -158,7 +158,7 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
 
-        self.view.backgroundColor = [UIColor redColor];
+        self.view.backgroundColor = [LYJUnit _randomColor];
         
     }
 }
@@ -371,12 +371,13 @@
     NSLog(@"%@",[LYJUnit _classNameDictOfTargetView:self.searchBar]);
 }
 - (IBAction)WXBtn:(id)sender {
-    [LYJKeyWindowButton showBtn];
+    [LYJKeyWindowButton showBtnAndPop];
 }
 
 - (void)pop
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [LYJKeyWindowButton pop];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated

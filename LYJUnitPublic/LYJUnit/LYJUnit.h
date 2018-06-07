@@ -250,6 +250,15 @@
 
 + (NSString *)_dateStrFromDateType:(LYJUnitDateType)dateType andTargetDate:(NSDate *)targetDate;
 
+#pragma mark UIColorMethod
+
+/**
+ 生成随机颜色
+
+ @return 随机 color 值
+ */
++ (UIColor *)_randomColor;
+
 #pragma mark UILocalNotificationMethod
 /**
  本地通知

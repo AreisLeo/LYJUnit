@@ -252,7 +252,7 @@
             rotationAnimation.repeatCount = 3;
             rotationAnimation.delegate = self;
             rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-            [_indicatorView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+            [self->_indicatorView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
             //            INT_MAX
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self show];
