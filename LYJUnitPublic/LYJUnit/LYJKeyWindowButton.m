@@ -9,6 +9,8 @@
 #import "LYJKeyWindowButton.h"
 #import "LYJKeyWindowCancelView.h"
 #import "NavigationPushAndPopControl.h"
+
+
 #define kCancelViewWidth 200.0f
 #define kButtonWidth 60.0f
 @interface LYJKeyWindowButton ()
@@ -17,6 +19,7 @@
 @property (assign ,nonatomic) CGPoint lastPoint;
 /** <#message#> */
 @property (assign ,nonatomic) CGPoint touchPoint;
+
 
 
 
@@ -57,11 +60,12 @@ static dispatch_once_t onceToken;
     
     if (!_keywindowBtn.currentController) {
         _keywindowBtn.currentController = currentViewController;
-        currentViewController.navigationController.delegate = _navigationControl;
+        currentViewController.transitioningDelegate = _navigationControl;
     }
     
-    [currentViewController.navigationController popViewControllerAnimated:YES];
-    
+//    [currentViewController.navigationController popViewControllerAnimated:YES];
+    [currentViewController dismissViewControllerAnimated:YES completion:nil];
+
     
 
     

@@ -11,6 +11,8 @@
 #import "LYJUnitHeader.h"
 #import "LYJRadarView.h"
 #import "LYJKeyWindowButton.h"
+#import "WXViewController.h"
+#import "NavigationPushAndPopControl.h"
 @interface ViewController ()<UIGestureRecognizerDelegate,UINavigationControllerDelegate>
 {
     NSString *fullString;
@@ -73,6 +75,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    [self.navigationController setNavigationBarHidden:YES];
     if ([self.navigationItem.title isEqualToString:@"富文本"])
     {
         [self attributedText];
@@ -142,24 +145,9 @@
     {
         [self showViewSubViewAllClass];
     }
-    else if ([self.navigationItem.title isEqualToString:@"微信按钮"])
+    else if ([self.navigationItem.title isEqualToString:@"中转界面"])
     {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [button setTitle:@"关闭" forState:UIControlStateNormal];
-//        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
-        button.frame = ({
-            CGRect frame  = button.frame;
-            frame.origin = CGPointMake(0, 0);
-            frame.size = CGSizeMake(22, 22);
-            frame;
-        });
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-        self.navigationController.interactivePopGestureRecognizer.delegate = self;
-
         self.view.backgroundColor = [LYJUnit _randomColor];
-        
     }
 }
 
@@ -370,8 +358,16 @@
 {
     NSLog(@"%@",[LYJUnit _classNameDictOfTargetView:self.searchBar]);
 }
-- (IBAction)WXBtn:(id)sender {
-    [LYJKeyWindowButton showBtnAndPop];
+
+- (IBAction)presentWX:(id)sender {
+
+    WXViewController *vc = [WXViewController new];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    nav.navigationBar.barTintColor = [LYJUnit _randomColor];
+    nav.navigationBar.translucent = NO;
+    nav.transitioningDelegate = [NavigationPushAndPopControl pushAndPopControl];
+
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)pop
