@@ -87,6 +87,11 @@ typedef enum : NSUInteger {
     LYJGradientLayerTypeBottomRight = 8
 } LYJGradientLayerType;
 
+typedef enum : NSUInteger {
+    LYJSystemStatusBarColorBlack,
+    LYJSystemStatusBarColorWhite,
+} LYJSystemStatusBarColorType;
+
 
 #pragma mark ------Block-------
 typedef void (^valueChangeBlock)(id newValue ,id oldValue ,id object ,NSString *keyPath);

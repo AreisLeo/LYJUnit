@@ -1,17 +1,15 @@
 //
-//  NavigationPushAndPopControl.m
+//  LYJTransitionPushAndPop.m
 //  LYJUnitPublic
 //
-//  Created by yuwang on 2018/6/7.
+//  Created by Aries li on 2018/6/9.
 //  Copyright © 2018年 Aries li. All rights reserved.
 //
 
-#import "NavigationPushAndPopControl.h"
+#import "LYJTransitionPushAndPop.h"
 #import "NavigationControllerPresentAnimatedTransitioning.h"
-#import "NavigationViewControllerInteractiveTransitioning.h"
-#import "WXViewController.h"
 #import "LYJUnit.h"
-@interface NavigationPushAndPopControl ();
+@interface LYJTransitionPushAndPop ()
 
 /** <#message#> */
 @property (strong ,nonatomic) NavigationControllerPresentAnimatedTransitioning *trans;
@@ -25,9 +23,10 @@
 @property (strong ,nonatomic) UIViewController *vc;
 @end
 
-@implementation NavigationPushAndPopControl
+@implementation LYJTransitionPushAndPop
 
-static NavigationPushAndPopControl *_PAPC = nil;
+
+static LYJTransitionPushAndPop *_PAPC = nil;
 static dispatch_once_t onceToken;
 + (instancetype)pushAndPopControl
 {
@@ -59,15 +58,12 @@ static dispatch_once_t onceToken;
     return nil;
 }
 
-
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     self.trans.isPush = NO;
     return self.trans;
 }
-
-
-
 
 - (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator
 {
@@ -78,11 +74,6 @@ static dispatch_once_t onceToken;
     return nil;
 }
 
-+ (void)setInteractive:(BOOL)interactive
-{
-    _PAPC.interactive = interactive;
-}
-
 + (void)setCurrentViewController:(UIViewController *)vc
 {
     _PAPC.vc = vc;
@@ -90,21 +81,21 @@ static dispatch_once_t onceToken;
 
 - (void)popGes:(UIGestureRecognizer *)gestureRecognizer
 {
-
+    
     CGPoint currentPoint = [gestureRecognizer locationInView:[UIApplication sharedApplication].keyWindow];
     self.trans.ges = gestureRecognizer;
-   
+    
     if (currentPoint.x>=0) {
         //手势滑动的比例
         CGFloat per = currentPoint.x / ([UIScreen mainScreen].bounds.size.width);
         per = MIN(1.0,(MAX(0.0, per)));
-
+        
         if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
         {
             self.interactive = YES;
             self.interTrans = [UIPercentDrivenInteractiveTransition new];
             [[UIApplication sharedApplication].keyWindow.rootViewController dismissViewControllerAnimated:YES completion:^{
-                [NavigationPushAndPopControl setInteractive:NO];
+                self.interactive = NO;
             }];
         }
         else if (gestureRecognizer.state == UIGestureRecognizerStateChanged)
@@ -118,6 +109,7 @@ static dispatch_once_t onceToken;
                 [self.interTrans updateInteractiveTransition:per];
             }
             CGFloat fromAlpha = 1.0f;
+            CGFloat toAlpha = per;
             if (per > 0.2 && per < 0.3)
             {
                 fromAlpha = 0.7f - per ;
@@ -126,68 +118,68 @@ static dispatch_once_t onceToken;
             {
                 fromAlpha = 0.5f - per ;
             }
-            [self setFromLabelTextColorWithAlpha:fromAlpha];
-            [self setToLabelTextColorWithAlpha:per];
+            [self setFromToNavigationBarContentViewWithAlpha:fromAlpha];
+            [self setToNavigationBarContentViewWithAlpha:toAlpha];
         }
-        else if (gestureRecognizer.state == UIGestureRecognizerStateEnded || gestureRecognizer.state == UIGestureRecognizerStateCancelled)
+        else if (gestureRecognizer.state ==
+                 UIGestureRecognizerStateEnded ||
+                 gestureRecognizer.state ==
+                 UIGestureRecognizerStateCancelled)
         {
             if(currentPoint.x == 0)
             {
+                [LYJUnit _setSystemStatusBarColor:
+                 LYJSystemStatusBarColorBlack];
                 [self.interTrans cancelInteractiveTransition];
-                [self setToLabelTextColorWithAlpha:0.0f];
+                [self setToNavigationBarContentViewHidden];
             }
             else if (per > 0.5)
             {
+                [LYJUnit _setSystemStatusBarColor:
+                 LYJSystemStatusBarColorWhite];
                 [self.interTrans finishInteractiveTransition];
-                [self setToLabelTextColorWithAlpha:1.0f];
+                [self setToNavigationBarContentViewShow];
             }
             else
             {
+                [LYJUnit _setSystemStatusBarColor:
+                 LYJSystemStatusBarColorBlack];
                 [ self.interTrans cancelInteractiveTransition];
-                [self setToLabelTextColorWithAlpha:0.0f];
+                [self setToNavigationBarContentViewHidden];
             }
-            [self setFromLabelTextColorWithAlpha:1.0f];
-            
+            [self setFromNavigationBarContentViewShow];
         }
     }
-    else if (gestureRecognizer.state == UIGestureRecognizerStateChanged)
-    {
-        [self.interTrans updateInteractiveTransition:0.01];
-        [self.interTrans cancelInteractiveTransition];
-    }
-    else if ((gestureRecognizer.state == UIGestureRecognizerStateEnded || gestureRecognizer.state == UIGestureRecognizerStateCancelled))
-    {
-        self.interTrans = nil;
-    }
-    //    [self interactionControllerForDismissal:self.transition];
-    //    self dis
 }
 
-- (void)setFromLabelTextColorWithAlpha:(CGFloat)alpha
+- (void)setFromToNavigationBarContentViewWithAlpha:(CGFloat)alpha
 {
-//    self.vc.navigationController.navigationBar.alpha = alpha;
-//    UILabel *fromlabel = (UILabel *)self.vc.navigationItem.titleView;
-//    [self setLabelTextColorWithAlpha:alpha label:fromlabel];
     UIView *contentView = [LYJUnit _subViewOfClassName:@"_UINavigationBarContentView" targetView:self.vc.navigationController.navigationBar];
     contentView.alpha = alpha;
-
+    
 }
 
-- (void)setToLabelTextColorWithAlpha:(CGFloat)alpha
+- (void)setToNavigationBarContentViewWithAlpha:(CGFloat)alpha
 {
-    UITabBarController *tabbarVC = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    UINavigationController *navi = tabbarVC.selectedViewController;
-//    UIViewController *vc = navi.viewControllers.lastObject;
+    UITabBarController *tabBarController = (UITabBarController *)[LYJUnit _rootViewController];
+    UINavigationController *navi = tabBarController.selectedViewController;
     UIView *contentView = [LYJUnit _subViewOfClassName:@"_UINavigationBarContentView" targetView:navi.navigationBar];
     contentView.alpha = alpha;
-//    UILabel *tolabel = (UILabel *)vc.navigationItem.titleView;
-//    [self setLabelTextColorWithAlpha:alpha label:tolabel];
 }
 
-- (void)setLabelTextColorWithAlpha:(CGFloat)alpha label:(UILabel *)label
+- (void)setFromNavigationBarContentViewShow
 {
-    label.textColor = [label.textColor colorWithAlphaComponent:alpha];
+    [self setFromToNavigationBarContentViewWithAlpha:1];
 }
 
+- (void)setToNavigationBarContentViewHidden
+{
+    [self setToNavigationBarContentViewWithAlpha:0];
+}
+
+- (void)setToNavigationBarContentViewShow
+{
+    [self setToNavigationBarContentViewWithAlpha:1];
+}
 
 @end

@@ -1,20 +1,19 @@
 //
-//  NavigationPushAndPopControl.h
+//  LYJTransitionPushAndPop.h
 //  LYJUnitPublic
 //
-//  Created by yuwang on 2018/6/7.
+//  Created by Aries li on 2018/6/9.
 //  Copyright © 2018年 Aries li. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface NavigationPushAndPopControl : NSObject <UIViewControllerTransitioningDelegate,UIGestureRecognizerDelegate>
+@interface LYJTransitionPushAndPop : NSObject<UIViewControllerTransitioningDelegate,UIGestureRecognizerDelegate>
 
 + (instancetype)pushAndPopControl;
-
-+ (void)setInteractive:(BOOL)interactive;
 
 + (void)setCurrentViewController:(UIViewController *)vc;
 
 - (void)popGes:(UIGestureRecognizer *)ges;
+
 @end

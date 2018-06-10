@@ -16,6 +16,32 @@
 @interface LYJUnit : NSObject
 
 #pragma mark SystemSettingMethod
+/**
+ 快速返回当前 keywindow
+ */
++ (UIWindow *)_keyWindow;
+
+
+/**
+ 快速返回当前 keywindow.rootViewController
+ */
++ (UIViewController *)_rootViewController;
+
+/**
+ 返回当前 viewcontroller
+ */
++ (UIViewController *)_currentViewController;
+
+
+
+
+/**
+ 需要在 info.plist 中添加 View controller-based status bar appearance = NO 才能生效
+
+ @param type LYJSystemStatusBarColorType 控制StatusBar Color
+ */
++ (void)_setSystemStatusBarColor:(LYJSystemStatusBarColorType)type;
+
 
 /**
  注册本地通知

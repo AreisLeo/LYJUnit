@@ -10,4 +10,9 @@
 
 @interface WXViewController : UIViewController
 
+/**
+ <#Description#>
+ */
+//@property (strong ,nonatomic) UILabel *titleLabel;
+
 @end

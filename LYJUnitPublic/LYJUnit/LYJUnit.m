@@ -21,6 +21,47 @@ static NSMutableArray *__KVOHandlers;
 }
 
 #pragma mark -----SystemSetting------
+
++ (UIWindow *)_keyWindow
+{
+    return [UIApplication sharedApplication].keyWindow;
+}
+
++ (UIViewController *)_rootViewController
+{
+    return [self _keyWindow].rootViewController;
+}
+
++ (UIViewController *)_currentViewController
+{
+    UIViewController *viewController = [self _rootViewController];
+    if ([viewController isKindOfClass:[UITabBarController class]])
+    {
+        UITabBarController *tabBarController = (UITabBarController *)viewController;
+        viewController = [tabBarController selectedViewController];
+    }
+    
+    if ([viewController isKindOfClass:[UINavigationController class]])
+    {
+        UINavigationController *navigationController = (UINavigationController *)viewController;
+        viewController = navigationController.viewControllers.lastObject;
+    }
+    return viewController;
+}
+
++ (void)_setSystemStatusBarColor:(LYJSystemStatusBarColorType)type
+{
+    if (type == LYJSystemStatusBarColorBlack)
+    {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
+    else if (type == LYJSystemStatusBarColorWhite)
+    {
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+}
+
+
 + (void)_registerLocalNotification
 {
     if (IS_IOS10)
@@ -1030,11 +1071,14 @@ static NSMutableArray *__KVOHandlers;
         {
             return subView;
         }
-        UIView* resultFound = [self _subViewOfClassName:className targetView:targetView];
-        if (resultFound)
-        {
-            return resultFound;
+        for (UIView *subTargetView in subView.subviews) {
+            UIView* resultFound = [self _subViewOfClassName:className targetView:subTargetView];
+            if (resultFound)
+            {
+                return resultFound;
+            }
         }
+
     }
     return nil;
 }

@@ -31,7 +31,7 @@
         [windowBtn removeFromSuperview];
         UIView *maskView = [[UIView alloc]initWithFrame:windowBtn.frame];
         maskView.backgroundColor = [UIColor blackColor];
-        [LYJUnit _cornerRadius:10 borderWidth:0 borderColor:nil masksToBounds:YES view:maskView];
+        [LYJUnit _cornerRadius:0 borderWidth:0 borderColor:nil masksToBounds:YES view:maskView];
         toView.maskView = maskView;
 
         [UIView animateWithDuration:0.2f animations:^{

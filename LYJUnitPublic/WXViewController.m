@@ -20,8 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    //        [button setTitle:@"关闭" forState:UIControlStateNormal];
-    //        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
     button.frame = ({
@@ -33,11 +31,10 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationController.interactivePopGestureRecognizer.delegate = [NavigationPushAndPopControl pushAndPopControl];
     [self.navigationController.interactivePopGestureRecognizer addTarget:[NavigationPushAndPopControl pushAndPopControl] action:@selector(popGes:)];
-    self.view.backgroundColor = [LYJUnit _randomColor];
-
-
-    self.transition = [NavigationControllerPresentAnimatedTransitioning new];
-//    self.navigationController.delegate = self;
+    [NavigationPushAndPopControl setCurrentViewController:self];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.navigationItem.title = @"微信按钮";
 }
 
 - (IBAction)WXBtn:(id)sender {
@@ -45,9 +42,17 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+}
 
-
-
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
 
 - (void)pop
 {
