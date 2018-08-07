@@ -10,6 +10,44 @@
 #import "LYJUnitMacro.h"
 #import <objc/runtime.h>
 
+@interface LYJKVObserver : NSObject
+
+@property (copy ,nonatomic) valueChangeBlock block;
+
+- (instancetype)initWithKVOBlock:(valueChangeBlock)block;
+
+@end
+
+@implementation LYJKVObserver
+- (instancetype)initWithKVOBlock:(valueChangeBlock)block
+{
+    if (self = [super init]) {
+        _block = block;
+    }
+    return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    if (!self.block) return;
+
+    BOOL isPrior = [[change objectForKey:NSKeyValueChangeNotificationIsPriorKey] boolValue];
+    if (isPrior) return;
+
+    NSKeyValueChange changeKind = [[change objectForKey:NSKeyValueChangeKindKey]integerValue];
+    if (changeKind != NSKeyValueChangeSetting) return;
+
+    id oldValue = [change objectForKey:NSKeyValueChangeOldKey];
+    if (oldValue == [NSNull null]) oldValue = nil;
+
+    id newValue = [change objectForKey:NSKeyValueChangeNewKey];
+    if (newValue == [NSNull null]) newValue = nil;
+
+    if (oldValue != newValue) self.block(newValue, oldValue, object, keyPath);
+}
+@end
+
+
 const char *LYJKVOBlockKey = "LYJKVOValueChangeBlock";
 
 const char *LYJKVOTargetsKey = "LYJKVOTargets";

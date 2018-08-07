@@ -85,7 +85,8 @@ static dispatch_once_t onceToken;
     CGPoint currentPoint = [gestureRecognizer locationInView:[UIApplication sharedApplication].keyWindow];
     self.trans.ges = gestureRecognizer;
     
-    if (currentPoint.x>=0) {
+    if (currentPoint.x >= 0)
+    {
         //手势滑动的比例
         CGFloat per = currentPoint.x / ([UIScreen mainScreen].bounds.size.width);
         per = MIN(1.0,(MAX(0.0, per)));
@@ -156,7 +157,6 @@ static dispatch_once_t onceToken;
 {
     UIView *contentView = [LYJUnit _subViewOfClassName:@"_UINavigationBarContentView" targetView:self.vc.navigationController.navigationBar];
     contentView.alpha = alpha;
-    
 }
 
 - (void)setToNavigationBarContentViewWithAlpha:(CGFloat)alpha

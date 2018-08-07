@@ -10,9 +10,12 @@
 #import "LYJUnitHeader.h"
 #import "NavigationControllerPresentAnimatedTransitioning.h"
 #import "NavigationPushAndPopControl.h"
+
 @interface WXViewController () <UIViewControllerTransitioningDelegate>
+
 /** <#message#> */
 @property (strong ,nonatomic) NavigationControllerPresentAnimatedTransitioning *transition;
+
 @end
 
 @implementation WXViewController

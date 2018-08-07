@@ -153,37 +153,31 @@
         view.center = self.view.center;
         view.backgroundColor = [LYJUnit _randomColor];
         [self.view addSubview:view];
-        
-        self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
-//        self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
-        self.navigationController.navigationBar.translucent = NO;
-        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-        
-        UIView *barbackground = [LYJUnit _subViewOfClassName:@"_UIBarBackground" targetView:self.navigationController.navigationBar];
 
-        NSLog(@"%@",[LYJUnit _classNameDictOfTargetView:self.navigationController.navigationBar]);
-        
-        UIView *navigationbarSuperView = self.navigationController.navigationBar.superview;
-        UIView *underNavigationBarView = [UIView new];
-        underNavigationBarView.frame = barbackground.frame;
-        underNavigationBarView.frame = ({
-            CGRect frame = underNavigationBarView.frame;
-            frame.origin = CGPointMake(0, 0);
-            frame;
-        });
-        underNavigationBarView.backgroundColor = [UIColor colorWithRed:25.0f/255.0f green:31.0f/255.0f blue:33.0f/255.0f alpha:1];
-        [barbackground addSubview:underNavigationBarView];
-        
-//        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
-//        titleLabel.text = @"微信按钮";
-//        titleLabel.font = [UIFont boldSystemFontOfSize:17];
-//        titleLabel.textColor = [UIColor whiteColor];
-//        [titleLabel sizeToFit];
-//        self.navigationItem.titleView = titleLabel;
+        [self setNavigationControllerStye];
     }
 }
 
+- (void)setNavigationControllerStye
+{
+    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
+    //        self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+
+    UIView *barbackground = [LYJUnit _subViewOfClassName:@"_UIBarBackground" targetView:self.navigationController.navigationBar];
+
+    UIView *underNavigationBarView = [UIView new];
+    underNavigationBarView.frame = barbackground.frame;
+    underNavigationBarView.frame = ({
+        CGRect frame = underNavigationBarView.frame;
+        frame.origin = CGPointMake(0, 0);
+        frame;
+    });
+    underNavigationBarView.backgroundColor = [UIColor colorWithRed:25.0f/255.0f green:31.0f/255.0f blue:33.0f/255.0f alpha:1];
+    [barbackground addSubview:underNavigationBarView];
+}
 
 
 - (void)attributedText
