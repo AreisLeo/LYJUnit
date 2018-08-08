@@ -76,6 +76,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [self.navigationController setNavigationBarHidden:YES];
+    [self.view LYJ_addObserverForKeyPath:@"width" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
+        NSLog(@"%@",object);
+    }];
     if ([self.navigationItem.title isEqualToString:@"富文本"])
     {
         [self attributedText];
@@ -126,7 +129,7 @@
     {
         UILabel *label = [UILabel new];
         label.tag = 999;
-        [self LYJ_addObserver:label forKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
+        [label LYJ_addObserverForKeyPath:@"text" valueChangeBlock:^(id newValue, id oldValue, id object, NSString *keyPath) {
             NSLog(@"%@",keyPath);
         }];
         
@@ -182,19 +185,29 @@
 
 - (void)attributedText
 {
-    fullString = @"哈哈我高兴就哈哈要写框架哈哈哈我哈哈哈flilfifly";
-    
+//    哈哈我高兴就哈哈要写框架哈哈哈我哈哈哈flilfifly
+    fullString = @"123ads1231asd2348789asd123asd1564adfasd";
+    NSArray *array = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"];
     self.label.attributedText = [LYJUnit _attributedStringWithFullText:fullString andAttributedData:^(LYJUnitAttributedData *attributedData) {
-        attributedData.dictionaryKeyAll(@"哈")
-        .dictionaryColor([UIColor redColor])
-        .dictionaryFont([UIFont systemFontOfSize:20])
-        .dictionaryStrokeWidth(10);
-        attributedData.dictionaryKeyAll(@"i")
-        .dictionaryColor([UIColor blueColor])
-        .dictionaryFont([UIFont systemFontOfSize:10])
-        .dictionaryStrokeWidth(5);
+        for (NSString *key in array)
+        {
+            attributedData.dictionaryKeyAll(key)
+            .dictionaryColor([UIColor LYJ_randomColor])
+            .dictionaryFont([UIFont systemFontOfSize:20])
+            .dictionaryStrokeWidth(10);
+        }
+//        attributedData.dictionaryKeyAll(@"哈")
+//        .dictionaryColor([UIColor redColor])
+//        .dictionaryFont([UIFont systemFontOfSize:20])
+//        .dictionaryStrokeWidth(10);
+//        attributedData.dictionaryKeyAll(@"i")
+//        .dictionaryColor([UIColor blueColor])
+//        .dictionaryFont([UIFont systemFontOfSize:10])
+//        .dictionaryStrokeWidth(5);
+//        attributedData.dictionaryKeyAndCount(@"我", 1)
+//        .dictionaryColor([UIColor yellowColor])
+//        .dictionaryFont([UIFont systemFontOfSize:20]);
     }];
-    
 }
 
 - (void)localNotification
@@ -241,8 +254,8 @@
 
     //升序
     NSMutableString *testStr = [NSMutableString string];
-    [LYJUnit _ascendQuickSortArray:testModels1 andKeyPath:@"value"];
-    for (LYJTestModel *model in testModels1)
+    NSArray *ascendArray = [LYJUnit _ascendQuickSortArray:testModels1 andKeyPath:@"value"];
+    for (LYJTestModel *model in ascendArray)
     {
         [testStr appendFormat:@"%f,",model.value];
     }
@@ -250,8 +263,8 @@
 
     //降序
     testStr = [NSMutableString string];
-    [LYJUnit _descendQuickSortArray:testModels2 andKeyPath:@"value"];
-    for (LYJTestModel *model in testModels2)
+    NSArray *descendArray = [LYJUnit _descendQuickSortArray:testModels2 andKeyPath:@"value"];
+    for (LYJTestModel *model in descendArray)
     {
         [testStr appendFormat:@"%f,",model.value];
     }
@@ -421,8 +434,6 @@
 - (void)dealloc
 {
     [LYJUnit _hiddenScanViewWithRemove:YES];
-    UIView *view = [self.view viewWithTag:999];
-    [self LYJ_removeObserver:view forKeyPath:@"text"];
     NSLog(@"%s",__func__);
 }
 

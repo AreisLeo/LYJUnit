@@ -14,7 +14,7 @@
     
     
 //    NSString *lineStr = level == 0 ? @"" : @"\n";
-    NSString *tipsString = [NSString stringWithFormat:@"(%ld = Json)",level];
+    NSString *tipsString = [NSString stringWithFormat:@"(%ld = Dict)",level];
     NSMutableString *nmString = [NSMutableString stringWithString:@"\n"];
     
     NSMutableString *spaceTString = [NSMutableString stringWithString:@""];

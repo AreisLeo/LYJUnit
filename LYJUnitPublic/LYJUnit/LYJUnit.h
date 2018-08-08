@@ -178,7 +178,7 @@
 /**
  *  渐变颜色 使用图片
  */
-+ (UIColor *)_textColorWithImage:(NSString *)image;
++ (UIColor *)_imageColorWithImageName:(NSString *)imageName;
 
 #pragma mark NSArrayMethod
 /**
@@ -188,13 +188,13 @@
  第三个方法 升序 model keyPath值进行排序
  第四个方法 降序 model keyPath值进行排序
  */
-+ (void)_ascendQuickSortArray:(NSMutableArray *)array;
++ (NSArray *)_ascendQuickSortArray:(NSMutableArray *)array;
 
-+ (void)_descendQuickSortArray:(NSMutableArray *)array;
++ (NSArray *)_descendQuickSortArray:(NSMutableArray *)array;
 
-+ (void)_ascendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
++ (NSArray *)_ascendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
 
-+ (void)_descendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
++ (NSArray *)_descendQuickSortArray:(NSMutableArray *)array andKeyPath:(NSString *)keyPath;
 
 /**
  数据转换 mapBlock 返回需要的转换 model
@@ -209,12 +209,12 @@
 /**
  计算当前数组是否全部满足条件 当其它一个不满足时返回 NO
  */
-+ (BOOL)_allMatchingWithWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue;
++ (BOOL)_allMatchingWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue;
 
 /**
  计算当前数组是否全部不满足条件 当其它一个满足时返回 NO
  */
-+ (BOOL)_allNoneMatchingWithWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue;
++ (BOOL)_allNoneMatchingWithTargetArray:(NSArray *)array keyPath:(NSString *)keyPath matchType:(LYJUnitMatchType)matchType matchValue:(id)matchValue;
 
 /**
  求和 integer

@@ -211,23 +211,6 @@ typedef LYJUnitAttributedDictionary *(^AttributedDataObliqueness)(CGFloat obliqu
 
 @interface LYJUnitAttributedAllDictionary : LYJUnitAttributedDictionary
 
-/**
- counts
- */
-@property (strong ,nonatomic) NSMutableArray *counts;
-
-/**
- ranges
- */
-@property (strong ,nonatomic) NSMutableArray *ranges;
-
-/**
- values
- */
-@property (strong ,nonatomic) NSMutableArray *values;
-
-
-@property (strong ,nonatomic) NSNumber *changeCount;
 @end
 
 @interface AttributedValue : NSObject
